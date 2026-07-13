@@ -1,0 +1,15 @@
+Paracetamol 500mg,250
+Ibuprofen 200mg,1
+Amoxicillin 250mg,120
+Aspirin 100mg,300
+Cetirizine 10mg,9
+Omeprazole 20mg,1
+Metformin 500mg,2
+Amlodipine 5mg,110
+Azithromycin 250mg,7
+Loratadine 10mg,95
+Vitamin C 1000mg,220
+Insulin Glargine 100IU/ml,40
+Salbutamol Inhaler 100mcg,6
+Diclofenac 50mg,130
+Ranitidine 150mg,5
