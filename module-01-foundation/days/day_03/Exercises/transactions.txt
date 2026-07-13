@@ -1,0 +1,10 @@
+Alice,120
+Bob,45
+Charlie,75
+Diana,30
+Ethan,200
+Fiona,15
+George,60
+Hannah,90
+Ian,35
+Julia,150
