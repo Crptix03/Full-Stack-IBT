@@ -28,14 +28,13 @@ print("Tax Totals:", Totals)
 cheap_items = [item for item, price in groceries.items() if price < 200]
 print("Cheap items:", cheap_items)
 
-#Write & Read: Write three customer names to names.txt, then open it and print each name back, one per line. 
+#Write & Read:
 
 with open("sq2-horenus-dessalegn\\module-01-foundation\\days\\day_03\\Exercises\\names.txt", "r") as file:
     for line in file:
        print(line.strip())
 
-#Safe Division: sk the user for a number and divide 1000 by it, catching both ValueError and ZeroDivisionError. 
-
+#Safe Division: 
 try:
     amount = int(input("Amount: "))
     result = 1000 / amount
