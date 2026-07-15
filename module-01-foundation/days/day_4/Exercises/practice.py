@@ -32,12 +32,12 @@ class Product:
       else:
         print("Amount must be positive")
     def sell(self, amount):
-      if amount > self.quantity:
-        print(f"can not sell {amount} units - only {self.qantity} in stock.")
+      if amount > self.__quantity:
+        print(f"can not sell {amount} units - only {self.__qantity} in stock.")
         return
       self.__quantity -=amount
     def statment(self):
-      print(f"{self.name} cost {self.price}ETB, and we have {self.quantity}")
+      print(f"{self.name} cost {self.price}ETB, and we have {self.__quantity}")
 aa = Product("samsungnote10+", 44000, 69 ,)
 aa1 = Product("iphone 17 pro max", 209000, 44, )
 
