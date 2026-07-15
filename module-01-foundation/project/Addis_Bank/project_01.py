@@ -16,10 +16,51 @@ class Account:
         if amount > self.__balance:
             raise ValueError("insufficient fund")
         self.__balance -= amount
+    def _adjust_balance(self, amount):
+        self.__balance += amount
     def statement(self):
-        print(f"Name {self.owner} Account Number {self.number} Balance {self.__balance}")
-Account1 = Account("Abebe", 100076892323, 8000) 
-Account1.deposit(200)
-Account1.withdraw(500)
-Account1.statement()
-    
+        print("_"*40)
+        print(f"Account Holder: {self.owner}")
+        print(f"Account Number: {self.number}")
+        print(f"Balance: {self.balance}")
+        print("-"*40)
+class SavingAccount(Account):
+    def __init__(self, owner, number, balance=0, rate=0.05):
+        super().__init__(owner, number, balance)
+        self.rate = rate
+    def add_interest(self):
+        interest = self.balance * self.rate
+        self.deposit(interest)
+    def statement(self):
+        self.add_interest()
+        print("SAVINGS ACCOUNT")
+        super().statement()
+        print(f"Interest Rate: {self.rate}")
+        print("-"*40)
+
+class CurrentAccount(Account):
+    def __init__(self, owner, number, balance=0, overdraft=1000):
+        super().__init__(owner, number, balance)
+        self.overdraft = overdraft
+    def withdraw(self, amount):
+        if amount < 0:
+            raise ValueError("Amount must be positive")
+        
+        if amount > self.balance + self.overdraft:
+            raise ValueError("Overlimit")
+        self._adjust_balance(-amount)
+    def statement(self):
+        print("CURRENT ACCOUNT")
+        super().statement()
+        print(f"Overdraft Limit: {self.overdraft}")
+        print("-"*40)
+
+Bank_Account = [
+   Account("Abebe", 100076892323, 8000),
+   SavingAccount("Bekele", 100098475987, 9000, 0.15),
+   CurrentAccount("Abel", 10000512451, 1000)
+    ]
+for account in Bank_Account:
+    account.deposit(10)
+    account.withdraw(400)
+    account.statement()
