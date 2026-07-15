@@ -27,7 +27,7 @@ class Product:
          raise ValueError("No negative quantity")
       self.__quantity = value
     def restock(self, amount):
-      if amount > 0:
+      if amount > self.__quantity:
         self.__quantity += amount
       else:
         print("Amount must be positive")
@@ -45,7 +45,7 @@ print("Before Change")
 aa.statment()
 aa1.statment()
 
-aa.restock(-5)
+aa.restock(5)
 aa.sell(10)
 
 print("After Changeing aa Only")
