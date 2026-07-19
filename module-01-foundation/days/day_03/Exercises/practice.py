@@ -18,10 +18,9 @@ for item, price in groceries.items():
 
 #Tax Cmprehension
 
-Totals =[]
-for price in[100,250,400,80]:
-    Totals.append(price*0.15)
-print("Tax Totals:", Totals)
+Totals =[100,250,400,80]
+with_tax = [p * 0.15 for p in Totals]
+print(with_tax)
 
 #Cheap Iteams: 
 
