@@ -24,7 +24,7 @@ print(with_tax)
 
 #Cheap Iteams: 
 
-cheap_items = [item for item, price in groceries.items() if price < 200]
+cheap_items = [p for p in Totals if p <200]
 print("Cheap items:", cheap_items)
 
 #Write & Read:
