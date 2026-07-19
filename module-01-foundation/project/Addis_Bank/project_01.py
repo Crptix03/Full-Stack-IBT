@@ -52,6 +52,7 @@ class Account:
         self.number = number
         self.__balance = balance
         self._observers = []
+        self.history = []
     @property
     def balance(self):
         return self.__balance
@@ -64,6 +65,7 @@ class Account:
         if amount <= 0:
             raise ValueError("Amount must be positive")
         self.__balance +=amount
+        self.history.append(("deposit", amount))
         self._notify("deposit", amount=amount)
     def withdraw(self, amount):
         if amount <= 0:
@@ -71,9 +73,14 @@ class Account:
         if amount > self.__balance:
             raise ValueError("insufficient fund")
         self.__balance -= amount
+        self.history.append(("Withdraw", amount))
         self._notify("withdraw", amount=amount)
     def _adjust_balance(self, amount):
         self.__balance += amount
+    def undo_last(self):
+        if not self.history:
+            print(f"No transaction to undo  for account {self.number}")
+            return None 
     def statement(self):
         print("_"*40)
         print(f"Account Holder: {self.owner}")
@@ -127,12 +134,30 @@ class AccountFactory:
             raise ValueError(f"Unknown account kind: {kind}")
         account_cls = cls._registry[key]
         return account_cls(owner, number, balance, **kwargs)
+class AccountRegistry:
+    def __init__(self):
+        self.by_number = {}
+        self.order = []
+    def add(self, acc):
+        self.by_number[acc.number] = acc
+        self.order.append(acc.number)
+    def find(self, number):
+        return self.by_number.get(number)
+    def list_all(self):
+        return [self.by_number[number] for number in self.order]
+    def undo_last(self, number):
+        acc = self.find(number)
+        if acc is None:
+            print (f"No account found with number {number}")
+            return None
+        return acc.undo_last()
 
 if __name__ == "__main__":
     BankConfig(interest_rate=0.05, overdraft_limit=1000)
 
     audit_log = AuditLog()
     sms_alert = SMSAlert()
+    registry = AccountRegistry()
 
     Bank_Account = [
         AccountFactory.create("basic", "Abebe", 100076892323, 8000),
@@ -143,6 +168,13 @@ if __name__ == "__main__":
     for account in Bank_Account:
         account.subscribe(audit_log)
         account.subscribe(sms_alert)
+        registry.add(account)
         account.deposit(10)
         account.withdraw(400)
         account.statement()
+print("\n=== list_all() in insertion order ===")
+for acc in registry.list_all():
+    print(f"{acc.number} - {acc.owner} - balance: {acc.balance}")
+print("\n=== undo_last() demo on Abebe's Account===")
+registry.undo_last(100076892323)
+registry.find(100076892323).statement()

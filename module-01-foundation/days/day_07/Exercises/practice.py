@@ -27,14 +27,20 @@ print(f"Dict search: {end - start:.8f} seconds")
 
 #3. Stack And Queues
 
-stack = ["apple", "banana", "carrots", "cabbag", "Onions"]
-stack.append("white onion")
-stack.pop(2)
-print(stack)
-top = stack[-1]
-behind = stack.reverse()
-print(top)
-print(stack)
+class stack:
+    def __init__(self):
+        self.stack = ["apple", "banana", "carrots", "cabbag", "Onions"]
+    def run(self):
+        self.stack.append("white onion")
+        self.stack.pop(2)
+        print(self.stack)
+        top =self.stack[-1]
+        behind = self.stack.reverse()
+        print(top)
+        print(self.stack)
+
+s = stack()
+s.run()
 
 #4. Buld A Queue
 
