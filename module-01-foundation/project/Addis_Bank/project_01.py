@@ -112,6 +112,7 @@ class CurrentAccount(Account):
         if amount > self.balance + self.overdraft:
             raise ValueError("Overlimit")
         self._adjust_balance(-amount)
+        self.history.append(("Withdraw", amount))
         self._notify("withdraw", amount=amount)
     def statement(self):
         print("CURRENT ACCOUNT")
@@ -151,7 +152,36 @@ class AccountRegistry:
             print (f"No account found with number {number}")
             return None
         return acc.undo_last()
-
+    def top_by_balance(self, n=5):
+        accts = sorted(self.by_number.values(), key=lambda a: a.balance, reverse=True)
+        return accts[:n]
+    def binary_search(self, item,targets):
+        lower_I = 0
+        higher_I = len(item) - 1
+        while lower_I <= higher_I:
+            mid = (lower_I + higher_I) // 2
+            if item[mid] == targets:
+                print(f"Iteam found at index {mid}")
+                return mid
+            elif item[mid] < targets:
+                lower_I = mid + 1
+            else:
+                higher_I = mid - 1
+        return -1
+    def find_by_number(self, number):
+        nums = sorted(self.by_number)
+        i = self.binary_search(nums, number)
+        return self.by_number.get(nums[i]) if i >= 0 else None
+    def total_transactions(self, number):
+        acc = self.find(number)
+        if acc is None:
+            return 0
+        amount  = [amt for (_type, amt) in acc.history]
+        return self._sum_amount(amount)
+    def _sum_amount(self, amount):
+        if not amount:
+            return 0 
+        return amount[0] + self._sum_amount(amount[1:])
 if __name__ == "__main__":
     BankConfig(interest_rate=0.05, overdraft_limit=1000)
 
@@ -163,6 +193,7 @@ if __name__ == "__main__":
         AccountFactory.create("basic", "Abebe", 100076892323, 8000),
         AccountFactory.create("savings", "Bekele", 100098475987, 9000, rate=0.15),
         AccountFactory.create("current", "Abel", 10000512451, 1000),
+        
     ]
 
     for account in Bank_Account:
@@ -178,3 +209,5 @@ for acc in registry.list_all():
 print("\n=== undo_last() demo on Abebe's Account===")
 registry.undo_last(100076892323)
 registry.find(100076892323).statement()
+print("\n=== total_transactions demo ===")
+print(registry.total_transactions(100076892323))
