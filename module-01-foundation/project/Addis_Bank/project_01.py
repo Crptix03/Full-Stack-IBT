@@ -182,6 +182,32 @@ class AccountRegistry:
         if not amount:
             return 0 
         return amount[0] + self._sum_amount(amount[1:])
+class Branch:
+    def __init__(self, name):
+        self.name = name
+        self.children = []
+        self.accounts = []
+    def total_balance(self):
+        total = sum(a.balance for a in self.accounts)
+        for child in self.children:
+            total += child.total_balance()
+        return total
+transfer = {
+    100076892323: [100098475987],
+    100098475987: [10000512451],
+    10000512451: [100076892323]
+}
+from collections import deque
+def bfs(graph, start):
+    seen = {start}
+    q = deque([start])
+    while q:
+        acc = q.popleft()
+        for recipient in transfer.get(acc, []):
+            if recipient not in seen:
+                seen.add(recipient)
+                q.append(recipient)
+    return seen
 if __name__ == "__main__":
     BankConfig(interest_rate=0.05, overdraft_limit=1000)
 
@@ -195,6 +221,19 @@ if __name__ == "__main__":
         AccountFactory.create("current", "Abel", 10000512451, 1000),
         
     ]
+    addis_branch = Branch("Addis Ababa Branch")
+    addis_branch.accounts = [Bank_Account[0], Bank_Account[1]]
+
+    bahirdar_branch = Branch("Bahir Dar Branch")
+    bahirdar_branch.accounts = [Bank_Account[2]]
+
+    north_region = Branch("North Region")
+    north_region.children = [addis_branch, bahirdar_branch]
+
+    head_office = Branch("Head Office")
+    head_office.children = [north_region]
+    print(head_office.total_balance())
+
 
     for account in Bank_Account:
         account.subscribe(audit_log)
@@ -211,3 +250,4 @@ registry.undo_last(100076892323)
 registry.find(100076892323).statement()
 print("\n=== total_transactions demo ===")
 print(registry.total_transactions(100076892323))
+print(bfs(transfer, 100076892323))
