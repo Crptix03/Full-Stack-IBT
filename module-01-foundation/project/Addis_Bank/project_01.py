@@ -81,6 +81,13 @@ class Account:
         if not self.history:
             print(f"No transaction to undo  for account {self.number}")
             return None 
+        action, amount = self.history.pop()
+        if action == "deposit":
+            self._adjust_balance(-amount)
+        elif action == "Withdraw":
+            self._adjust_balance(amount)
+        print(f"Undid {action} of {amount} for account {self.number}. New Balance: {self.balance}")
+        return (action, amount)
     def statement(self):
         print("_"*40)
         print(f"Account Holder: {self.owner}")
