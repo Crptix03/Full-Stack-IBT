@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Habesha Eatery</title>
+    <meta
+      name="description"
+      content="Habesha Eatery with reservation form, menu tables and with one of the menus dish picture and its location"
+    />
+  </head>
+  <body>
+    <header><h1>Habesha Eatery Landing Page</h1></header>
+    <form action="/topup" method="post">
+      <fieldset>
+        <legend>Reservation Form</legend>
+        <label for="name">Full Name:</label>
+        <input
+          id="name"
+          name="name"
+          required
+          autocomplete="name"
+          placeholder="Alewu Bekele"
+        />
+        <br />
+        <br />
+        <label for="email">Email Address: </label>
+        <input
+          type="email"
+          id="email"
+          required
+          autocomplete="email"
+          placeholder="abebe@gmail.com"
+        />
+        <br />
+        <br />
+        <label for="tel">tel(+251-xx-xxx-xxxx): </label>
+        <input
+          type="tel"
+          id="tel"
+          required
+          autocomplete="tel"
+          placeholder="+251-90-102-0304"
+          maxlength="13"
+        />
+        <br />
+        <br />
+        <label for="party-size">party-size: </label>
+        <input
+          type="number"
+          id="party-size"
+          name="party-size"
+          placeholder="0"
+          required
+          max="7"
+        />
+        <br />
+        <br />
+        <label for="special-requests ">special-requests: </label>
+        <textarea
+          name="special-requests"
+          id="special-requests"
+          rows="4"
+          cols="50"
+          placeholder="Write Your special-requests Here...."
+          maxlength="400"
+          pattern="[0-9]{9}"
+        ></textarea>
+      </fieldset>
+    </form>
+    <table>
+      <caption>
+        Dinner Menu
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Dish</th>
+          <th scope="col">Description</th>
+          <th scope="col">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th colspan="3" scope="colgroup">Starters</th>
+        </tr>
+        <tr>
+          <td>Burrata</td>
+          <td>Heirloom tomatoes, basil oil, aged balsamic</td>
+          <td>1800birr</td>
+        </tr>
+        <tr>
+          <td>Seared foie gras</td>
+          <td>Brioche toast, fig compote</td>
+          <td>2800birr</td>
+        </tr>
+        <tr>
+          <th colspan="3" scope="colgroup">Mains</th>
+        </tr>
+        <tr>
+          <td>Dry-aged ribeye</td>
+          <td>Red wine jus, bone marrow butter</td>
+          <td>5800birr</td>
+        </tr>
+      </tbody>
+    </table>
+    <img
+      src="/sq2-horenus-dessalegn/module-02-html-css-javascript/Days/Day_12/asset/madie-hamilton-dZ-HI4EuWcA-unsplash.jpg"
+      alt="fried food on black pan"
+    />
+    <br />
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4879.857321790776!2d38.78782641141013!3d8.987680189595423!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b853c14f0e2d5%3A0x32ce0404870c8088!2sEthiopian%20Skylight%20Hotel!5e1!3m2!1sen!2set!4v1785439601301!5m2!1sen!2set"
+      width="600"
+      height="450"
+      style="border: 0"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="strict-origin-when-cross-origin"
+    ></iframe>
+  </body>
+</html>
