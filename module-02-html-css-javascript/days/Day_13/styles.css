@@ -1,0 +1,74 @@
+:root { 
+  --brand: hsl(212, 68%, 33%); 
+  --brand-hover: hsl(212, 68%, 45%);   
+  --space: 16px;   
+  --radius: 10px; 
+} 
+* { box-sizing: border-box; } 
+
+body { 
+  font-family: "Inter",  sans-serif; 
+  line-height: 1.6; 
+  margin: 0;
+  color: #1a1a1a;
+} 
+ 
+.card { 
+  max-width: 360px; 
+  margin: 40px auto; 
+  padding: var(--space); 
+  border: 1px solid #E2E8F0;   
+  border-radius: 10px; 
+  text-align: center;
+} 
+
+.card::before{
+  content: "";
+  display: block;
+  width: 36px;
+  height: 4px;
+  background: #1a5fb4;
+  margin: 0 auto 8px;
+  border-radius: 4px;
+}
+
+h1{
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: 0 0 4px;
+  color: #1a5fb4;
+}
+.tagline{
+  font-size: 14px;
+  font-weight: 600;
+  color: lightgrey;
+  margin: 0 0 16px;
+}
+.body-text {
+  font-size: 15px;
+  line-height: 1.8;
+  text-align: left;
+  margin-bottom: 16px;
+  color: #1a1a1a;
+}
+.body-text strong{
+  color: darkgreen;
+}
+
+.btn {
+  display: inline-block;
+  background: #1a5fb4;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #2b7fd1;
+}
