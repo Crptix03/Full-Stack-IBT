@@ -1,0 +1,121 @@
+
+  /* 1. Navbar with Flexbox */
+.first{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2C1A11;
+    color: #FAF7F2;
+    padding: 15px;
+}
+.link{
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+a {
+    color: #FAF7F2;;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+  /* 2. Four cards with flex: 1 */
+.card-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.card-row .card {
+    flex: 1;
+    border: 1px solid black;
+    padding: 20px;
+}
+
+  /* 3. Photo gallery with Grid auto-fit */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;         
+  padding: 16px;
+}
+
+.gallery img {
+  width: 100%;       
+  height: 200px;      
+  object-fit: cover;  
+  border-radius: 8px; 
+}
+
+/* 4. Grid Layout Setup */
+.page-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  grid-template-areas:
+    "header header"
+    "sidebar main"
+    "footer footer";
+  gap: 15px; 
+  padding: 15px;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: #ffffff;
+} */
+
+.site-header { 
+    grid-area: header;
+    background-color: #2b4c7e; 
+    color: white; 
+    min-height: 80px;
+}
+.side { 
+    grid-area: sidebar;
+    background-color: #6b3ba7; 
+    color: white; 
+    min-height: 200px;
+}
+.main { 
+    grid-area: main;
+    background-color: #2e8b57; 
+    color: white; 
+    min-height: 200px;
+}
+.foot { 
+    grid-area: footer;
+    background-color: #2b4c7e; 
+    color: white; 
+    min-height: 60px; 
+}
+.site-header, .side, .main, .foot   { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 700px) {
+  .page-layout {
+    grid-template-columns: 1fr; 
+    grid-template-areas:
+      "header"
+      "sidebar"
+      "main"
+      "footer";
+  }
+}
+  /* 5. Product card with badge */
+.card {
+  position: relative;          
+  background-color: #f8fafc;   
+  border: 1px solid #e2e8f0;   
+  border-radius: 12px;         
+  padding: 24px 20px;          
+  width: 280px;                
+  font-family: system-ui, -apple-system, sans-serif;
+}
+.card .badge {
+  position: absolute;          
+  right: 8px;
+  background-color: #b93838;
+  border-radius: 20px;
+  padding: 8px 8px;
+}
