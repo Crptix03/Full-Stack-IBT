@@ -87,8 +87,8 @@ img{
     padding: 10px;
 }
 .menu-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  margin-top: -5px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
 }
 .menu-image1{
     position: relative;
