@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Habesha Eatery</title>
+    <meta
+      name="description"
+      content="Habesha Eatery with reservation form, menu tables and with one of the menus dish picture and its location"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="first">
+      <div class="logo">
+        <header>
+          <h1>Habesha Eatery</h1>
+        </header>
+      </div>
+      <div class="nav">
+        <nav>
+          <ul class="link">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#menu">Menu</a></li>
+            <li><a href="index.htmlabout">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li>
+              <a href="reserve.html" aria-current="page">Reserve</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <main>
+      <form>
+        <fieldset>
+          <legend>Reservation Form</legend>
+          <div class="name">
+            <label for="name">Full Name:</label>
+            <input
+              id="name"
+              name="name"
+              required
+              autocomplete="name"
+              placeholder="Alewu Bekele"
+            />
+          </div>
+          <div>
+            <label for="email">Email Address: </label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              required
+              autocomplete="email"
+              placeholder="abebe@gmail.com"
+            />
+          </div>
+          <div class="tel">
+            <label for="tel">Tel(+251-xx-xxx-xxxx): </label>
+            <input
+              type="tel"
+              name="tel"
+              id="tel"
+              required
+              autocomplete="tel"
+              placeholder="+251-90-102-0304"
+              maxlength="13"
+            />
+          </div>
+          <div class="party-size">
+            <label for="party-size">Party-Size: </label>
+            <input
+              type="number"
+              id="party-size"
+              name="party-size"
+              placeholder="0"
+              required
+              max="7"
+            />
+          </div>
+          <div class="request">
+            <label for="special-request">Special-Requests: </label>
+            <textarea
+              name="special-requests"
+              id="special-request"
+              rows="4"
+              cols="50"
+              placeholder="Write Your special-requests Here...."
+              maxlength="400"
+            ></textarea>
+          </div>
+          <div class="button">
+            <button>Submit</button>
+          </div>
+        </fieldset>
+      </form>
+    </main>
+    <footer class="footer">
+      <p>&copy; 2026 Habesha Eatery. All right reserved.</p>
+      <div class="footer-links">
+        <a href="#">Private Policy</a>
+        <a href="#">Term of Services</a>
+        <a href="#">Contact Us</a>
+      </div>
+    </footer>
+  </body>
+</html>
