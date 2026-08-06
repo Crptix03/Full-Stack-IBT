@@ -49,6 +49,7 @@ h2 {
     color: #AD3C03;
     font-weight: 800;
     padding: 5px;
+    text-align: center;
 }
 p{
     font-size: 1.2rem;
@@ -58,6 +59,9 @@ p{
     display: grid;
     grid-template-columns: repeat(3,1fr);
     gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
 }
 .menu p{
     text-align: left;
@@ -77,10 +81,12 @@ img{
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     overflow: hidden;
 }
-
-.menu-item p:first-child, .menu-item p:last-child {
-    text-align: left;
+.menu-item h3{
     color: #AD3C03;
+    text-align: left;
+}
+.price{
+    color: #AD3C03
 }
 .menu-item:last-child{
     border-top: 1px solid #ddd;
@@ -100,7 +106,9 @@ img{
     
 }
 .menu-item p{
-    margin: 0.5rem 0;
+    margin: 0.4rem 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
 }
 .menu-image1, .menu-image2, .menu-image3, .menu-image4, .menu-image5, .menu-image6 {
     position: relative;
@@ -110,7 +118,7 @@ img{
 }
 .menu-item img {
     width: 100%;
-    aspect-ratio: 16 / 9;
+    height: 180px;
     object-fit: cover;
     display: block;
     border-radius: 12px 12px 0 0;
@@ -126,9 +134,10 @@ img{
     right: 10px;
     background-color: #AD3C03;
     color: #FAF7F2;
-    padding: 4px 12px;
+    padding: 3px 10px;
     border-radius: 20px;
-    font-weight: bold;
+    font-weight: 600;
+    font-size: 0.8rem;
 }
 
 .menu-image2{
@@ -146,6 +155,7 @@ img{
     border-radius: 20px;
     font-weight: bold;
 }
+
 
 .footer {
     background-color: #2C1A11;
