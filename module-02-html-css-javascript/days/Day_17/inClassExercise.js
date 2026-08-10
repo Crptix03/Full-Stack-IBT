@@ -15,5 +15,5 @@ function makeReceiptMaker () {
     };
 }
 const receipt = makeReceiptMaker();
-console.log(receipt(1000, 2000, 3000));
-console.log(receipt(400, 500, 600));
+console.log(`Total: ${receipt(1000, 2000, 3000)}`);
+console.log(`Total: ${receipt(400, 500, 600)}`);
