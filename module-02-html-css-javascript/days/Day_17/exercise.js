@@ -14,7 +14,7 @@ const discountBy = (rate) => {
     console.log(`Discount: ${rate}`);
 }
 const memberPrice = (price=1000) => {
-    return price * 0.10;
+    return price * 1.15;
     console.log(`Member Price: ${member}`);
 }
 const salePrice = (price=1000) => {
