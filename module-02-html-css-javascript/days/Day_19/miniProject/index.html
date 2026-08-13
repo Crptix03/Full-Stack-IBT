@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Shopping List</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Addis Market Shopping List</h1>
+
+    <form id="add-form">
+      <input type="text" id="name" placeholder="Item name" required />
+      <input
+        type="number"
+        id="price"
+        placeholder="Price (ETB)"
+        step="0.01"
+        required
+      />
+      <button type="submit">Add</button>
+    </form>
+
+    <ul id="list"></ul>
+
+    <p>Total:<span id="total"> 0.00 ETB</span></p>
+
+    <script src="app.js"></script>
+  </body>
+</html>
