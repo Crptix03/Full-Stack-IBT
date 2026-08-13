@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercise 2: DOM Builder</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 20px;
+        background: #f8f9fa;
+      }
+      .toolbar {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+      .toolbar button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.2s;
+      }
+      .btn-add {
+        background: #28a745;
+        color: white;
+      }
+      .btn-add:hover {
+        background: #218838;
+      }
+      .btn-toggle {
+        background: #ffc107;
+        color: #212529;
+      }
+      .btn-toggle:hover {
+        background: #e0a800;
+      }
+      .btn-remove {
+        background: #dc3545;
+        color: white;
+      }
+      .btn-remove:hover {
+        background: #c82333;
+      }
+      .btn-clear {
+        background: #6c757d;
+        color: white;
+      }
+      .btn-clear:hover {
+        background: #5a6268;
+      }
+
+      .item {
+        padding: 12px 16px;
+        margin: 6px 0;
+        background: white;
+        border-radius: 6px;
+        border-left: 4px solid #6c5ce7;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s;
+      }
+      .item.done {
+        border-left-color: #28a745;
+        background: #d4edda;
+        text-decoration: line-through;
+        opacity: 0.7;
+      }
+      .item .delete-btn {
+        background: #ff6b6b;
+        color: white;
+        border: none;
+        padding: 4px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.8rem;
+      }
+      .item .delete-btn:hover {
+        background: #e17055;
+      }
+      #counter {
+        margin-top: 20px;
+        padding: 10px;
+        background: #dfe6e9;
+        border-radius: 6px;
+        text-align: center;
+        font-weight: bold;
+      }
+      .empty-state {
+        text-align: center;
+        color: #b2bec3;
+        padding: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>📝 Task Manager</h1>
+
+    <div class="toolbar">
+      <button class="btn-add" id="addBtn">➕ Add Task</button>
+      <button class="btn-toggle" id="toggleBtn">🔄 Toggle First</button>
+      <button class="btn-remove" id="removeBtn">🗑️ Remove Last</button>
+      <button class="btn-clear" id="clearBtn">🧹 Clear All</button>
+    </div>
+
+    <div id="task-list"></div>
+
+    <div id="counter">Total Tasks: 0</div>
+
+    <script>
+      // ===== DATA =====
+      let tasks = [
+        { id: 1, text: "Buy Teff", done: false },
+        { id: 2, text: "Buy Berbere", done: false },
+        { id: 3, text: "Buy Shiro", done: false },
+      ];
+      let nextId = 4;
+
+      // ===== DOM REFS =====
+      const taskList = document.querySelector("#task-list");
+      const counter = document.querySelector("#counter");
+
+      // ===== COMPLETE THESE FUNCTIONS =====
+
+      // TASK 1: Render all tasks
+      function render() {
+        // Clear the list
+        // YOUR CODE HERE
+        taskList.innerHTML = "";
+        // If no tasks, show empty state
+        // YOUR CODE HERE
+        if (tasks.length === 0) {
+          taskList.innerHTML = `<div class="empty-state">No tasks yet. Add one!</div>`;
+        }
+        // Loop through tasks and create elements
+        // YOUR CODE HERE
+        tasks.forEach((task) => {
+          const taskEl = document.createElement("div");
+          taskEl.className = task.done ? "item done" : "item";
+          taskEl.textContent = task.text;
+          taskList.appendChild(taskEl);
+        });
+        // Update counter
+        // YOUR CODE HERE
+        counter.textContent = `Total Tasks: ${tasks.length}`;
+      }
+
+      // TASK 2: Add a new task
+      function addTask(text) {
+        // Create a new task object
+        // YOUR CODE HERE
+        const newTask = { id: nextId, text: text, done: false };
+        nextId++;
+        // Add to tasks array
+        // YOUR CODE HERE
+        tasks.push(newTask);
+        // Re-render
+        // YOUR CODE HERE
+        render();
+      }
+
+      // TASK 3: Toggle a task's done status by id
+      function toggleTask(id) {
+        // Find the task and toggle its done property
+        // YOUR CODE HERE
+        const task = tasks.find((t) => t.id === id);
+        if (task) {
+          task.done = !task.done;
+        }
+        // Re-render
+        // YOUR CODE HERE
+        render();
+      }
+
+      // TASK 4: Remove a task by id
+      function removeTask(id) {
+        // Filter the task out of the array
+        // YOUR CODE HERE
+        tasks = tasks.filter((t) => t.id !== id);
+        // Re-render
+        // YOUR CODE HERE
+        render();
+      }
+
+      // TASK 5: Clear all tasks
+      function clearAll() {
+        // Empty the tasks array
+        // YOUR CODE HERE
+        tasks = [];
+        // Re-render
+        // YOUR CODE HERE
+        render();
+      }
+
+      // ===== EVENT LISTENERS =====
+      document.querySelector("#addBtn").addEventListener("click", function () {
+        const text = prompt("Enter task name:");
+        if (text && text.trim()) {
+          addTask(text.trim());
+        }
+      });
+
+      document
+        .querySelector("#toggleBtn")
+        .addEventListener("click", function () {
+          if (tasks.length > 0) {
+            toggleTask(tasks[0].id);
+          } else {
+            alert("No tasks to toggle!");
+          }
+        });
+
+      document
+        .querySelector("#removeBtn")
+        .addEventListener("click", function () {
+          if (tasks.length > 0) {
+            const lastTask = tasks[tasks.length - 1];
+            removeTask(lastTask.id);
+          } else {
+            alert("No tasks to remove!");
+          }
+        });
+
+      document
+        .querySelector("#clearBtn")
+        .addEventListener("click", function () {
+          if (tasks.length > 0 && confirm("Delete all tasks?")) {
+            clearAll();
+          }
+        });
+
+      // ===== INITIAL RENDER =====
+      render();
+      console.log("📝 Task Manager ready!");
+    </script>
+  </body>
+</html>

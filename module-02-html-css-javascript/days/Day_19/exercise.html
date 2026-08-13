@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Module 2 · Day 19 · DOM Exercises</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 40px auto;
+        line-height: 1.5;
+        color: #222;
+      }
+      section {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px 20px;
+        margin-bottom: 24px;
+      }
+      h2 {
+        margin-top: 0;
+        font-size: 1.1rem;
+        color: #555;
+      }
+      .highlight {
+        color: #c0392b;
+        font-weight: bold;
+      }
+      #wrapper {
+        padding: 10px;
+        background: #f4f4f4;
+        display: inline-block;
+      }
+      li {
+        margin: 4px 0;
+      }
+      .delete-btn {
+        margin-left: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 1. h1 textContent + classList.toggle -->
+    <section>
+      <h2>1. h1 textContent + classList.toggle</h2>
+      <h1 id="pageTitle">Old Title</h1>
+    </section>
+
+    <!-- 2. Ethiopian cities -->
+    <section>
+      <h2>2. Ethiopian cities list</h2>
+      <ul id="cityList"></ul>
+    </section>
+
+    <!-- 3. Click + bubbling -->
+    <section>
+      <h2>3. Click listener + bubbling (check console)</h2>
+      <div id="wrapper">
+        <button id="myButton">Click Me</button>
+      </div>
+    </section>
+
+    <!-- 4. Delegated delete -->
+    <section>
+      <h2>4. Delete items with one delegated listener</h2>
+      <ul id="itemList">
+        <li>Injera <button class="delete-btn">Delete</button></li>
+        <li>Shiro <button class="delete-btn">Delete</button></li>
+        <li>Doro Wat <button class="delete-btn">Delete</button></li>
+      </ul>
+    </section>
+
+    <!-- 5. Form submit -->
+    <section>
+      <h2>5. Form submit → append → clear</h2>
+      <form id="itemForm">
+        <input type="text" id="itemInput" placeholder="Add a city" />
+        <button type="submit">Add</button>
+      </form>
+      <ul id="submittedList"></ul>
+    </section>
+
+    <script>
+      // 1. Select h1, change text, toggle class
+      const heading = document.querySelector("#pageTitle");
+      heading.textContent = "Welcome to Habesha Eatery";
+      heading.classList.toggle("highlight");
+
+      // 2. Create li for each city, append to ul
+      const cities = ["Addis Ababa", "Bahir Dar", "Gondar"];
+      const cityList = document.querySelector("#cityList");
+
+      cities.forEach((city) => {
+        const li = document.createElement("li");
+        li.textContent = city;
+        cityList.appendChild(li);
+      });
+
+      // 3. Click listener + bubbling
+      const button = document.querySelector("#myButton");
+      const wrapper = document.querySelector("#wrapper");
+
+      button.addEventListener("click", (event) => {
+        console.log("Button listener - event.target:", event.target);
+      });
+
+      wrapper.addEventListener("click", (event) => {
+        console.log("Wrapper listener - event.target:", event.target);
+      });
+
+      // 4. Delegated delete listener
+      const itemList = document.querySelector("#itemList");
+
+      itemList.addEventListener("click", (event) => {
+        if (event.target.classList.contains("delete-btn")) {
+          const li = event.target.closest("li");
+          li.remove();
+        }
+      });
+
+      // 5. Form submit: preventDefault, read value, append, clear
+      const form = document.querySelector("#itemForm");
+      const input = document.querySelector("#itemInput");
+      const submittedList = document.querySelector("#submittedList");
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const value = input.value.trim();
+        if (value === "") return;
+
+        const li = document.createElement("li");
+        li.textContent = value;
+        submittedList.appendChild(li);
+
+        input.value = "";
+      });
+    </script>
+  </body>
+</html>
