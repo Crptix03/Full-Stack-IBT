@@ -1,0 +1,27 @@
+body {
+  font-family: sans-serif;
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+#search-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+#country-input {
+  flex: 1;
+  padding: 8px;
+  font-size: 14px;
+}
+
+button {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+#facts p {
+  margin: 6px 0;
+}

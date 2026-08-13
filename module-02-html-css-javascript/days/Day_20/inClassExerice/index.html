@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Summarizer</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Summarizer Text For you</h1>
+      <p class="subtitle">Paste your text below and get a quick summary.</p>
+
+      <textarea
+        id="input-text"
+        placeholder="Paste or type your text here..."
+      ></textarea>
+
+      <div class="btn-row">
+        <button id="summarize-btn">Summarize</button>
+        <button id="clear-btn" class="secondary">Clear</button>
+      </div>
+
+      <div id="result" class="result hidden">
+        <div class="result-header">
+          <h2>Summary</h2>
+          <button id="copy-btn" class="secondary small">Copy</button>
+        </div>
+        <p id="summary-text"></p>
+      </div>
+
+      <p id="status" class="status"></p>
+    </div>
+
+    <script src="https://js.puter.com/v2/"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

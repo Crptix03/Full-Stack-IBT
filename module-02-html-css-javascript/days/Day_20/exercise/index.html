@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Fetch Practice</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 0 20px;
+      }
+
+      section {
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      h2 {
+        font-size: 16px;
+      }
+
+      button {
+        padding: 8px 14px;
+        margin-right: 8px;
+        cursor: pointer;
+      }
+
+      .out {
+        margin-top: 10px;
+        color: #333;
+      }
+
+      .error {
+        color: #c0392b;
+      }
+
+      .loading {
+        color: #888;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Fetch & Promises Practice</h1>
+
+    <section>
+      <h2>1. USD → ETB rate</h2>
+      <button id="btn1">Get Rate</button>
+      <p id="out1" class="out"></p>
+    </section>
+
+    <section>
+      <h2>2. .then chain → async/await</h2>
+      <button id="btn2">Load Posts</button>
+      <ul id="out2" class="out"></ul>
+    </section>
+
+    <section>
+      <h2>3. Wrong URL vs 404</h2>
+      <button id="btn3a">Fetch Bad URL</button>
+      <button id="btn3b">Fetch 404 URL</button>
+      <p id="out3" class="out"></p>
+    </section>
+
+    <section>
+      <h2>4. Promise.all — first 2 items in parallel</h2>
+      <button id="btn4">Load Details</button>
+      <ul id="out4" class="out"></ul>
+    </section>
+
+    <section>
+      <h2>5. Loading / Data / Error states</h2>
+      <button id="btn5">Load Data</button>
+      <p id="out5" class="out"></p>
+    </section>
+
+    <script src="exercise.js"></script>
+  </body>
+</html>
