@@ -31,13 +31,11 @@ summarizeBtn.addEventListener("click", async () => {
         summarizeBtn.disabled = false;
     }
 });
-
 clearBtn.addEventListener("click", () => {
     textInput.value = "";
     resultBox.classList.add("hidden");
     status.textContent = "";
 });
-
 copyBtn.addEventListener("click", async () => {
     try {
         await navigator.clipboard.writeText(summaryText.textContent);
