@@ -3,6 +3,9 @@ const name = document.querySelector("#name");
 const price = document.querySelector("#price");
 const list = document.querySelector("#list");
 const totalEl = document.querySelector("#total");
+const countEl = document.querySelector("#count");
+const clearBtn = document.querySelector("#clear-btn");
+
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     const n = name.value.trim();
@@ -11,7 +14,9 @@ form.addEventListener("submit", (e) => {
     addRow(n, p);
     form.reset();
     updateTotal();
+    updateCount();
 });
+
 list.addEventListener("click", (e) => {
     const li = e.target.closest("li");
     if (!li) return;
@@ -19,10 +24,18 @@ list.addEventListener("click", (e) => {
     if (e.target.matches(".del")) {
         li.remove();
         updateTotal();
+        updateCount();
     } else {
         li.classList.toggle("bought");
     }
 });
+
+clearBtn.addEventListener("click", () => {
+    list.innerHTML = "";
+    updateTotal();
+    updateCount();
+});
+
 function addRow(n, p) {
     const li = document.createElement("li");
     li.dataset.price = p;
@@ -39,4 +52,8 @@ function updateTotal() {
     const items = [...list.querySelectorAll("li:not(.bought)")];
     const total = items.reduce((sum, li) => sum + Number(li.dataset.price), 0);
     totalEl.textContent = total.toFixed(2);
+}
+
+function updateCount() {
+    countEl.textContent = list.querySelectorAll("li").length;
 }

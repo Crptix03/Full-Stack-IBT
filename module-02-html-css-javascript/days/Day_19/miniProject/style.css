@@ -46,7 +46,26 @@ input, button {
   padding: 4px 8px;
   cursor: pointer;
 }
+#count {
+  font-weight: bold;
+}
 
+#clear-btn {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  background: #f5f5f5;
+  border: 1px round #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+#clear-btn:hover {
+  background: #e74c3c;
+  color: white;
+  border-color: #e74c3c;
+}
 #total {
   font-weight: bold;
 }
