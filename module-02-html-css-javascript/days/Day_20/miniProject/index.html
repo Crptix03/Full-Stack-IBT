@@ -6,14 +6,22 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1>Country Facts</h1>
+    <div class="page">
+      <p class="eyebrow">Field Atlas</p>
+      <h1>Country Facts</h1>
 
-    <form id="search-form">
-      <input type="text" id="country-input" placeholder="Search a country..." />
-      <button type="submit">Search</button>
-    </form>
+      <form id="search-form">
+        <input
+          type="text"
+          id="country-input"
+          placeholder="Search a country..."
+          autocomplete="off"
+        />
+        <button type="submit">Search</button>
+      </form>
 
-    <div id="facts"></div>
+      <div id="facts"></div>
+    </div>
 
     <script src="app.js"></script>
   </body>
