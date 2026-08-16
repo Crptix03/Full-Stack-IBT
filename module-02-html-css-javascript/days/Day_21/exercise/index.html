@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1 id="page-title">Toggle + Signup Demo</h1>
+
+    <section>
+      <h2 id="toggle-heading">Preferences</h2>
+      <div class="controls">
+        <button id="theme-toggle">🌙 Dark</button>
+        <button id="lang-toggle">አማ / EN</button>
+      </div>
+      <p id="toggle-note">
+        Your choice is remembered next time you open this page.
+      </p>
+    </section>
+
+    <section>
+      <h2 id="signup-heading">Sign Up</h2>
+      <form id="signup-form" novalidate>
+        <label for="name">Full name</label>
+        <input id="name" type="text" autocomplete="name" />
+
+        <label for="phone">Phone number</label>
+        <input
+          id="phone"
+          type="tel"
+          placeholder="0912345678"
+          autocomplete="tel"
+        />
+
+        <button type="submit">Submit</button>
+        <div id="error" role="alert"></div>
+      </form>
+      <div id="count"></div>
+      <script src="app.js"></script>
+    </section>
+  </body>
+</html>

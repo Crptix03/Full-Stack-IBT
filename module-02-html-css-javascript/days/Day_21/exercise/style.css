@@ -1,0 +1,14 @@
+:root {
+--bg: #fdfaf6;
+--text: #222;
+--card: #fff;
+--accent: #2e7d32;
+--border: #ddd;
+}
+body.dark {
+--bg: #1a1a1a;
+--text: #eee;
+--card: #262626;
+--accent: #66bb6a;
+--border: #444;
+}
