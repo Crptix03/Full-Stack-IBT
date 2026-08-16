@@ -88,6 +88,7 @@ function extractMovies(data) {
   if (Array.isArray(data)) items = data;
   else if (Array.isArray(data.results)) items = data.results;
   else if (Array.isArray(data.movies)) items = data.movies;
+  else if (Array.isArray(data.series)) items = data.series;
   else if (Array.isArray(data.data)) items = data.data;
   else {
     console.warn('Unrecognized API response shape:', data);
@@ -108,16 +109,16 @@ const NO_POSTER_SVG =
 
 const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
 
-function renderMovies(movies) {
+function renderResults(results) {
   const fragment = document.createDocumentFragment();
 
-  movies.forEach((movie) => {
-    const isTV = movie.media_type === 'tv';
-    const title = movie.title || movie.name || movie.original_title || movie.original_name || 'Untitled';
-    const year = movie.release_date || movie.first_air_date || '';
-    const overview = movie.overview || '';
-    const poster = movie.poster_path
-      ? `${TMDB_IMAGE_BASE}${movie.poster_path}`
+  results.forEach((item) => {
+    const isTV = item.media_type === 'tv';
+    const title = item.title || item.name || item.original_title || item.original_name || 'Untitled';
+    const year = item.release_date || item.first_air_date || '';
+    const overview = item.overview || '';
+    const poster = item.poster_path
+      ? `${TMDB_IMAGE_BASE}${item.poster_path}`
       : '';
 
     const card = document.createElement('article');
