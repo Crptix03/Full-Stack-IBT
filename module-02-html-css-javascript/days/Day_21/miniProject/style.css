@@ -1,0 +1,29 @@
+body { 
+    font-family: system-ui, sans-serif; 
+    max-width: 400px; 
+    margin: 60px auto; 
+    padding: 0 16px; 
+}
+label { 
+    display: block; 
+    margin: 12px 0 4px; 
+    font-weight: 600; 
+}
+input { 
+    width: 100%; 
+    padding: 8px; 
+    box-sizing: border-box; 
+}
+button { 
+    margin-top: 16px; 
+    padding: 8px 14px; 
+}
+#error { 
+    color: #c62828; 
+    min-height: 1.2em; 
+    margin-top: 10px; 
+}
+#count { 
+    margin-top: 12px; 
+    opacity: 0.8; 
+}
