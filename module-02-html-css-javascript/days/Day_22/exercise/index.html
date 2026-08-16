@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Currency Converter & Watchlist</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>💱 Currency Converter</h1>
+      <div id="status" class="status"></div>
+    </header>
+
+    <main class="container">
+      <!-- Convert form -->
+      <form id="convert-form" class="convert-form">
+        <input
+          type="number"
+          id="amount-input"
+          placeholder="Amount"
+          step="any"
+          required
+        />
+
+        <select id="from-select"></select>
+
+        <span class="arrow">→</span>
+
+        <select id="to-select"></select>
+
+        <button type="submit">Convert</button>
+      </form>
+
+      <!-- Result -->
+      <div id="result" class="result"></div>
+
+      <!-- Watchlist -->
+      <section class="watchlist-section">
+        <h2>Watchlist</h2>
+        <div class="add-watch-row">
+          <select id="watch-currency-select"></select>
+          <button id="add-watch-btn" type="button">Add to Watchlist</button>
+        </div>
+        <ul id="watchlist"></ul>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
