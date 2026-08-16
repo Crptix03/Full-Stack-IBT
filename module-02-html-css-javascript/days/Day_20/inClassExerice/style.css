@@ -1,110 +1,205 @@
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  font-family: "Segoe UI", sans-serif;
-  background: #f4f6f8;
-  margin: 0;
-  padding: 40px 20px;
-  display: flex;
-  justify-content: center;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  background: #0f0f1a;
+  color: #f2f2f2;
+  min-height: 100vh;
 }
 
-.container {
-  background: #fff;
-  max-width: 600px;
-  width: 100%;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+.app-header {
+  text-align: center;
+  padding: 40px 20px 20px;
 }
 
-h1 {
-  margin-top: 0;
-  font-size: 24px;
-  color: #222;
+.app-header h1 {
+  font-size: 2rem;
+  margin-bottom: 8px;
 }
 
 .subtitle {
-  color: #666;
-  margin-bottom: 20px;
+  color: #a0a0b8;
+  font-size: 0.95rem;
 }
 
-textarea {
-  width: 100%;
-  height: 160px;
-  padding: 12px;
-  font-size: 14px;
-  font-family: inherit;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  resize: vertical;
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
 }
 
-.btn-row {
+/* Search form */
+.search-form {
   display: flex;
   gap: 10px;
-  margin-top: 14px;
+  margin-bottom: 30px;
 }
 
-button {
-  background: #4a6cf7;
-  color: white;
+#search-input {
+  flex: 1;
+  padding: 14px 16px;
+  border-radius: 8px;
+  border: 1px solid #33334d;
+  background: #1a1a2e;
+  color: #f2f2f2;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+#search-input:focus {
+  border-color: #7c5cff;
+}
+
+#search-btn {
+  padding: 14px 24px;
   border: none;
-  padding: 10px 20px;
-  font-size: 15px;
-  border-radius: 6px;
+  border-radius: 8px;
+  background: #7c5cff;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
-button:hover {
-  background: #3a5ce0;
+#search-btn:hover {
+  background: #6a4be0;
 }
 
-button:disabled {
-  background: #aab4f5;
+#search-btn:disabled {
+  background: #4a4a66;
   cursor: not-allowed;
 }
 
-button.secondary {
-  background: #e2e6ee;
-  color: #333;
+/* State boxes (loading / error / empty) */
+.state-box {
+  text-align: center;
+  padding: 60px 20px;
+  color: #a0a0b8;
 }
 
-button.secondary:hover {
-  background: #d3d8e3;
-}
-
-button.small {
-  padding: 4px 10px;
-  font-size: 13px;
-}
-
-.result {
-  margin-top: 24px;
-  padding: 16px;
-  background: #f0f4ff;
-  border-left: 4px solid #4a6cf7;
-  border-radius: 6px;
-}
-
-.result.hidden {
+.state-box.hidden {
   display: none;
 }
 
-.result-header {
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 4px solid #33334d;
+  border-top-color: #7c5cff;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+#error-message {
+  margin-bottom: 16px;
+  color: #ff6b6b;
+}
+
+#retry-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  background: #33334d;
+  color: #fff;
+  cursor: pointer;
+}
+
+#retry-btn:hover {
+  background: #45456a;
+}
+
+/* Results grid */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.movie-card {
+  background: #1a1a2e;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #26263d;
+  transition: transform 0.2s, border-color 0.2s;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
 }
 
-.result-header h2 {
-  margin: 0;
+.movie-card:hover {
+  transform: translateY(-4px);
+  border-color: #7c5cff;
 }
 
-.status {
-  margin-top: 12px;
-  color: #888;
-  font-size: 13px;
+.movie-poster {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  background: #26263d;
+  position: relative;
+}
+
+.poster-wrap {
+  position: relative;
+}
+
+.type-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #fff;
+  z-index: 1;
+}
+
+.type-badge.movie {
+  background: #7c5cff;
+}
+
+.type-badge.tv {
+  background: #ff9d5c;
+}
+
+.movie-info {
+  padding: 12px 14px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.movie-title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.movie-meta {
+  font-size: 0.8rem;
+  color: #a0a0b8;
+}
+
+.movie-overview {
+  font-size: 0.82rem;
+  color: #c4c4d6;
+  margin-top: 6px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

@@ -1,78 +1,183 @@
-# Text Summarizer Application
+# 🎬 Movie & Series Search Application
 
 ## Overview
 
-This is a web-based text summarizer application that allows users to input text and generate AI-powered summaries using the Puter AI API.
+A modern, responsive web application that allows users to search for movies and TV series using the TMDB (The Movie Database) API. The application features a sleek dark-themed UI with real-time search results, error handling, and loading states.
+
+---
+
+## Project Structure
+
+### Files
+
+- **index.html** - HTML markup and structure
+- **app.js** - JavaScript logic for API interaction and DOM manipulation
+- **style.css** - Styling and responsive design
+
+---
 
 ## Features
 
+### 1. **Search Functionality**
+
+- Users can search for movies and TV series by title
+- Real-time form submission with validation
+- Supports partial matches and various search terms
+
+### 2. **API Integration**
+
+- Integrates with TMDB API (`https://api.themoviedb.org/3/search/multi`)
+- Uses Bearer token authentication
+- Fetches both movies and TV series data
+- Handles multiple API response formats for flexibility
+
+### 3. **User Interface States**
+
+- **Loading State**: Displays a spinner while fetching results
+- **Empty State**: Shows message when no results are found
+- **Error State**: Displays error messages with a retry button
+- **Results State**: Grid layout of movie/series cards
+
+### 4. **Responsive Design**
+
+- Mobile-first approach with flexible grid layout
+- Auto-fill grid with minimum card width of 200px
+- Adapts to all screen sizes
+- Touch-friendly button and input sizing
+
+---
+
+## Technical Details
+
 ### index.html
 
-The HTML structure provides a user-friendly interface with:
+The HTML file provides the structure for the application:
 
-- **Title & Description**: A header explaining the purpose of the application
-- **Textarea Input**: A text area where users can paste or type the text they want summarized
-- **Buttons**:
-  - **Summarize Button** (primary): Triggers the summarization process
-  - **Clear Button** (secondary): Clears the input text and hides results
-  - **Copy Button** (secondary, small): Copies the summary text to clipboard
-- **Result Section**: Displays the generated summary with a styled header
-- **Status Message**: Shows feedback messages like "Summarizing..." or error messages
-- **External Dependencies**: Uses Puter.js library (`https://js.puter.com/v2/`) for AI API access
+- **Header Section**: App title and subtitle
+- **Search Form**: Input field and submit button with proper form semantics
+- **State Containers**: Separate divs for loading, error, and empty states
+- **Results Grid**: Container for dynamically rendered movie cards
+- **Script Imports**: Links to app.js for functionality
 
 ### app.js
 
-The JavaScript code handles the application logic:
+The JavaScript file handles all application logic:
 
-- **DOM Element Selection**: Retrieves references to all input and output elements
-- **Summarize Button Functionality**:
-  - Validates that the user has entered text
-  - Disables the button and shows "Summarizing..." status while processing
-  - Calls `puter.ai.chat()` API with a summarization prompt
-  - Displays the result in the result box
-  - Shows error messages if the request fails
-  - Re-enables the button after completion
-- **Clear Button Functionality**: Resets input, hides results, and clears status
-- **Copy Button Functionality**:
-  - Copies the summary text to clipboard using `navigator.clipboard.writeText()`
-  - Shows "Copied!" feedback that reverts to "Copy" after 1.5 seconds
-  - Handles copy errors gracefully
+#### Key Variables
+
+- `API_URL`: TMDB search endpoint
+- `API_OPTIONS`: Request headers with authentication token
+- `lastQuery`: Tracks the most recent search for retry functionality
+
+#### Main Functions
+
+- **searchMovies(query)**: Fetches data from API, handles errors, and manages UI state
+- **extractMovies(data)**: Filters and extracts movie/series data from various API response formats
+- **renderMovies(movies)**: Dynamically creates and appends movie cards to the DOM
+- **showState(state)**: Toggles visibility of loading, error, and empty states
+- **setLoadingUI(isLoading)**: Updates button state during API requests
+
+#### Event Listeners
+
+- Form submission triggers search
+- Retry button re-runs the last search
+
+#### Error Handling
+
+- Network error catching with descriptive messages
+- JSON parsing error handling
+- HTTP status code validation
+- Fallback SVG poster for missing images
 
 ### style.css
 
-The CSS provides a clean, modern design:
+Comprehensive styling for a modern dark-themed interface:
 
-- **Layout**: Centered container with flexbox styling
-- **Color Scheme**:
-  - Primary blue (#4a6cf7) for main actions
-  - Light blue background (#f0f4ff) for results
-  - Gray text (#666, #888) for secondary content
-- **Components**:
-  - **Container**: White box with padding, border-radius, and shadow
-  - **Buttons**: Blue primary buttons with hover effects, secondary gray buttons, and disabled states
-  - **Textarea**: Styled with borders and padding for better UX
-  - **Result Box**: Light blue background with left border accent
-  - **Hidden Class**: Toggles visibility of result section
-- **Responsive**: Uses flexible widths to adapt to different screen sizes
+#### Design Elements
 
-## How to Use
+- **Color Scheme**: Dark background (#0f0f1a) with purple accent (#7c5cff)
+- **Typography**: Segoe UI/Roboto font family for clean appearance
+- **Layout**: CSS Grid for responsive card arrangement
 
-1. Open the `index.html` file in a web browser
-2. Paste or type the text you want summarized in the textarea
-3. Click the **Summarize** button
-4. Wait for the AI to generate a summary (2-3 sentences)
-5. Use the **Copy** button to copy the summary to your clipboard
-6. Click **Clear** to reset and summarize more text
+#### Key Components
 
-## Technologies Used
+- **Search Form**: Flex layout with smooth focus transitions
+- **Movie Cards**:
+  - 2:3 aspect ratio for poster images
+  - Type badges (Movie/Series) with color coding
+  - Hover effects with subtle upward translation
+  - Truncated overview text with -webkit-line-clamp
+  - Flexible info section that expands to fill available space
 
-- **HTML5**: Semantic markup for structure
-- **CSS3**: Modern styling with flexbox and responsive design
-- **JavaScript**: ES6+ with async/await for API calls
-- **Puter AI API**: Cloud-based AI summarization service
+- **Loading Spinner**: CSS animation rotating at 0.8s intervals
+- **State Boxes**: Centered messaging with appropriate spacing
+- **Buttons**: Styled with hover and disabled states
 
-## Notes
+#### Responsive Features
 
-- Requires internet connection to access the Puter.js library and AI API
-- The summarization is powered by the Puter AI service
-- Error handling is included for network and API failures
+- Mobile-friendly padding and margins
+- Flexible input field with flex: 1
+- Auto-fill grid that adjusts column count based on viewport
+- Maximum container width of 1000px with centered alignment
+
+---
+
+## API Details
+
+### TMDB API Endpoint
+
+- **URL**: `https://api.themoviedb.org/3/search/multi`
+- **Method**: GET
+- **Authentication**: Bearer Token (included in headers)
+- **Query Parameter**: `query` - the search term
+
+### Response Format
+
+The API returns results that may include movies, TV series, and people. The application filters out people and displays only movies and TV series with:
+
+- Title/Name
+- Poster image
+- Release/Air date
+- Overview/Description
+- Media type
+
+---
+
+## User Experience Flow
+
+1. **User enters search term** in the search input
+2. **Form submission** triggers searchMovies()
+3. **Loading spinner appears** while fetching from API
+4. **API returns results** or error
+5. **Results displayed** in grid layout with:
+   - Movie/Series type badge
+   - Poster image (or fallback SVG)
+   - Title
+   - Release/Air date
+   - Overview text (truncated to 3 lines)
+6. **Interactive elements**:
+   - Cards scale up on hover
+   - Images lazy-load for performance
+   - Retry button available if error occurs
+
+---
+
+## Browser Compatibility
+
+- Modern browsers supporting:
+  - Fetch API
+  - CSS Grid
+  - CSS Flexbox
+  - CSS Animations
+  - Lazy loading attribute
+
+---
+
+## Future Enhancement Ideas
+
+- Add genre filtering
+- Implement pagination for large result sets
+- Add favorites/bookmarks feature
+- Display detailed movie/series information
+- Add sorting options (by rating, year, etc.)
+- Implement local storage for search history

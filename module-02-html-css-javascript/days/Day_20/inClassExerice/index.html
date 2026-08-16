@@ -2,35 +2,49 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Summarizer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie & Series Search</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="container">
-      <h1>Summarizer Text For you</h1>
-      <p class="subtitle">Paste your text below and get a quick summary.</p>
+    <header class="app-header">
+      <h1>🎬 Movie & Series Search</h1>
+      <p class="subtitle">Search by title to find movies & series.</p>
+    </header>
 
-      <textarea
-        id="input-text"
-        placeholder="Paste or type your text here..."
-      ></textarea>
+    <main class="container">
+      <form id="search-form" class="search-form">
+        <input
+          type="text"
+          id="search-input"
+          placeholder="e.g. Avengers, The Godfather..."
+          autocomplete="off"
+          required
+        />
+        <button type="submit" id="search-btn">Search</button>
+      </form>
 
-      <div class="btn-row">
-        <button id="summarize-btn">Summarize</button>
-        <button id="clear-btn" class="secondary">Clear</button>
+      <!-- Loading state -->
+      <div id="loading-state" class="state-box hidden">
+        <div class="spinner"></div>
+        <p>Finding movies & series for you...</p>
       </div>
 
-      <div id="result" class="result hidden">
-        <div class="result-header">
-          <h2>Summary</h2>
-          <button id="copy-btn" class="secondary small">Copy</button>
-        </div>
-        <p id="summary-text"></p>
+      <!-- Error state -->
+      <div id="error-state" class="state-box hidden">
+        <p id="error-message">Something went wrong. Please try again.</p>
+        <button id="retry-btn">Retry</button>
       </div>
 
-      <p id="status" class="status"></p>
-    </div>
-    <script src="https://js.puter.com/v2/"></script>
+      <!-- Empty state -->
+      <div id="empty-state" class="state-box hidden">
+        <p>No movies or series found. Try a different search.</p>
+      </div>
+
+      <!-- Results -->
+      <section id="results-grid" class="results-grid"></section>
+    </main>
+
     <script src="app.js"></script>
   </body>
 </html>
