@@ -59,20 +59,39 @@ const LANG_KEY = 'preferredLang';
 const langBtn = document.getElementById('lang-toggle');
 
 const strings = {
-  en: { pageTitle: 'Toggle + Signup Demo', toggleHeading: 'Preferences', /* ... */ },
-  am: { pageTitle: 'ማብሪያ + ምዝገባ', toggleHeading: 'ምርጫዎች', /* ... */ }
+  en: {
+    pageTitle: 'Toggle + Signup Demo',
+    toggleHeading: 'Preferences',
+    toggleNote: 'Your choice is remembered next time you open this page.',
+    signupHeading: 'Sign Up',
+    nameLabel: 'Full name',
+    phoneLabel: 'Phone number'
+  },
+  am: {
+    pageTitle: 'ማብሪያ + ምዝገባ',
+    toggleHeading: 'ምርጫዎች',
+    toggleNote: 'ምርጫዎ ገጹን ደግመው ሲከፍቱ ይታወሳል።',
+    signupHeading: 'ይመዝገቡ',
+    nameLabel: 'ሙሉ ስም',
+    phoneLabel: 'ስልክ ቁጥር'
+  }
 };
 
 function applyLang(lang) {
   const t = strings[lang];
   document.getElementById('page-title').textContent = t.pageTitle;
-  // ...set the rest of the text nodes from t
+  document.getElementById('toggle-heading').textContent = t.toggleHeading;
+  document.getElementById('toggle-note').textContent = t.toggleNote;
+  document.getElementById('signup-heading').textContent = t.signupHeading;
+  document.querySelector('label[for="name"]').textContent = t.nameLabel;
+  document.querySelector('label[for="phone"]').textContent = t.phoneLabel;
 }
 
 function loadLang() {
   try {
     return localStorage.getItem(LANG_KEY) || 'en';
   } catch (err) {
+    console.error('Could not read language from localStorage:', err);
     return 'en';
   }
 }
