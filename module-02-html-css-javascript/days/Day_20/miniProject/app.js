@@ -47,10 +47,12 @@ async function showCountry(name) {
 
         const c = json.data.objects[0];
 
-        const displayName = (c.name && (c.name.common || c.name)) || name;
+        const displayName = (c.names && c.names.common) || name;
         const capitalName = c.capitals && c.capitals[0] ? c.capitals[0].name : "N/A";
         const population = c.population ? c.population.toLocaleString() : "N/A";
         const currencyNames = c.currencies ? c.currencies.map((cur) => cur.name).join(", ") : "N/A";
+        const countryCode = (c.codes && c.codes.alpha_2) || null;
+        const flagImgUrl = countryCode ? `https://flagcdn.com/w80/${countryCode.toLowerCase()}.png` : null;
 
         out.className = "";
         out.innerHTML = "";
@@ -58,12 +60,24 @@ async function showCountry(name) {
         const card = document.createElement("div");
         card.className = "fact-card";
 
+        const titleRow = document.createElement("div");
+        titleRow.className = "title-row";
+
+        if (flagImgUrl) {
+            const flagImg = document.createElement("img");
+            flagImg.className = "flag-img";
+            flagImg.src = flagImgUrl;
+            flagImg.alt = `${displayName} flag`;
+            titleRow.append(flagImg);
+        }
+
         const h2 = document.createElement("h2");
         h2.textContent = displayName;
+        titleRow.append(h2);
 
         const hr = document.createElement("hr");
 
-        card.append(h2, hr);
+        card.append(titleRow, hr);
         renderRow(card, "Capital", capitalName);
         renderRow(card, "Population", population);
         renderRow(card, "Region", c.region || "N/A");

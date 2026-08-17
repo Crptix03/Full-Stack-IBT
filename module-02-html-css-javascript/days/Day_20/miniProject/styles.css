@@ -127,6 +127,24 @@ h1 {
   animation: rise 0.2s ease-out;
 }
 
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.flag-emoji {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.flag-img {
+  width: 28px;
+  height: auto;
+  border-radius: 2px;
+  border: 1px solid var(--panel-line);
+}
+
 .fact-card h2 {
   margin: 0 0 14px;
   font-family: "Newsreader", Georgia, serif;
