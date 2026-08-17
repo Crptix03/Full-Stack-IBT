@@ -72,7 +72,7 @@ async function searchMovies(query) {
     }
 
     showState(null);
-    renderMovies(movies);
+    renderResults(movies);
   } catch (error) {
     console.error(error);
     errorMessage.textContent = error.message || 'Something went wrong. Please try again.';
