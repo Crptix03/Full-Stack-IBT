@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Royale Bistro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- HEADER / NAVIGATION -->
+    <header>
+      <div class="nav-wrap">
+        <a href="#" class="logo"> Royale <span>Bistro</span> </a>
+
+        <nav>
+          <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#about">Our Story</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#footer">Contact</a></li>
+          </ul>
+        </nav>
+
+        <div class="nav-icons">
+          <div class="nav-search-box">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.35-4.35" />
+            </svg>
+            <input
+              type="text"
+              id="globalSearchInput"
+              placeholder="Search menu..."
+            />
+          </div>
+
+          <a href="#" id="historyIconBtn" title="Order History">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
+            </svg>
+          </a>
+
+          <a
+            href="#"
+            id="cartIconBtn"
+            class="cart-count"
+            data-count="0"
+            title="Shopping Cart"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <path d="M16 10a4 4 0 0 1-8 0" />
+            </svg>
+          </a>
+
+          <div class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="hero">
+      <div class="hero-col hero-left">
+        <img src="images/hero1.jpg" alt="Luxury Cuisine" class="img-a" />
+        <img src="images/hero3.jpg" alt="Fresh Ingredients" class="img-b" />
+      </div>
+
+      <div class="hero-col hero-center">
+        <span class="eyebrow">Order From Our Kitchen</span>
+        <h1>
+          Taste Royale <br />
+          Cuisine, Delivered
+        </h1>
+        <div class="divider center"></div>
+        <p>
+          Experience the pinnacle of fine dining in the comfort of your own
+          home. We craft every dish with premium, locally-sourced ingredients
+          and meticulous attention to detail, delivering a world-class culinary
+          experience straight to your door.
+        </p>
+        <a href="#menu" class="btn filled">Order Now</a>
+
+        <div class="hero-badges">
+          <span class="badge-pill">⚡ 30 Min Delivery</span>
+          <span class="badge-pill">✧ Hand Crafted Daily</span>
+        </div>
+      </div>
+
+      <div class="hero-col hero-right">
+        <img src="images/hero2.jpg" alt="Wine & Dining" class="img-c" />
+        <img src="images/hero4.jpg" alt="Elegant Table Setting" class="img-d" />
+      </div>
+    </section>
+
+    <!-- FEATURES BANNER -->
+    <section class="features">
+      <div class="features-grid">
+        <div class="feature">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z" />
+              <path d="M12 6v6l4 2" />
+            </svg>
+          </div>
+          <h3>Fast Delivery</h3>
+          <p>Fresh, hot gourmet meals delivered swiftly to your doorstep.</p>
+          <a href="#menu">Order Now</a>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M12 2 2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+              />
+            </svg>
+          </div>
+          <h3>Premium Recipes</h3>
+          <p>
+            Crafted by master chefs using only the finest seasonal ingredients.
+          </p>
+          <a href="#about">Learn More</a>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+              />
+            </svg>
+          </div>
+          <h3>Made with Passion</h3>
+          <p>
+            Every plate is artfully arranged for a memorable dining experience.
+          </p>
+          <a href="#menu">View Options</a>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"
+              />
+            </svg>
+          </div>
+          <h3>Refreshing Drinks</h3>
+          <p>
+            Quench your thirst with our selection of classic sodas and crisp,
+            refreshing beverages.
+          </p>
+          <a href="#menu">See Drinks</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section class="about" id="about">
+      <div class="about-imgs">
+        <img src="images/cheif.jpg" alt="Chef Preparing Dish" class="tall" />
+        <img src="images/spices.jpg" alt="Luxury Spices" class="short" />
+        <span class="since-tag">Est. 2026</span>
+      </div>
+
+      <div class="about-text">
+        <span class="eyebrow">Our Culinary Journey</span>
+        <h2>
+          Where Elegance <br />
+          Meets Flavor
+        </h2>
+        <div class="divider"></div>
+        <p>
+          Royale Bistro was born from a passion for exceptional cuisine and
+          gracious hospitality. We blend classic culinary techniques with modern
+          creativity to create dishes that delight the senses.
+        </p>
+        <div class="quote">
+          "Dining is not just about eating; it is an art form meant to be
+          shared, savored, and remembered."
+        </div>
+        <a href="#menu" class="btn">Discover Menu</a>
+      </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section class="menu" id="menu">
+      <div class="menu-head">
+        <h2>Our Dining Menu</h2>
+        <div class="divider center"></div>
+      </div>
+
+      <!-- SEARCH & CATEGORY CONTROLS -->
+      <div class="sticky-controls-wrapper">
+        <div class="menu-search-bar">
+          <input
+            type="text"
+            id="menuSearchInput"
+            placeholder="Search menu items or ingredients..."
+          />
+        </div>
+
+        <div class="menu-tabs" id="menuTabs">
+          <button class="menu-tab active" data-category="all">All Items</button>
+          <button class="menu-tab" data-category="starters">Starters</button>
+          <button class="menu-tab" data-category="mains">Main Course</button>
+          <button class="menu-tab" data-category="soups">Soups</button>
+          <button class="menu-tab" data-category="desserts">Desserts</button>
+          <button class="menu-tab" data-category="drinks">Drinks</button>
+        </div>
+      </div>
+
+      <!-- DYNAMIC MENU GRID (Rendered by JavaScript) -->
+      <div class="menu-grid" id="menuGridContainer"></div>
+    </section>
+
+    <!-- CART DRAWER OVERLAY & PANEL -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <aside class="cart-drawer" id="cartDrawer">
+      <div class="cart-head">
+        <h3>Your Selection</h3>
+        <button class="cart-close" id="cartCloseBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="cart-items" id="cartItemsContainer">
+        <p class="cart-empty">Your order list is currently empty.</p>
+      </div>
+
+      <div class="cart-summary">
+        <!-- DELIVERY / PICKUP TOGGLE -->
+        <div class="delivery-type-toggle">
+          <span>Order Type:</span>
+          <div class="radio-group">
+            <label>
+              <input
+                type="radio"
+                name="deliveryType"
+                value="delivery"
+                checked
+              />
+              Delivery
+            </label>
+            <label>
+              <input type="radio" name="deliveryType" value="pickup" />
+              Pickup
+            </label>
+          </div>
+        </div>
+
+        <!-- Address input (Hidden for Pickup) -->
+        <div class="address-input-wrap">
+          <label for="deliveryAddress">Delivery Address</label>
+          <input
+            type="text"
+            id="deliveryAddress"
+            class="address-field"
+            placeholder="Street, City, Postal Code"
+          />
+        </div>
+
+        <div class="cart-summary-row">
+          <span>Subtotal</span>
+          <span id="cartSubtotal">0 Birr</span>
+        </div>
+        <div class="cart-summary-row" id="deliveryFeeRow">
+          <span>Delivery Fee</span>
+          <span>100 Birr</span>
+        </div>
+        <div class="cart-summary-row total">
+          <span>Total</span>
+          <span class="amt" id="cartTotal">0 Birr</span>
+        </div>
+
+        <button class="btn filled checkout-btn" id="checkoutBtn">
+          Place Order
+        </button>
+      </div>
+    </aside>
+
+    <!-- ORDER HISTORY DRAWER OVERLAY & PANEL -->
+    <div class="cart-overlay" id="historyOverlay"></div>
+    <aside class="cart-drawer" id="historyDrawer">
+      <div class="cart-head">
+        <h3>Order History</h3>
+        <button class="cart-close" id="historyCloseBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="cart-items" id="historyItemsContainer">
+        <p class="cart-empty">No past orders found.</p>
+      </div>
+    </aside>
+
+    <!-- ORDER CONFIRMATION / TRACKER MODAL -->
+    <div class="modal-overlay" id="orderModal">
+      <div class="modal-card tracker-card">
+        <div class="success-icon">✓</div>
+        <h2>Order Placed!</h2>
+        <p class="order-id-tag">
+          Order ID: <strong id="modalOrderId">#RB-0000</strong>
+        </p>
+
+        <div class="delivery-details-box">
+          <div class="detail-row">
+            <span>Destination:</span>
+            <strong id="modalAddress">Default Address</strong>
+          </div>
+          <div class="detail-row">
+            <span>Estimated Time:</span>
+            <strong>30 - 45 Mins</strong>
+          </div>
+        </div>
+
+        <div class="tracker-steps">
+          <div class="step completed">
+            <div class="step-icon">✓</div>
+            <span>Received</span>
+          </div>
+          <div class="step active">
+            <div class="step-icon">🍳</div>
+            <span>Kitchen</span>
+          </div>
+          <div class="step">
+            <div class="step-icon">🛵</div>
+            <span>On Way</span>
+          </div>
+          <div class="step">
+            <div class="step-icon">🏠</div>
+            <span>Arrived</span>
+          </div>
+        </div>
+
+        <div class="ordered-items-summary">
+          <span class="summary-label">Summary</span>
+          <ul class="ordered-items-list" id="modalItemsSummary"></ul>
+        </div>
+
+        <button
+          class="btn filled"
+          id="closeModalBtn"
+          style="width: 100%; margin-top: 20px"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+
+    <!-- TOAST FEEDBACK CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- FOOTER -->
+    <footer id="footer">
+      <div class="footer-top">
+        <div class="footer-col">
+          <a href="#" class="logo">ROYALE <span>BISTRO</span></a>
+          <p>
+            Elevating everyday dining with world-class flavors, exceptional
+            service, and a truly luxurious atmosphere.
+          </p>
+          <div class="footer-social">
+            <a href="#"
+              ><svg viewBox="0 0 24 24">
+                <path
+                  d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
+                /></svg
+            ></a>
+            <a href="#"
+              ><svg viewBox="0 0 24 24">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" /></svg
+            ></a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Quick Navigation</h4>
+          <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#about">Our Story</a></li>
+            <li><a href="#menu">Dining Menu</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Opening Hours</h4>
+          <ul class="footer-hours">
+            <li><span>Mon - Thu</span><span>11:00 AM - 10:00 PM</span></li>
+            <li><span>Fri - Sat</span><span>11:00 AM - 11:30 PM</span></li>
+            <li><span>Sunday</span><span>12:00 PM - 9:30 PM</span></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Newsletter</h4>
+          <p>
+            Subscribe for seasonal menu updates and exclusive dining events.
+          </p>
+          <form class="newsletter-form" onsubmit="event.preventDefault()">
+            <input type="email" placeholder="Your email address" />
+            <button type="submit">
+              <svg viewBox="0 0 24 24">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Royale Bistro. All rights reserved.</p>
+        <div class="legal-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+        <div class="payments">
+          <span>VISA</span>
+          <span>MC</span>
+          <span>AMEX</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- SCRIPT INCLUSIONS -->
+    <script src="data/menu.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

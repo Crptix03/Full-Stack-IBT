@@ -1,0 +1,123 @@
+// SEED DATA FOR Royale Bistro MENU
+const menuData = [
+  {
+    id: "item-1",
+    name: "Crispy Sambusa",
+    category: "starters",
+    price: 100,
+    img: "images/sambusa.webp",
+    description: "Lightly spiced brown lentils, green chilies, and herbs wrapped in a crispy pastry shell.",
+    tag: "Veg",
+    tagClass: "veg"
+  },
+  {
+    id: "item-2",
+    name: "Steak & Fries",
+    category: "mains",
+    price: 3000,
+    img: "images/steak.jpg",
+    description: "A juicy grilled steak served with crispy golden fries and fresh herbs for a simple, hearty meal.",
+    tag: "Popular",
+    tagClass: ""
+  },
+  {
+    id: "item-3",
+    name: "Big Smokey Burger",
+    category: "mains",
+    price: 750,
+    img: "images/Big Smokey Burgers.jpg",
+    description: "Tender beef cubes sautéed with onions, rosemary, jalapeños, and spiced clarified butter.",
+    tag: null,
+    tagClass: ""
+  },
+  {
+    id: "item-4",
+    name: "American Fried Rice",
+    category: "mains",
+    price: 180,
+    img: "images/American Fried Rice.jpg",
+    description: "Assortment of yellow split peas, misir wat, gomen, and cabbage served on warm teff injera.",
+    tag: "Veg",
+    tagClass: "veg"
+  },
+  {
+    id: "item-5",
+    name: "Pasta Campanelle",
+    category: "mains",
+    price: 800,
+    img: "images/Pasta Campanelle2.webp",
+    description: "A flavorful pasta dish with ruffled campanelle pasta, fresh tomatoes, greens, and a creamy, savory sauce.",
+    tag: "Veg",
+    tagClass: "veg"
+  },
+  {
+    id: "item-6",
+    name: "Italian Sausage Soup",
+    category: "soups",
+    price: 1800,
+    img: "images/Italian Sausage Soup.jpg",
+    description: "A flavorful pasta dish with ruffled campanelle pasta, fresh tomatoes, greens, and a creamy, savory sauce.",
+    tag: "Soup",
+    tagClass: "veg"
+  },
+  {
+    id: "item-7",
+    name: "Chicken Noodle Soup",
+    category: "soups",
+    price: 1000,
+    img: "images/Chicken Noodle Soup.jpg",
+    description: "Hearty, savory chicken noodle soup featuring tender meat, a rich broth, and soft noodles.",
+    tag: "Soup",
+    tagClass: "veg"
+  },
+  {
+    id: "item-8",
+    name: "Honey Baklava",
+    category: "desserts",
+    price: 100,
+    img: "images/Baklava2.jpg",
+    description: "Flaky pastry layers filled with crushed nuts and soaked in spiced honey syrup.",
+    tag: null,
+    tagClass: ""
+  },
+  {
+    id: "item-9",
+    name: "Oreo Cookies",
+    category: "desserts",
+    price: 180,
+    img: "images/Oreo Cookies.jpg",
+    description: "Creamy, chocolatey dessert layered with crushed Oreo cookies, whipped cream, and rich chocolate sauce in a stem glass.",
+    tag: null,
+    tagClass: ""
+  },
+  {
+    id: "item-10",
+    name: "Sprite",
+    category: "drinks",
+    price: 70,
+    img: "images/sprite.jpg",
+    description: "A crisp, clear, lemon-lime soda with a refreshing, zesty citrus flavor.",
+    tag: null,
+    tagClass: ""
+  },
+  {
+    id: "item-11",
+    name: "Coca-cola",
+    category: "drinks",
+    price: 70,
+    img: "images/cocacola.jpg",
+    description: "A refreshing, fizzy soft drink with a classic sweet and refreshing cola flavor.",
+    tag: null,
+    tagClass: ""
+  },
+  {
+    id: "item-12",
+    name: "Pepsi",
+    category: "drinks",
+    price: 70,
+    img: "images/pepsi.jpg",
+    description: "A classic, sweet, carbonated cola with a crisp, refreshing citrusy taste.",
+    tag: null,
+    tagClass: ""
+  }
+];
