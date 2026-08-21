@@ -202,6 +202,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="admin-card-info">
                         <h4>${order.id}</h4>
                         <p><strong>Date:</strong> ${order.date}</p>
+                        
+                        <!-- NEW: Customer Info Displays Here -->
+                        <p><strong>Customer:</strong> ${order.customerName || 'Guest'}</p>
+                        <p><strong>Phone:</strong> ${order.customerPhone || 'N/A'}</p>
+                        
                         <p><strong>Address:</strong> ${order.address}</p>
                         <p><strong>Items:</strong> ${order.items.map(i => `${i.quantity}x ${i.name}`).join(", ")}</p>
                         <p><strong>Total:</strong> ${order.total}</p>
@@ -246,7 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-        // ==========================================
+    // ==========================================
     // ADMIN MENU LOGIC (ADD, EDIT, DELETE & TOGGLE)
     // ==========================================
     const adminMenuContainer = document.getElementById("adminMenuContainer");
@@ -302,10 +307,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 const index = e.target.dataset.index;
                 let menu = JSON.parse(localStorage.getItem("royale_menu")) || [];
                 if(menu[index]) {
-                    // If unchecked (false), it means we want to HIDE it (isHidden = true)
                     menu[index].isHidden = !e.target.checked; 
                     localStorage.setItem("royale_menu", JSON.stringify(menu));
-                    loadAdminMenu(); // Reload to update the "On/Off" text
+                    loadAdminMenu();
                 }
             });
         });
@@ -369,11 +373,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (closeAddMenuBtn) {
         closeAddMenuBtn.addEventListener("click", () => addMenuModal.classList.remove("open"));
     }
-    if (addMenuModal) {
     addMenuModal.addEventListener("click", (e) => {
         if (e.target === addMenuModal) addMenuModal.classList.remove("open");
     });
-}
 
     if (addMenuForm) {
         addMenuForm.addEventListener("submit", (e) => {
@@ -453,68 +455,5 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
     if (window.location.pathname.includes("dashboard.html")) {
         loadAdminDashboard();
-    }
-        // ==========================================
-    // ADMIN THEME TOGGLE LOGIC
-    // ==========================================
-    const adminThemeToggle = document.getElementById("adminThemeToggle");
-    const adminThemeIcon = document.getElementById("adminThemeIcon");
-    const adminThemeLabel = document.getElementById("adminThemeLabel");
-
-    // Check for saved admin preference
-    const adminTheme = localStorage.getItem("royale_admin_theme");
-    if (adminTheme === "light") {
-        document.body.classList.add("light-theme");
-        updateAdminThemeIcon(true);
-    }
-
-    if (adminThemeToggle) {
-        adminThemeToggle.addEventListener("click", () => {
-            const isLight = document.body.classList.toggle("light-theme");
-            localStorage.setItem("royale_admin_theme", isLight ? "light" : "dark");
-            updateAdminThemeIcon(isLight);
-        });
-    }
-
-    function updateAdminThemeIcon(isLight) {
-        if (adminThemeIcon) {
-            if (isLight) {
-                // Sun icon
-                adminThemeIcon.innerHTML = `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
-            } else {
-                // Moon icon
-                adminThemeIcon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
-            }
-        }
-        if (adminThemeLabel) {
-            adminThemeLabel.textContent = isLight ? "Light" : "Dark";
-        }
-    }
-    // ==========================================
-    // MOBILE MENU TOGGLE LOGIC
-    // ==========================================
-    const mobileMenuToggle = document.getElementById("mobileMenuToggle");
-    const closeMobileMenu = document.getElementById("closeMobileMenu");
-    const adminSidebar = document.getElementById("adminSidebar");
-
-    if (mobileMenuToggle && adminSidebar) {
-        // Open menu
-        mobileMenuToggle.addEventListener("click", () => {
-            adminSidebar.classList.add("open");
-        });
-
-        // Close menu
-        if (closeMobileMenu) {
-            closeMobileMenu.addEventListener("click", () => {
-                adminSidebar.classList.remove("open");
-            });
-        }
-
-        // Close menu when clicking a link (Orders, Menu, Logout)
-        document.querySelectorAll(".sidebar-nav a").forEach(link => {
-            link.addEventListener("click", () => {
-                adminSidebar.classList.remove("open");
-            });
-        });
     }
 });

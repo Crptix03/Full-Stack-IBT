@@ -1416,6 +1416,57 @@ body.light-theme .favorite-btn {
 }
 
 /* ==============================
+   CART FORM INPUTS UPDATE
+============================== */
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.form-group-half {
+  flex: 1;
+}
+.form-group-half label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 400;
+  margin-bottom: 0.3rem;
+  color: var(--text-light-color);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.form-group-half input {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  outline: none;
+  transition: border var(--transition);
+  background: rgba(255,255,255,0.03);
+  color: var(--text-color);
+}
+.form-group-half input::placeholder {
+  color: var(--text-light-color);
+}
+.form-group-half input:focus {
+  border-color: var(--color-primary);
+}
+
+/* Fix for phone number input */
+#customerPhone {
+  letter-spacing: 0.5px;
+}
+
+/* Make them stack vertically on mobile phones */
+@media (max-width: 480px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* ==============================
    RESPONSIVE
 ============================== */
 @media (max-width: 1024px) {

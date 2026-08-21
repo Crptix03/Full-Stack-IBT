@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // State Management
   let cart = JSON.parse(localStorage.getItem("royale_cart")) || [];
   let orderHistory = JSON.parse(localStorage.getItem("royale_history")) || [];
-  // Load favorites
   let favorites = JSON.parse(localStorage.getItem("royale_favorites")) || [];
 
   // DOM Elements
@@ -18,7 +17,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const cartSubtotalEl = document.getElementById("cartSubtotal");
   const cartTotalEl = document.getElementById("cartTotal");
   
+  // CUSTOMER INPUTS
+  const customerNameInput = document.getElementById("customerName");
+  const customerPhoneInput = document.getElementById("customerPhone");
   const deliveryAddressInput = document.getElementById("deliveryAddress");
+  
   const deliveryTypeRadios = document.querySelectorAll('input[name="deliveryType"]');
   const addressInputWrap = document.querySelector('.address-input-wrap');
   const deliveryFeeRow = document.getElementById("deliveryFeeRow");
@@ -127,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           favorites.push(id);
           btn.classList.add("active");
-          showToast("Added to favorites");
+          showToast("Added to favorites ❤️");
         }
         
         localStorage.setItem("royale_favorites", JSON.stringify(favorites));
@@ -251,14 +254,10 @@ document.addEventListener("DOMContentLoaded", () => {
     showToast(`Removed ${name}`);
   };
 
-  // ==========================================
-  // NEW REORDER LOGIC
-  // ==========================================
   window.reorderOrder = function (index) {
     const order = orderHistory[index];
     if (!order) return;
 
-    // Add all items from that order to the current cart
     order.items.forEach(item => {
       const existing = cart.find(cartItem => cartItem.name === item.name);
       if (existing) {
@@ -275,7 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateCartUI();
     showToast(`🔄 Reordered ${order.items.length} items from order ${order.id}`);
-    toggleCart(true); // Open the cart immediately so they can check out
+    toggleCart(true);
   };
 
   // ==========================================
@@ -337,7 +336,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (historyOverlay) historyOverlay.addEventListener("click", () => toggleHistory(false));
 
   // ==========================================
-  // CHECKOUT & ORDER HISTORY
+  // CHECKOUT & ORDER HISTORY (STRICT 13-CHAR PHONE VALIDATION)
   // ==========================================
   if (checkoutBtn) {
     checkoutBtn.addEventListener("click", () => {
@@ -346,6 +345,51 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      // 1. Get & Validate Name
+      const name = customerNameInput ? customerNameInput.value.trim() : "";
+      if (!name) {
+        showToast("Please enter your full name");
+        if (customerNameInput) customerNameInput.focus();
+        return;
+      }
+
+      // 2. Get & Validate Phone (Strict 13 characters: +251 + 9 digits)
+      let phone = customerPhoneInput ? customerPhoneInput.value.trim() : "";
+      
+      if (!phone) {
+        showToast("Please enter your phone number");
+        if (customerPhoneInput) customerPhoneInput.focus();
+        return;
+      }
+
+      // Remove any existing dashes to get clean input
+      let rawPhone = phone.replace(/-/g, "");
+
+      // CASE 1: User typed exactly +251 followed by 9 digits (13 chars total)
+      // Example: +251901023362
+      if (/^\+2519\d{9}$/.test(rawPhone)) {
+        // Insert dashes manually (4 + 2 + 3 + 4 structure)
+        phone = rawPhone.slice(0, 4) + "-" + rawPhone.slice(4, 6) + "-" + rawPhone.slice(6, 9) + "-" + rawPhone.slice(9);
+        customerPhoneInput.value = phone; // Update the input field visually
+      }
+      
+      // CASE 2: User typed 9 digits without +251 (e.g., 901023362)
+      else if (/^9\d{8}$/.test(rawPhone)) {
+        phone = "+251-" + rawPhone.slice(0, 2) + "-" + rawPhone.slice(2, 5) + "-" + rawPhone.slice(5);
+        customerPhoneInput.value = phone;
+      }
+
+      // CASE 3: User already typed the full formatted version (e.g., +251-90-102-3362)
+      else {
+        // Strictly check: +251-90-xxx-xxxx format
+        if (!/^\+251-9\d{1}-\d{3}-\d{4}$/.test(phone)) {
+          showToast("Please enter a valid Ethiopian number: +251-9xx-xxx-xxxx");
+          if (customerPhoneInput) customerPhoneInput.focus();
+          return;
+        }
+      }
+
+      // 3. Determine Delivery or Pickup
       const selectedType = document.querySelector('input[name="deliveryType"]:checked');
       const isDelivery = selectedType ? selectedType.value === "delivery" : true;
 
@@ -361,6 +405,7 @@ document.addEventListener("DOMContentLoaded", () => {
         address = "Pickup at Royale Bistro";
       }
 
+      // 4. Generate Order
       const orderId = `#RB-${Math.floor(1000 + Math.random() * 9000)}`;
       const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
       const deliveryFee = isDelivery ? 100 : 0;
@@ -375,6 +420,8 @@ document.addEventListener("DOMContentLoaded", () => {
           hour: "2-digit",
           minute: "2-digit",
         }),
+        customerName: name,
+        customerPhone: phone,
         address: address,
         items: [...cart],
         total: `${total} Birr`,
@@ -384,8 +431,15 @@ document.addEventListener("DOMContentLoaded", () => {
       orderHistory.unshift(newOrder);
       localStorage.setItem("royale_history", JSON.stringify(orderHistory));
 
+      // 5. Update Confirmation Modal
+      const modalCustomerName = document.getElementById("modalCustomerName");
+      const modalCustomerPhone = document.getElementById("modalCustomerPhone");
+      
       if (modalOrderId) modalOrderId.textContent = orderId;
+      if (modalCustomerName) modalCustomerName.textContent = name;
+      if (modalCustomerPhone) modalCustomerPhone.textContent = phone;
       if (modalAddress) modalAddress.textContent = address;
+      
       if (modalItemsSummary) {
         modalItemsSummary.innerHTML = cart
           .map((item) => `
@@ -397,10 +451,16 @@ document.addEventListener("DOMContentLoaded", () => {
           .join("");
       }
 
+      // 6. Reset Everything
       cart = [];
       updateCartUI();
       toggleCart(false);
+      
+      // Clear inputs
+      if (customerNameInput) customerNameInput.value = "";
+      if (customerPhoneInput) customerPhoneInput.value = "";
       if (deliveryAddressInput) deliveryAddressInput.value = "";
+      
       if (orderModal) orderModal.classList.add("open");
     });
   }
@@ -429,6 +489,10 @@ document.addEventListener("DOMContentLoaded", () => {
             ${order.items.map((i) => `${i.quantity}x ${i.name}`).join(", ")}
           </div>
           <div class="order-total-text">Total: ${order.total}</div>
+          <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-light-color);">
+            <span>👤 ${order.customerName || 'Guest'}</span> &bull; 
+            <span>📞 ${order.customerPhone || 'N/A'}</span>
+          </div>
           <button class="reorder-btn" onclick="reorderOrder(${index})">🔄 Reorder</button>
         </div>
       `)
@@ -451,7 +515,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ==========================================
-  // THEME TOGGLE LOGIC (Customer Side)
+  // THEME TOGGLE LOGIC
   // ==========================================
   const themeToggle = document.getElementById("themeToggle");
   const themeIcon = document.getElementById("themeIcon");
