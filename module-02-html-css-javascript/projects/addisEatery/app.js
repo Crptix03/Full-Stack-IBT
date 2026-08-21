@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // State Management
   let cart = JSON.parse(localStorage.getItem("royale_cart")) || [];
   let orderHistory = JSON.parse(localStorage.getItem("royale_history")) || [];
+  // Load favorites
+  let favorites = JSON.parse(localStorage.getItem("royale_favorites")) || [];
 
   // DOM Elements
   const menuGridContainer = document.getElementById("menuGridContainer");
@@ -37,37 +39,42 @@ document.addEventListener("DOMContentLoaded", () => {
   const toastContainer = document.getElementById("toastContainer");
 
   // ==========================================
-  // MENU RENDER & FILTERING (CUSTOMER SIDE)
+  // MENU RENDER & FILTERING
   // ==========================================
   function renderMenu(currentCategory) {
     if (!menuGridContainer) return;
     
-    // 1. Get the menu from localStorage first (to check for toggles), otherwise fallback to global menuData
     let activeMenu = JSON.parse(localStorage.getItem("royale_menu"));
     if (!activeMenu || activeMenu.length === 0) {
         activeMenu = menuData;
     }
 
-    // 2. Get search query
     const searchQuery = menuSearchInput ? menuSearchInput.value.toLowerCase().trim() : "";
 
-    // 3. Filter the items
     const filteredItems = activeMenu.filter((item) => {
-      // 👇 NEW: SKIP the item if it is hidden by the Admin!
       if (item.isHidden === true) return false; 
 
-      const categoryMatch = currentCategory === "all" || item.category === currentCategory;
+      let categoryMatch = false;
+      if (currentCategory === "favorites") {
+        categoryMatch = favorites.includes(item.id);
+      } else {
+        categoryMatch = currentCategory === "all" || item.category === currentCategory;
+      }
+
       const textMatch = item.name.toLowerCase().includes(searchQuery) || 
                         item.description.toLowerCase().includes(searchQuery);
       return categoryMatch && textMatch;
     });
 
     if (filteredItems.length === 0) {
-      menuGridContainer.innerHTML = `<p class="no-results">No menu items found matching your criteria.</p>`;
+      if (currentCategory === "favorites") {
+        menuGridContainer.innerHTML = `<p class="no-results">You haven't added any favorites yet. Tap the heart on an item to save it!</p>`;
+      } else {
+        menuGridContainer.innerHTML = `<p class="no-results">No menu items found matching your criteria.</p>`;
+      }
       return;
     }
 
-    // ... The rest of the map() and innerHTML code stays exactly the same ...
     menuGridContainer.innerHTML = filteredItems
       .map(
         (item) => `
@@ -75,6 +82,11 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="thumb">
             <img src="${item.img}" alt="${item.name}" loading="lazy">
             ${item.tag ? `<span class="tag ${item.tagClass}">${item.tag}</span>` : ""}
+            <button class="favorite-btn ${favorites.includes(item.id) ? 'active' : ''}" data-id="${item.id}">
+              <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
           </div>
           <div class="menu-body">
             <div class="menu-item-top">
@@ -95,23 +107,50 @@ document.addEventListener("DOMContentLoaded", () => {
       `
       )
       .join("");
+      
+    attachFavoriteListeners();
   }
 
   // ==========================================
-  // TAB BUTTON LOGIC (BULLETPROOF)
+  // FAVORITE BUTTON LOGIC
+  // ==========================================
+  function attachFavoriteListeners() {
+    document.querySelectorAll(".favorite-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const id = btn.dataset.id;
+        
+        if (favorites.includes(id)) {
+          favorites = favorites.filter(favId => favId !== id);
+          btn.classList.remove("active");
+          showToast("Removed from favorites");
+        } else {
+          favorites.push(id);
+          btn.classList.add("active");
+          showToast("Added to favorites");
+        }
+        
+        localStorage.setItem("royale_favorites", JSON.stringify(favorites));
+        
+        const activeTab = document.querySelector(".menu-tab.active");
+        if (activeTab && activeTab.dataset.category === "favorites") {
+          renderMenu("favorites");
+        }
+      });
+    });
+  }
+
+  // ==========================================
+  // TAB BUTTON LOGIC
   // ==========================================
   const menuTabs = document.querySelectorAll(".menu-tab");
   let activeCategory = "all";
 
   menuTabs.forEach((tab) => {
     tab.addEventListener("click", function() {
-      // 1. Remove active class from all tabs
       menuTabs.forEach((t) => t.classList.remove("active"));
-      // 2. Add active class to the clicked tab
       this.classList.add("active");
-      // 3. Update the active category variable
       activeCategory = this.dataset.category;
-      // 4. Re-render the menu with the new category
       renderMenu(activeCategory);
     });
   });
@@ -213,6 +252,33 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // ==========================================
+  // NEW REORDER LOGIC
+  // ==========================================
+  window.reorderOrder = function (index) {
+    const order = orderHistory[index];
+    if (!order) return;
+
+    // Add all items from that order to the current cart
+    order.items.forEach(item => {
+      const existing = cart.find(cartItem => cartItem.name === item.name);
+      if (existing) {
+        existing.quantity += item.quantity;
+      } else {
+        cart.push({
+          name: item.name,
+          price: Number(item.price),
+          img: item.img,
+          quantity: item.quantity
+        });
+      }
+    });
+
+    updateCartUI();
+    showToast(`🔄 Reordered ${order.items.length} items from order ${order.id}`);
+    toggleCart(true); // Open the cart immediately so they can check out
+  };
+
+  // ==========================================
   // EVENT DELEGATION FOR ADD BUTTONS
   // ==========================================
   document.addEventListener("click", (e) => {
@@ -269,27 +335,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (historyIconBtn) historyIconBtn.addEventListener("click", (e) => { e.preventDefault(); toggleHistory(true); });
   if (historyCloseBtn) historyCloseBtn.addEventListener("click", () => toggleHistory(false));
   if (historyOverlay) historyOverlay.addEventListener("click", () => toggleHistory(false));
-
-  // ==========================================
-  // MOBILE NAV TOGGLE
-  // ==========================================
-  const menuToggle = document.getElementById("menuToggle");
-  const navList = document.querySelector("nav ul");
-
-  if (menuToggle && navList) {
-    menuToggle.addEventListener("click", () => {
-      navList.classList.toggle("open");
-      menuToggle.classList.toggle("active");
-    });
-
-    // Close menu when a nav link is clicked (nice UX touch)
-    navList.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        navList.classList.remove("open");
-        menuToggle.classList.remove("active");
-      });
-    });
-  }
 
   // ==========================================
   // CHECKOUT & ORDER HISTORY
@@ -375,7 +420,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     historyItemsContainer.innerHTML = orderHistory
-      .map((order) => `
+      .map((order, index) => `
         <div class="order-history-card">
           <div class="order-title">${order.id}</div>
           <div class="order-status">${order.status}</div>
@@ -384,6 +429,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ${order.items.map((i) => `${i.quantity}x ${i.name}`).join(", ")}
           </div>
           <div class="order-total-text">Total: ${order.total}</div>
+          <button class="reorder-btn" onclick="reorderOrder(${index})">🔄 Reorder</button>
         </div>
       `)
       .join("");
@@ -404,16 +450,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2500);
   }
 
-  // Initial Load Execution
-  renderMenu("all");
-  updateCartUI();
-    // ==========================================
-  // THEME TOGGLE LOGIC
+  // ==========================================
+  // THEME TOGGLE LOGIC (Customer Side)
   // ==========================================
   const themeToggle = document.getElementById("themeToggle");
   const themeIcon = document.getElementById("themeIcon");
 
-  // Check if user has a saved preference
   const currentTheme = localStorage.getItem("royale_theme");
   if (currentTheme === "light") {
       document.body.classList.add("light-theme");
@@ -431,45 +473,13 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateThemeIcon(isLight) {
       if (!themeIcon) return;
       if (isLight) {
-          // Sun icon
           themeIcon.innerHTML = `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
       } else {
-          // Moon icon
           themeIcon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
       }
   }
-    // ==========================================
-  // ADMIN THEME TOGGLE LOGIC
-  // ==========================================
-  const adminThemeToggle = document.getElementById("adminThemeToggle");
-  const adminThemeIcon = document.getElementById("adminThemeIcon");
-  const adminThemeLabel = document.getElementById("adminThemeLabel");
 
-  // Check for saved admin preference
-  const adminTheme = localStorage.getItem("royale_admin_theme");
-  if (adminTheme === "light") {
-      document.body.classList.add("light-theme");
-      updateAdminThemeIcon(true);
-  }
-
-  if (adminThemeToggle) {
-      adminThemeToggle.addEventListener("click", () => {
-          const isLight = document.body.classList.toggle("light-theme");
-          localStorage.setItem("royale_admin_theme", isLight ? "light" : "dark");
-          updateAdminThemeIcon(isLight);
-      });
-  }
-
-  function updateAdminThemeIcon(isLight) {
-      if (!adminThemeIcon || !adminThemeLabel) return;
-      if (isLight) {
-          // Sun icon
-          adminThemeIcon.innerHTML = `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
-          adminThemeLabel.textContent = "Light";
-      } else {
-          // Moon icon
-          adminThemeIcon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
-          adminThemeLabel.textContent = "Dark";
-      }
-  }
+  // Initial Load Execution
+  renderMenu("all");
+  updateCartUI();
 });
