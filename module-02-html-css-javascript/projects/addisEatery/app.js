@@ -271,6 +271,27 @@ document.addEventListener("DOMContentLoaded", () => {
   if (historyOverlay) historyOverlay.addEventListener("click", () => toggleHistory(false));
 
   // ==========================================
+  // MOBILE NAV TOGGLE
+  // ==========================================
+  const menuToggle = document.getElementById("menuToggle");
+  const navList = document.querySelector("nav ul");
+
+  if (menuToggle && navList) {
+    menuToggle.addEventListener("click", () => {
+      navList.classList.toggle("open");
+      menuToggle.classList.toggle("active");
+    });
+
+    // Close menu when a nav link is clicked (nice UX touch)
+    navList.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        navList.classList.remove("open");
+        menuToggle.classList.remove("active");
+      });
+    });
+  }
+
+  // ==========================================
   // CHECKOUT & ORDER HISTORY
   // ==========================================
   if (checkoutBtn) {
@@ -386,4 +407,69 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initial Load Execution
   renderMenu("all");
   updateCartUI();
+    // ==========================================
+  // THEME TOGGLE LOGIC
+  // ==========================================
+  const themeToggle = document.getElementById("themeToggle");
+  const themeIcon = document.getElementById("themeIcon");
+
+  // Check if user has a saved preference
+  const currentTheme = localStorage.getItem("royale_theme");
+  if (currentTheme === "light") {
+      document.body.classList.add("light-theme");
+      updateThemeIcon(true);
+  }
+
+  if (themeToggle) {
+      themeToggle.addEventListener("click", () => {
+          const isLight = document.body.classList.toggle("light-theme");
+          localStorage.setItem("royale_theme", isLight ? "light" : "dark");
+          updateThemeIcon(isLight);
+      });
+  }
+
+  function updateThemeIcon(isLight) {
+      if (!themeIcon) return;
+      if (isLight) {
+          // Sun icon
+          themeIcon.innerHTML = `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
+      } else {
+          // Moon icon
+          themeIcon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
+      }
+  }
+    // ==========================================
+  // ADMIN THEME TOGGLE LOGIC
+  // ==========================================
+  const adminThemeToggle = document.getElementById("adminThemeToggle");
+  const adminThemeIcon = document.getElementById("adminThemeIcon");
+  const adminThemeLabel = document.getElementById("adminThemeLabel");
+
+  // Check for saved admin preference
+  const adminTheme = localStorage.getItem("royale_admin_theme");
+  if (adminTheme === "light") {
+      document.body.classList.add("light-theme");
+      updateAdminThemeIcon(true);
+  }
+
+  if (adminThemeToggle) {
+      adminThemeToggle.addEventListener("click", () => {
+          const isLight = document.body.classList.toggle("light-theme");
+          localStorage.setItem("royale_admin_theme", isLight ? "light" : "dark");
+          updateAdminThemeIcon(isLight);
+      });
+  }
+
+  function updateAdminThemeIcon(isLight) {
+      if (!adminThemeIcon || !adminThemeLabel) return;
+      if (isLight) {
+          // Sun icon
+          adminThemeIcon.innerHTML = `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
+          adminThemeLabel.textContent = "Light";
+      } else {
+          // Moon icon
+          adminThemeIcon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
+          adminThemeLabel.textContent = "Dark";
+      }
+  }
 });

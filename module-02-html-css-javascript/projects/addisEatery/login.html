@@ -13,6 +13,19 @@
     <link rel="stylesheet" href="admin.css" />
   </head>
   <body class="admin-login-body">
+    <!-- Theme Toggle Button (Positioned by CSS class) -->
+    <div class="login-theme-toggle">
+      <button
+        id="adminThemeToggle"
+        class="theme-btn-admin"
+        title="Toggle Theme"
+      >
+        <svg id="adminThemeIcon">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+    </div>
+
     <div class="login-box">
       <div class="login-logo">
         Royale <span>Bistro</span>
@@ -43,8 +56,7 @@
         <button type="submit" class="btn filled">Login to Dashboard</button>
       </form>
 
-      <!-- ✅ Moved this INSIDE the login-box div -->
-      <a href="index.html" class="back-link">← Back to Customer Site</a>
+      <a href="../index.html" class="back-link">← Back to Customer Site</a>
     </div>
 
     <script src="admin.js"></script>
