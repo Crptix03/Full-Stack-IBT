@@ -365,28 +365,21 @@ document.addEventListener("DOMContentLoaded", () => {
       // Remove any existing dashes to get clean input
       let rawPhone = phone.replace(/-/g, "");
 
-      // CASE 1: User typed exactly +251 followed by 9 digits (13 chars total)
-      // Example: +251901023362
-      if (/^\+2519\d{9}$/.test(rawPhone)) {
-        // Insert dashes manually (4 + 2 + 3 + 4 structure)
-        phone = rawPhone.slice(0, 4) + "-" + rawPhone.slice(4, 6) + "-" + rawPhone.slice(6, 9) + "-" + rawPhone.slice(9);
-        customerPhoneInput.value = phone; // Update the input field visually
-      }
       
-      // CASE 2: User typed 9 digits without +251 (e.g., 901023362)
-      else if (/^9\d{8}$/.test(rawPhone)) {
-        phone = "+251-" + rawPhone.slice(0, 2) + "-" + rawPhone.slice(2, 5) + "-" + rawPhone.slice(5);
+      if (/^\+2519\d{8}$/.test(rawPhone)) {
+        phone = rawPhone.slice(0, 4) + "-" + rawPhone.slice(4, 6) + "-" + rawPhone.slice(6, 9) + "-" + rawPhone.slice(9); // +251-91-234-5678
         customerPhoneInput.value = phone;
       }
 
-      // CASE 3: User already typed the full formatted version (e.g., +251-90-102-3362)
+      else if (/^9\d{8}$/.test(rawPhone)) {
+        phone = "+251-" + rawPhone.slice(0, 2) + "-" + rawPhone.slice(2, 5) + "-" + rawPhone.slice(5); // +251-91-234-5678
+        customerPhoneInput.value = phone;
+      }
+
       else {
-        // Strictly check: +251-90-xxx-xxxx format
-        if (!/^\+251-9\d{1}-\d{3}-\d{4}$/.test(phone)) {
-          showToast("Please enter a valid Ethiopian number: +251-9xx-xxx-xxxx");
-          if (customerPhoneInput) customerPhoneInput.focus();
-          return;
-        }
+        showToast("Please enter a valid Ethiopian number: +251-9x-xxx-xxxx");
+        if (customerPhoneInput) customerPhoneInput.focus();
+        return;
       }
 
       // 3. Determine Delivery or Pickup

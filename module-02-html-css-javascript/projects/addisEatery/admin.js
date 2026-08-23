@@ -143,6 +143,35 @@ document.addEventListener("DOMContentLoaded", () => {
     checkAuth();
 
     // ==========================================
+    // THEME TOGGLE LOGIC (LIGHT/DARK)
+    // ==========================================
+    const themeToggleBtn = document.getElementById("adminThemeToggle");
+    const themeLabel = document.getElementById("adminThemeLabel"); // exists on dashboard, not login
+
+    function applyTheme(theme) {
+        if (theme === "light") {
+            document.body.classList.add("light-theme");
+            if (themeLabel) themeLabel.textContent = "Light";
+        } else {
+            document.body.classList.remove("light-theme");
+            if (themeLabel) themeLabel.textContent = "Dark";
+        }
+    }
+
+    // Load saved theme on page load (defaults to dark)
+    const savedTheme = localStorage.getItem("royale_admin_theme") || "dark";
+    applyTheme(savedTheme);
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener("click", () => {
+            const isLight = document.body.classList.contains("light-theme");
+            const newTheme = isLight ? "dark" : "light";
+            applyTheme(newTheme);
+            localStorage.setItem("royale_admin_theme", newTheme);
+        });
+    }
+
+    // ==========================================
     // LOGIN LOGIC
     // ==========================================
     const loginForm = document.getElementById("adminLoginForm");
@@ -351,7 +380,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // ADD / EDIT MENU MODAL LOGIC
+            // ADD / EDIT MENU MODAL LOGIC
     // ==========================================
     const addMenuModal = document.getElementById("addMenuModal");
     const openAddMenuBtn = document.getElementById("openAddMenuBtn");
