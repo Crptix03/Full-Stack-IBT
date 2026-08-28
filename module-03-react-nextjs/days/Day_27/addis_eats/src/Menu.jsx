@@ -3,7 +3,7 @@ import Card from "./Card";
 import menuData from "./data";
 
 const categories = ["all", "starters", "mains", "soups", "desserts", "drinks"];
-const category = "all"; // hard-coded — this is the only value that shows everything
+const category = "all"; 
 
 function Menu() {
   return (
