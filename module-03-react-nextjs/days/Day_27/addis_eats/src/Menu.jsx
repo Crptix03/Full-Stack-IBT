@@ -1,40 +1,40 @@
-import { useState } from "react";
 import Dish from "./Dish";
 import Card from "./Card";
 import menuData from "./data";
 
-const categories = ["starters", "mains", "soups", "desserts", "drinks"];
+const categories = ["all", "starters", "mains", "soups", "desserts", "drinks"];
+const category = "all"; // hard-coded — this is the only value that shows everything
 
 function Menu() {
-  const [category, setCategory] = useState("mains");
-
-  const shown = menuData.filter(d => d.category === category);
-
   return (
     <div>
       <nav className="category-filter">
         {categories.map(c => (
-          <button
-            key={c}
-            onClick={() => setCategory(c)}
-            className={c === category ? "active" : ""}
-          >
+          <button key={c} className={c === category ? "active" : ""}>
             {c}
           </button>
         ))}
       </nav>
 
-      {shown.length === 0 ? (
-        <p>No {category} dishes.</p>
-      ) : (
-        <div className="menu">
-          {shown.map(d => (
-            <Card key={d.id}>
-              <Dish name={d.name} price={d.price} spicy={d.spicy} />
-            </Card>
-          ))}
-        </div>
-      )}
+      {categories
+        .filter(c => c !== "all")
+        .map(c => {
+          const items = menuData.filter(d => d.category === c);
+          if (items.length === 0) return null;
+
+          return (
+            <section key={c} className="category-section">
+              <h2>{c}</h2>
+              <div className="menu">
+                {items.map(d => (
+                  <Card key={d.id}>
+                    <Dish name={d.name} price={d.price} spicy={d.spicy} />
+                  </Card>
+                ))}
+              </div>
+            </section>
+          );
+        })}
     </div>
   );
 }

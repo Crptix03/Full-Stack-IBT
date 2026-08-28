@@ -86,3 +86,16 @@
   border-radius: 6px;
   font-weight: 600;
 }
+
+.category-section {
+  margin-bottom: 2.5rem;
+}
+
+.category-section h2 {
+  text-transform: capitalize;
+  font-size: 1.3rem;
+  color: #8a5a2b;
+  margin-bottom: 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid #ecdfd0;
+}
