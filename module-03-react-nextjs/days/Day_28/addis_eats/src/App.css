@@ -1,0 +1,215 @@
+#root {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Category filter */
+.category-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.category-filter button {
+  padding: 0.55rem 1.25rem;
+  border-radius: 999px;
+  background: var(--card-bg);
+  color: var(--accent-color);
+  border: 1px solid var(--border-color);
+  text-transform: capitalize;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.category-filter button:hover {
+  background: var(--badge-bg);
+  border-color: var(--accent-color);
+}
+
+.category-filter button.active {
+  background: var(--accent-color);
+  color: #fff;
+  border-color: var(--accent-color);
+}
+
+/* Menu grid */
+.menu {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Category sections (grouped view) */
+.category-section {
+  margin-bottom: 2.5rem;
+}
+
+.category-section h2 {
+  text-transform: capitalize;
+  font-size: 1.3rem;
+  color: var(--accent-color);
+  margin-bottom: 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+/* Card */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.4rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+/* Dish */
+.dish h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.dish p {
+  color: var(--accent-color);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.badge {
+  font-size: 0.7rem;
+  background: var(--badge-bg);
+  color: var(--badge-text);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* Dish add button + counter */
+.dish-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+
+.dish-actions button {
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: var(--accent-color);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: background 0.2s ease;
+}
+
+.dish-actions button:hover {
+  background: var(--accent-hover);
+}
+
+.count {
+  font-weight: 700;
+  color: var(--accent-color);
+  font-size: 0.9rem;
+}
+
+/* Order total bar */
+.order-total {
+  margin: 2rem 0;
+  padding: 1rem 1.4rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  font-size: 1.05rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-total strong {
+  color: var(--accent-color);
+  font-size: 1.2rem;
+}
+
+/* Order form */
+.order-form {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  max-width: 420px;
+  margin-top: 2rem;
+}
+
+.order-form h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1.25rem;
+  color: var(--text-primary);
+}
+
+.order-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.order-form input {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--text-primary);
+}
+
+.order-form input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+.field-error {
+  color: var(--accent-hover);
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.order-form button[type="submit"] {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  background: var(--accent-color);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.order-form button[type="submit"]:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.order-form button[type="submit"]:disabled {
+  background: var(--border-color);
+  color: var(--text-secondary);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
