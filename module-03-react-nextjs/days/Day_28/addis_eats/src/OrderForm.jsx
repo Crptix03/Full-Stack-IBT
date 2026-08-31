@@ -30,9 +30,9 @@ function OrderForm() {
 
       <label>
         TeleBirr number
-        <input type="tel" name="phone" value={form.phone} onChange={handleChange} placeholder="09XXXXXXXX" />
+        <input type="tel" name="phone" value={form.phone} onChange={handleChange} placeholder="+251-9x-xxx-xxxx" />
         {form.phone && !isPhoneValid && (
-          <span className="field-error">Enter a valid TeleBirr number (e.g. 0912345678)</span>
+          <span className="field-error">Enter a valid TeleBirr number (e.g. +251922114453)</span>
         )}
       </label>
 
