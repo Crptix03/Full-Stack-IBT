@@ -42,6 +42,47 @@ document.addEventListener("DOMContentLoaded", () => {
   const toastContainer = document.getElementById("toastContainer");
 
   // ==========================================
+  // SKELETON LOADING (MENU GRID)
+  // ==========================================
+  function renderMenuSkeleton(count = 6) {
+    if (!menuGridContainer) return;
+    menuGridContainer.innerHTML = Array.from({ length: count })
+      .map(
+        () => `
+        <div class="menu-item skeleton-card">
+          <div class="thumb skeleton-box"></div>
+          <div class="menu-body">
+            <div class="menu-item-top">
+              <span class="skeleton-box skeleton-text" style="width: 60%;"></span>
+              <span class="skeleton-box skeleton-text" style="width: 20%;"></span>
+            </div>
+            <span class="skeleton-box skeleton-text" style="width: 90%;"></span>
+            <span class="skeleton-box skeleton-text" style="width: 40%; height: 38px; margin-top: 8px;"></span>
+          </div>
+        </div>
+      `
+      )
+      .join("");
+  }
+
+  // ==========================================
+  // IMAGE PRELOADING (used to detect real "slow internet")
+  // ==========================================
+  function preloadImages(urls) {
+    const uniqueUrls = [...new Set(urls)];
+    const promises = uniqueUrls.map(
+      (src) =>
+        new Promise((resolve) => {
+          const img = new Image();
+          img.onload = resolve;
+          img.onerror = resolve; // don't hang the whole batch on one bad image
+          img.src = src;
+        })
+    );
+    return Promise.all(promises);
+  }
+
+  // ==========================================
   // MENU RENDER & FILTERING
   // ==========================================
   function renderMenu(currentCategory) {
@@ -536,7 +577,31 @@ document.addEventListener("DOMContentLoaded", () => {
       }
   }
 
-  // Initial Load Execution
-  renderMenu("all");
-  updateCartUI();
+  // ==========================================
+  // INITIAL LOAD EXECUTION (skeleton only shows on genuinely slow loads)
+  // ==========================================
+  (function initMenu() {
+    let activeMenu = JSON.parse(localStorage.getItem("royale_menu"));
+    if (!activeMenu || activeMenu.length === 0) {
+      activeMenu = menuData;
+    }
+
+    const imageUrls = activeMenu.map((item) => item.img);
+
+    let imagesReady = false;
+    const SKELETON_THRESHOLD_MS = 300; // fast connections never see the skeleton
+
+    const skeletonTimer = setTimeout(() => {
+      if (!imagesReady) {
+        renderMenuSkeleton();
+      }
+    }, SKELETON_THRESHOLD_MS);
+
+    preloadImages(imageUrls).then(() => {
+      imagesReady = true;
+      clearTimeout(skeletonTimer);
+      renderMenu("all");
+      updateCartUI();
+    });
+  })();
 });
