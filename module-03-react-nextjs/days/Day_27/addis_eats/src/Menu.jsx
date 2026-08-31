@@ -3,7 +3,7 @@ import Card from "./Card";
 import menuData from "./data";
 
 const categories = ["all", "starters", "mains", "soups", "desserts", "drinks"];
-const category = "all"; 
+const category = "all";
 
 function Menu() {
   return (
@@ -28,7 +28,7 @@ function Menu() {
               <div className="menu">
                 {items.map(d => (
                   <Card key={d.id}>
-                    <Dish name={d.name} price={d.price} spicy={d.spicy} />
+                    <Dish name={d.name} price={d.price} spicy={d.spicy} onAdd={() => {}} />
                   </Card>
                 ))}
               </div>
