@@ -1,36 +1,42 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import CategoryBar from "./CategoryBar";
-import DishList from "./DishList";
+import Dish from "./Dish";
+import Card from "./Card";
 import OrderForm from "./OrderForm";
-import { loadDishes } from "./api";
 
 export default function Menu() {
-  const [category, setCategory] = useState("all");
   const [dishes, setDishes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [category, setCategory] = useState("all");
   const [total, setTotal] = useState(0);
 
   const searchRef = useRef(null);
-
   const cats = ["all", "starters", "mains", "soups", "desserts", "drinks"];
 
   useEffect(() => {
     const controller = new AbortController();
 
-    setLoading(true);
-    setError(null);
+    async function load() {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch("/dishes.json", { signal: controller.signal });
+        if (!res.ok) throw new Error("Could not load the menu");
+        const data = await res.json();
+        const filtered = category === "all"
+          ? data
+          : data.filter(d => d.category === category);
+        setDishes(filtered);
+      } catch (e) {
+        if (e.name === "AbortError") return;
+        setError(e.message);
+      } finally {
+        setLoading(false);
+      }
+    }
 
-    loadDishes(category, controller.signal)
-      .then(data => {
-        setDishes(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        if (err.name === "AbortError") return;
-        setError(err.message);
-        setLoading(false);
-      });
+    load();
 
     return () => controller.abort();
   }, [category]);
@@ -43,8 +49,8 @@ export default function Menu() {
     setTotal(t => t + price);
   }
 
-  if (loading) return <p>Loading menu...</p>;
-  if (error) return <p className="field-error">Could not load menu: {error}</p>;
+  if (loading) return <p>Loading the menu...</p>;
+  if (error) return <p className="err">{error}</p>;
 
   return (
     <div>
@@ -57,7 +63,17 @@ export default function Menu() {
 
       <CategoryBar categories={cats} selected={category} onSelect={setCategory} />
 
-      <DishList dishes={dishes} onAdd={handleAdd} />
+      {dishes.length === 0
+        ? <p>No dishes in this category yet.</p>
+        : (
+          <div className="menu">
+            {dishes.map(d => (
+              <Card key={d.id}>
+                <Dish {...d} onAdd={handleAdd} />
+              </Card>
+            ))}
+          </div>
+        )}
 
       <div className="order-total">
         Order total: <strong>{total} ETB</strong>
