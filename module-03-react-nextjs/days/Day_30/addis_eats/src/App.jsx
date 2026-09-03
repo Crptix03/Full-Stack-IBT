@@ -1,6 +1,7 @@
 import Menu from "./Menu";
 import Header from "./Header";
 import CheckoutPanel from "./CheckoutPanel";
+import OrderForm from "./OrderForm";
 import { CartProvider } from "./cart/CartProvider";
 import { ThemeProvider } from "./context/ThemeContext";
 import "./App.css";
@@ -15,6 +16,7 @@ function App() {
             <h2>Our Menu</h2>
             <Menu />
             <CheckoutPanel />
+            <OrderForm />
           </main>
         </div>
       </CartProvider>
