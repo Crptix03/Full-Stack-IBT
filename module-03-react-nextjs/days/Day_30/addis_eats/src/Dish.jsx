@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import PropTypes from "prop-types";
 import { ThemeContext } from "./context/ThemeContext";
 
 function Dish({ dish, onAdd }) {
@@ -16,5 +17,16 @@ function Dish({ dish, onAdd }) {
     </div>
   );
 }
+
+Dish.propTypes = {
+  dish: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    category: PropTypes.string,
+    spicy: PropTypes.bool,
+  }).isRequired,
+  onAdd: PropTypes.func.isRequired,
+};
 
 export default Dish;
