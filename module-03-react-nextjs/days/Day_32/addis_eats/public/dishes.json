@@ -1,0 +1,14 @@
+[
+  { "id": "item-1", "name": "Crispy Sambusa", "category": "starters", "price": 100, "spicy": true },
+  { "id": "item-2", "name": "Steak & Fries", "category": "mains", "price": 3000, "spicy": false },
+  { "id": "item-3", "name": "Big Smokey Burger", "category": "mains", "price": 750, "spicy": true },
+  { "id": "item-4", "name": "American Fried Rice", "category": "mains", "price": 180, "spicy": false },
+  { "id": "item-5", "name": "Pasta Campanelle", "category": "mains", "price": 800, "spicy": false },
+  { "id": "item-6", "name": "Italian Sausage Soup", "category": "soups", "price": 1800, "spicy": true },
+  { "id": "item-7", "name": "Chicken Noodle Soup", "category": "soups", "price": 1000, "spicy": false },
+  { "id": "item-8", "name": "Honey Baklava", "category": "desserts", "price": 100, "spicy": false },
+  { "id": "item-9", "name": "Oreo Cookies", "category": "desserts", "price": 180, "spicy": false },
+  { "id": "item-10", "name": "Sprite", "category": "drinks", "price": 70, "spicy": false },
+  { "id": "item-11", "name": "Coca-cola", "category": "drinks", "price": 70, "spicy": false },
+  { "id": "item-12", "name": "Pepsi", "category": "drinks", "price": 70, "spicy": false }
+]
