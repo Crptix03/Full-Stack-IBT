@@ -1,0 +1,31 @@
+:root{
+  --bg-base:#15120E;
+  --bg-surface:#1E1A14;
+  --gold:#C9A24B;
+  --gold-bright:#E3BE6E;
+  --rust:#A8452E;
+  --sage:#7C8A5E;
+  --text-primary:#EFE7D8;
+  --text-secondary:#A6987F;
+  --border-hairline:#332C1F;
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+
+body{
+  background:var(--bg-base);
+  color:var(--text-primary);
+  font-family:'Inter', sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+.serif{ font-family:'Fraunces', serif; }
+
+img { 
+  max-width:100%; 
+  display:block; 
+}
+
+button { 
+  font-family:inherit; 
+}
