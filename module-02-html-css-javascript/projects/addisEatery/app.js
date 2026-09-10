@@ -578,6 +578,25 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ==========================================
+  // MOBILE MENU TOGGLE LOGIC
+  // ==========================================
+  const menuToggle = document.getElementById("menuToggle");
+  const navMenu = document.getElementById("navMenu");
+
+  if (menuToggle && navMenu) {
+    menuToggle.addEventListener("click", () => {
+      navMenu.classList.toggle("open");
+    });
+
+    // Close the mobile menu when a link is clicked
+    document.querySelectorAll("#navMenu a").forEach(link => {
+      link.addEventListener("click", () => {
+        navMenu.classList.remove("open");
+      });
+    });
+  }
+
+  // ==========================================
   // INITIAL LOAD EXECUTION (skeleton only shows on genuinely slow loads)
   // ==========================================
   (function initMenu() {

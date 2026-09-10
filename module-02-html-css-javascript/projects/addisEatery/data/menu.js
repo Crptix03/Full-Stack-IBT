@@ -56,7 +56,7 @@ const menuData = [
     category: "soups",
     price: 1800,
     img: "images/Italian Sausage Soup.jpg",
-    description: "A flavorful pasta dish with ruffled campanelle pasta, fresh tomatoes, greens, and a creamy, savory sauce.",
+    description: "A rich, savory soup made with Italian sausage, tomatoes, herbs, and flavorful spices.",
     tag: "Soup",
     tagClass: "veg"
   },
