@@ -1,11 +1,23 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useReducer, useEffect } from "react";
 
 const CartContext = createContext(null);
 
+const STORAGE_KEY = "royale-bistro-cart";
+
 const initialState = {
-  items: [],       // { id, name, price, img, qty }
-  orderHistory: [], // { id, placedAt, items, total }
+  items: [],
+  orderHistory: [],
 };
+
+function init(initialState) {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) return JSON.parse(saved);
+  } catch (err) {
+    console.error("Failed to load cart from localStorage:", err);
+  }
+  return initialState;
+}
 
 function cartReducer(state, action) {
   switch (action.type) {
@@ -54,12 +66,16 @@ function cartReducer(state, action) {
     case "PLACE_ORDER": {
       if (state.items.length === 0) return state;
 
-      const total = state.items.reduce((sum, item) => sum + item.price * item.qty, 0);
+      const subtotal = state.items.reduce((sum, item) => sum + item.price * item.qty, 0);
+      const total = action.details?.total ?? subtotal;
+
       const newOrder = {
         id: `order-${Date.now()}`,
         placedAt: new Date().toISOString(),
         items: state.items,
+        subtotal,
         total,
+        delivery: action.details || null,
       };
 
       return {
@@ -74,12 +90,20 @@ function cartReducer(state, action) {
 }
 
 export function CartProvider({ children }) {
-  const [state, dispatch] = useReducer(cartReducer, initialState);
+  const [state, dispatch] = useReducer(cartReducer, initialState, init);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (err) {
+      console.error("Failed to save cart to localStorage:", err);
+    }
+  }, [state]);
 
   const addToCart = (dish) => dispatch({ type: "ADD_TO_CART", dish });
   const removeFromCart = (id) => dispatch({ type: "REMOVE_FROM_CART", id });
   const updateQty = (id, qty) => dispatch({ type: "UPDATE_QTY", id, qty });
-  const placeOrder = () => dispatch({ type: "PLACE_ORDER" });
+  const placeOrder = (details) => dispatch({ type: "PLACE_ORDER", details });
 
   const cartCount = state.items.reduce((sum, item) => sum + item.qty, 0);
   const cartTotal = state.items.reduce((sum, item) => sum + item.price * item.qty, 0);
