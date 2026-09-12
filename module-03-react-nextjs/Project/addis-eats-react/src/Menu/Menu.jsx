@@ -4,6 +4,8 @@ import { getDishes } from "../api/dishes";
 import { useCart } from "../context/CartContext";
 import CategoryBar from "./CategoryBar";
 import DishList from "./DishList";
+import { useRef, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 export default function Menu() {
   const fetcher = useCallback(() => getDishes(), []);
@@ -11,6 +13,14 @@ export default function Menu() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
   const { addToCart } = useCart();
+  const location = useLocation();
+  const searchInputRef = useRef(null);
+
+  useEffect(() => {
+    if (location.state?.focusSearch && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [location.state]);
 
   const categories = useMemo(() => {
     if (!dishes) return [];
@@ -59,6 +69,7 @@ export default function Menu() {
             <path d="M21 21l-4.3-4.3" />
           </svg>
           <input
+            ref={searchInputRef}
             type="text"
             placeholder="Search menu items or ingredients…"
             value={searchTerm}
