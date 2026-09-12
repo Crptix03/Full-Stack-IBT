@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
 export default function Cart() {
-  const { items, removeFromCart, updateQty, placeOrder, cartTotal } = useCart();
+  const { items, removeFromCart, updateQty, cartTotal } = useCart();
+  const navigate = useNavigate();
 
   if (items.length === 0) {
     return (
@@ -74,8 +75,8 @@ export default function Cart() {
             {cartTotal} <sup>Birr</sup>
           </span>
         </div>
-        <button className="cart-place-order" onClick={placeOrder}>
-          Place Order
+        <button className="cart-place-order" onClick={() => navigate("/checkout")}>
+          Proceed to Checkout
         </button>
       </div>
     </section>
