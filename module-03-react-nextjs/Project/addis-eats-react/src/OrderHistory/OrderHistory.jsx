@@ -51,6 +51,13 @@ export default function OrderHistory() {
                   </span>
                 </div>
               ))}
+              {order.delivery && (
+                <div className="order-delivery-info">
+                  <span>{order.delivery.type === "delivery" ? "🚚 Delivery" : "🏬 Pickup"}</span>
+                  <span>{order.delivery.name} · {order.delivery.phone}</span>
+                  {order.delivery.address && <span>{order.delivery.address}</span>}
+                </div>
+              )}
             </div>
           </div>
         ))}
