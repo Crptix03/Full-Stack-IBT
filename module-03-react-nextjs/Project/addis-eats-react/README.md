@@ -2,7 +2,7 @@
 
 A React port of the original vanilla JS Royale Bistro / Addis Eats restaurant site — a fine-dining Ethiopian menu and ordering experience, rebuilt with a component-based architecture, real API-style data fetching, and a mobile-first responsive design.
 
-> **Note:** This README is a living document and will be updated through Saturday as the project progresses. Home page, routing, cart, and order history are done as of Day 3 — checkout and the admin panel are what's left.
+> **Status:** The customer ordering flow is implemented, including menu browsing, cart management, checkout, order history, theme switching, and responsive navigation. An admin panel is still planned.
 
 ---
 
@@ -11,6 +11,7 @@ A React port of the original vanilla JS Royale Bistro / Addis Eats restaurant si
 - **React** (Vite)
 - **React Router** — client-side routing (`/`, `/menu`, `/cart`, `/order-history`)
 - **React Context + useReducer** — global cart state (`CartContext`)
+- **React Context + useState** — persisted light/dark theme state (`ThemeContext`)
 - **Vanilla CSS** — custom design system via CSS variables, no framework
 - Fonts: **Playfair Display** (serif, headings) + **Jost** (sans-serif, UI/body)
 - Data: static `menu-data.json` in `public/`, fetched like a real API call
@@ -55,7 +56,8 @@ addis-eats-react/
 │   ├── hooks/
 │   │   └── useFetch.js       # generic fetch hook (loading/error/data)
 │   ├── context/
-│   │   └── CartContext.jsx   # global cart state — add/remove/update qty/place order
+│   │   ├── CartContext.jsx   # global cart state — add/remove/update qty/place order
+│   │   └── ThemeContext.jsx  # light/dark theme state persisted in localStorage
 │   ├── Home/
 │   │   ├── Hero.jsx
 │   │   ├── Features.jsx
@@ -70,14 +72,17 @@ addis-eats-react/
 │   │   └── Menu.jsx
 │   ├── Cart/
 │   │   └── Cart.jsx           # cart list, quantity steppers, subtotal, place order
+│   ├── Checkout/
+│   │   └── Checkout.jsx       # delivery/pickup form, validation, fees, order summary
 │   ├── OrderHistory/
 │   │   └── OrderHistory.jsx   # replaces the earlier Contact placeholder
 │   ├── ui/
 │   │   ├── Button.jsx
 │   │   └── Spinner.jsx
 │   ├── Footer.jsx
+│   ├── ScrollToHash.jsx       # smooth scrolling for links such as /#story
 │   ├── Layout.jsx             # persistent header + footer + bottom tab bar (mobile)
-│   ├── App.jsx                # routes: / , /menu , /cart , /order-history
+│   ├── App.jsx                # routes: / , /menu , /cart , /checkout , /order-history
 │   ├── App.css                # all component styles, mobile-first
 │   ├── index.css              # design tokens + base styles
 │   └── main.jsx                # wraps App in BrowserRouter + CartProvider
@@ -135,10 +140,17 @@ npm run dev
 - Added a missing tablet-width (768px) column step for the Menu grid (was jumping straight from 1 column on phone to 3 on desktop, skipping tablet)
 - Fixed the "Our Story" anchor link — `id="story"` was missing from the `Story` section despite the CSS already expecting it
 
-### Remaining (Day 4)
+### Day 4 — Checkout, theme switching, and navigation polish
 
-- Real checkout flow: delivery/pickup toggle, name/phone/address fields, validation, delivery estimate
-- Wire up the header search icon (likely: jump to `/menu` with the search field focused, or an inline dropdown)
-- Decide on and implement theme toggle the light mode
-- Fix the `/#story` cross-page scroll behavior
-- Then admin panel (login, dashboard, dish manager, order manager)
+- Added the `/checkout` route and `Checkout.jsx` with delivery/pickup selection, customer details, Ethiopian phone-number validation, delivery-address validation, delivery fees, estimated preparation times, and an order summary
+- Updated `Cart.jsx` so the cart now leads to checkout before an order is placed
+- Extended `CartContext.jsx` so placed orders store checkout details, delivery fees, totals, and itemized history; cart and order history remain persisted in `localStorage`
+- Added `ThemeContext.jsx` and a header theme toggle with persisted dark/light mode selection
+- Added `ScrollToHash.jsx` for smooth in-page and cross-page hash navigation, including the home page's `/#story` link
+- Updated `Layout.jsx` with working search navigation, theme controls, checkout-aware routing, and responsive navigation states
+- Updated `main.jsx` to provide both `ThemeProvider` and `CartProvider` around the application
+- Added light-theme design tokens and checkout/order-history styles in `index.css` and `App.css`
+
+### Remaining
+
+- Admin panel: login, dashboard, dish manager, and order manager
