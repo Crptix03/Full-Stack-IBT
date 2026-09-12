@@ -2,15 +2,17 @@
 
 A React port of the original vanilla JS Royale Bistro / Addis Eats restaurant site — a fine-dining Ethiopian menu and ordering experience, rebuilt with a component-based architecture, real API-style data fetching, and a mobile-first responsive design.
 
-> **Note:** This README is a living document and will be updated through Saturday as the project progresses (Home page, routing, cart, checkout, and the admin panel).
+> **Note:** This README is a living document and will be updated through Saturday as the project progresses. Home page, routing, cart, and order history are done as of Day 3 — checkout and the admin panel are what's left.
 
 ---
 
 ## Tech Stack
 
 - **React** (Vite)
+- **React Router** — client-side routing (`/`, `/menu`, `/cart`, `/order-history`)
+- **React Context + useReducer** — global cart state (`CartContext`)
 - **Vanilla CSS** — custom design system via CSS variables, no framework
-- Fonts: **Fraunces** (serif, headings) + **Inter** (sans-serif, UI/body)
+- Fonts: **Playfair Display** (serif, headings) + **Jost** (sans-serif, UI/body)
 - Data: static `menu-data.json` in `public/`, fetched like a real API call
 
 ---
@@ -19,15 +21,18 @@ A React port of the original vanilla JS Royale Bistro / Addis Eats restaurant si
 
 Dark, gold-accented fine-dining theme, mobile-first throughout:
 
-| Token                                 | Value                 | Use                            |
-| ------------------------------------- | --------------------- | ------------------------------ |
-| `--bg-base`                           | `#15120E`             | Page background                |
-| `--bg-surface`                        | `#1E1A14`             | Cards, inputs                  |
-| `--gold` / `--gold-bright`            | `#C9A24B` / `#E3BE6E` | Accents, prices, active states |
-| `--rust`                              | `#A8452E`             | "Spicy" tag                    |
-| `--sage`                              | `#7C8A5E`             | "Veg" tag                      |
-| `--text-primary` / `--text-secondary` | `#EFE7D8` / `#A6987F` | Body text                      |
-| `--border-hairline`                   | `#332C1F`             | Card/section borders           |
+| Token                                                                | Value                               | Use                                       |
+| -------------------------------------------------------------------- | ----------------------------------- | ----------------------------------------- |
+| `--bg-color`                                                         | `#0a0a0a`                           | Page background                           |
+| `--bg-light-color`                                                   | `#141414`                           | Section backgrounds (e.g. Features strip) |
+| `--bg-card-color`                                                    | `#1a1a1a`                           | Cards, inputs                             |
+| `--color-primary` / `--color-primary-light` / `--color-primary-dark` | `#c8a45c` / `#e8d5a3` / `#a88535`   | Gold accents, prices, active states       |
+| `--color-rust`                                                       | `#a8452e`                           | "Spicy" tag                               |
+| `--color-sage`                                                       | `#7c8a5e`                           | "Veg" tag                                 |
+| `--text-color` / `--text-light-color`                                | `#eaeaea` / `#9a9a9a`               | Body text                                 |
+| `--border-color`                                                     | `rgba(200, 164, 92, 0.2)`           | Card/section borders (translucent gold)   |
+| `--radius` / `--radius-sm`                                           | `8px` / `4px`                       | Corner rounding                           |
+| `--transition`                                                       | `0.3s cubic-bezier(0.4, 0, 0.2, 1)` | Shared hover/interaction easing           |
 
 Breakpoints (mobile-first — base styles are phone, then layered up):
 
@@ -42,27 +47,40 @@ Breakpoints (mobile-first — base styles are phone, then layered up):
 ```
 addis-eats-react/
 ├── public/
-│   ├── Images/            # real dish photos, hero images
-│   └── menu-data.json     # seed data, stands in for a real API
+│   ├── Images/               # real dish photos, hero images
+│   └── menu-data.json        # seed data, stands in for a real API
 ├── src/
 │   ├── api/
-│   │   └── dishes.js      # fetch helper for menu-data.json
+│   │   └── dishes.js         # fetch helper for menu-data.json
 │   ├── hooks/
-│   │   └── useFetch.js    # generic fetch hook (loading/error/data)
+│   │   └── useFetch.js       # generic fetch hook (loading/error/data)
+│   ├── context/
+│   │   └── CartContext.jsx   # global cart state — add/remove/update qty/place order
+│   ├── Home/
+│   │   ├── Hero.jsx
+│   │   ├── Features.jsx
+│   │   ├── Story.jsx
+│   │   ├── BestFoods.jsx      # live preview pulled from the same dish data as Menu
+│   │   ├── Offers.jsx
+│   │   └── Home.jsx
 │   ├── Menu/
 │   │   ├── CategoryBar.jsx
 │   │   ├── DishCard.jsx
 │   │   ├── DishList.jsx
 │   │   └── Menu.jsx
+│   ├── Cart/
+│   │   └── Cart.jsx           # cart list, quantity steppers, subtotal, place order
+│   ├── OrderHistory/
+│   │   └── OrderHistory.jsx   # replaces the earlier Contact placeholder
 │   ├── ui/
 │   │   ├── Button.jsx
 │   │   └── Spinner.jsx
 │   ├── Footer.jsx
-│   ├── Layout.jsx          # persistent header + footer + bottom tab bar (mobile)
-│   ├── App.jsx
-│   ├── App.css             # all component styles, mobile-first
-│   ├── index.css           # design tokens + base styles
-│   └── main.jsx
+│   ├── Layout.jsx             # persistent header + footer + bottom tab bar (mobile)
+│   ├── App.jsx                # routes: / , /menu , /cart , /order-history
+│   ├── App.css                # all component styles, mobile-first
+│   ├── index.css              # design tokens + base styles
+│   └── main.jsx                # wraps App in BrowserRouter + CartProvider
 ├── index.html
 └── package.json
 ```
@@ -80,7 +98,7 @@ npm run dev
 
 ## Progress Log
 
-### Day 1 (Wednesday) — Project scaffold & Menu page foundation
+### Day 1 — Project scaffold & Menu page foundation
 
 - Set up Vite + React project (`addis-eats-react`)
 - Built feature-based folder structure (`api/`, `hooks/`, `Menu/`, `ui/`)
@@ -89,7 +107,7 @@ npm run dev
 - Built core Menu components: `DishCard`, `DishList`, `CategoryBar`, `Menu`
 - Wired `App.jsx` → `Layout` → `Menu`
 
-### Day 2 (Thursday) — Styling, responsiveness, navigation, footer
+### Day 2 — Styling, responsiveness, navigation, footer
 
 - Applied the finished dark/gold design system to the Menu page (previously unstyled — `App.css` wasn't imported into `App.jsx`, which was the cause of the broken/unstyled first render)
 - Rebuilt all component CSS **mobile-first**: phone is the default ruleset, `min-width: 768px` / `1024px` layer on tablet and desktop enhancements
@@ -101,16 +119,26 @@ npm run dev
 - Added `Footer.jsx` (brand, quick nav, opening hours, newsletter, social icons) as part of the persistent `Layout`, so it appears on every page automatically
 - Replaced placeholder social "f" / "ig" text with proper SVG icons (Facebook, Instagram), styled to match the site's icon language
 
-### Known issues / TODO
+### Day 3 — Home page, routing, cart, order history
 
-- No routing yet — currently only the Menu page exists as real React (Home is still an HTML/CSS mockup, not yet converted to components)
-- Bottom tab bar and header nav links are static (`href="#"`) — not wired to real navigation yet
-- Cart is not implemented — "Add to Order" currently just logs to the console
+- Switched the font pairing to **Playfair Display + Jost** and moved to a new color/spacing token system (`--bg-color`, `--color-primary`, `--radius`, `--transition`, etc. — see Design System table above)
+- Added **React Router**; `App.jsx` now renders real routes (`/`, `/menu`, `/cart`, `/order-history`) instead of a single hardcoded page
+- Converted the Home page mockup into real components: `Hero`, `Features`, `Story`, `BestFoods`, `Offers` — `BestFoods` and `Offers` both pull live data from the same `dishes.js`/`useFetch` the Menu page uses, so there's one source of truth instead of duplicated hardcoded preview data
+- Fixed the header/bottom-tab-bar active-state bug from Day 2 (was hardcoded to "Home", now uses React Router's `NavLink` so the highlighted tab always matches the real current page)
+- Added a persistent header search icon and theme-toggle icon (currently **decorative only** — no functionality wired up yet)
+- Built `CartContext` (Context + `useReducer`) — add to cart, remove, update quantity, place order, running cart count/total, all globally accessible via `useCart()`
+- Built the real **Cart page**: line items with image/name/price, quantity steppers, remove button, subtotal, "Place Order" (currently clears the cart into order history — no delivery/payment form yet)
+- Replaced the Contact placeholder with **Order History**, reading from the same `CartContext` — shows past orders with itemized breakdown and total once at least one order has been placed
+- Added quick **"+ Add"** buttons directly on the Home page's "Our Very Best Foods" and "Try Our Special Offers" preview cards, so items can be added to the cart without navigating to the full Menu page first
+- Fixed a dropped-CSS bug from a large freestyle rewrite pass — `.bottom-tab-bar` styling had been accidentally deleted entirely, causing the mobile nav to render as an unstyled list below the footer instead of a fixed bottom bar
+- Fixed dish-card styling using hardcoded colors instead of the shared design tokens (was causing a visible mismatch between Menu page cards and Home page preview cards)
+- Added a missing tablet-width (768px) column step for the Menu grid (was jumping straight from 1 column on phone to 3 on desktop, skipping tablet)
+- Fixed the "Our Story" anchor link — `id="story"` was missing from the `Story` section despite the CSS already expecting it
 
-### Remaining (Day 3–4)
+### Remaining (Day 4)
 
-- Convert Home page mockup (hero, features, Our Story, Our Very Best Foods preview) into real React components
-- Add **React Router** so Home/Menu are real, separate routes with correctly synced active states in both the header nav and the bottom tab bar
-- Build cart (`cart/` — cart store, `CartPanel`, `CartBadge`) and wire up "Add to Order"
-- Build checkout (`checkout/` — form, validation, delivery estimate)
-- Build admin panel (login, dashboard, dish manager, order manager)
+- Real checkout flow: delivery/pickup toggle, name/phone/address fields, validation, delivery estimate
+- Wire up the header search icon (likely: jump to `/menu` with the search field focused, or an inline dropdown)
+- Decide on and implement theme toggle the light mode
+- Fix the `/#story` cross-page scroll behavior
+- Then admin panel (login, dashboard, dish manager, order manager)
