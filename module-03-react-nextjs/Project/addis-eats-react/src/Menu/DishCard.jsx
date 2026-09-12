@@ -16,7 +16,7 @@ export default function DishCard({ dish, onAdd }) {
         <p>{dish.description}</p>
         <div className="dish-card-footer">
           <span className="dish-price serif">
-            {dish.price} <sup>ETB</sup>
+            {dish.price} <sup>Birr</sup>
           </span>
           <Button onClick={() => onAdd(dish)}>+ Add to Order</Button>
         </div>
