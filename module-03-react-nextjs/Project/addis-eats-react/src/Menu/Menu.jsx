@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback } from "react";
 import { useFetch } from "../hooks/useFetch";
 import { getDishes } from "../api/dishes";
+import { useCart } from "../context/CartContext";
 import CategoryBar from "./CategoryBar";
 import DishList from "./DishList";
 
@@ -9,6 +10,7 @@ export default function Menu() {
   const { data: dishes, loading, error } = useFetch(fetcher);
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
+  const { addToCart } = useCart();
 
   const categories = useMemo(() => {
     if (!dishes) return [];
@@ -36,9 +38,9 @@ export default function Menu() {
     return result;
   }, [dishes, activeCategory, searchTerm]);
 
-  const handleAdd = (dish) => {
-    console.log("add to cart:", dish.id);
-  };
+    const handleAdd = (dish) => {
+      addToCart(dish);
+    };
 
   return (
     <section className="menu">
