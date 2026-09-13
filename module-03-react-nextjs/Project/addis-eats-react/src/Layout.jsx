@@ -2,6 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import Footer from "./Footer";
 import { useCart } from "./context/CartContext";
 import { useTheme } from "./context/ThemeContext";
+import AccountMenu from "./AccountMenu";
 
 export default function Layout({ children }) {
   const { cartCount } = useCart();
@@ -54,6 +55,9 @@ export default function Layout({ children }) {
               </svg>
             )}
           </button>
+
+          
+          <AccountMenu />
 
           <NavLink to="/cart" className="cart-pill" style={{ textDecoration: "none" }}>
             <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.6">
