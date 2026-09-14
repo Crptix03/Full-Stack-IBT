@@ -2,16 +2,16 @@
 
 A React port of the original vanilla JS Royale Bistro / Addis Eats restaurant site — a fine-dining Ethiopian menu and ordering experience, rebuilt with a component-based architecture, real API-style data fetching, and a mobile-first responsive design.
 
-> **Status:** The customer ordering flow is implemented, including menu browsing, cart management, checkout, order history, theme switching, and responsive navigation. An admin panel is still planned.
+> **Note:** This README is a living document, updated as the project progresses. Home page, routing, cart, order history, checkout, light/dark mode, and account sign-in (with profile/avatar) are all done as of Day 4 — the admin panel is what's left.
 
 ---
 
 ## Tech Stack
 
 - **React** (Vite)
-- **React Router** — client-side routing (`/`, `/menu`, `/cart`, `/order-history`)
-- **React Context + useReducer** — global cart state (`CartContext`)
-- **React Context + useState** — persisted light/dark theme state (`ThemeContext`)
+- **React Router** — client-side routing (`/`, `/menu`, `/cart`, `/checkout`, `/order-history`, `/signin`, `/signup`, `/profile`)
+- **React Context + useReducer** — global state for cart (`CartContext`), auth (`AuthContext`), and theme (`ThemeContext`)
+- **localStorage** — persists cart, order history, user accounts, and theme choice across reloads (no backend — this is a client-only mock, not real secure auth: passwords are stored in plain text, fine for a school project, never for production)
 - **Vanilla CSS** — custom design system via CSS variables, no framework
 - Fonts: **Playfair Display** (serif, headings) + **Jost** (sans-serif, UI/body)
 - Data: static `menu-data.json` in `public/`, fetched like a real API call
@@ -20,20 +20,23 @@ A React port of the original vanilla JS Royale Bistro / Addis Eats restaurant si
 
 ## Design System
 
-Dark, gold-accented fine-dining theme, mobile-first throughout:
+Dark, gold-accented fine-dining theme, mobile-first throughout, with a full light-mode variant:
 
-| Token                                                                | Value                               | Use                                       |
-| -------------------------------------------------------------------- | ----------------------------------- | ----------------------------------------- |
-| `--bg-color`                                                         | `#0a0a0a`                           | Page background                           |
-| `--bg-light-color`                                                   | `#141414`                           | Section backgrounds (e.g. Features strip) |
-| `--bg-card-color`                                                    | `#1a1a1a`                           | Cards, inputs                             |
-| `--color-primary` / `--color-primary-light` / `--color-primary-dark` | `#c8a45c` / `#e8d5a3` / `#a88535`   | Gold accents, prices, active states       |
-| `--color-rust`                                                       | `#a8452e`                           | "Spicy" tag                               |
-| `--color-sage`                                                       | `#7c8a5e`                           | "Veg" tag                                 |
-| `--text-color` / `--text-light-color`                                | `#eaeaea` / `#9a9a9a`               | Body text                                 |
-| `--border-color`                                                     | `rgba(200, 164, 92, 0.2)`           | Card/section borders (translucent gold)   |
-| `--radius` / `--radius-sm`                                           | `8px` / `4px`                       | Corner rounding                           |
-| `--transition`                                                       | `0.3s cubic-bezier(0.4, 0, 0.2, 1)` | Shared hover/interaction easing           |
+| Token                                                                | Dark value                                   | Light value                       | Use                                                                              |
+| -------------------------------------------------------------------- | -------------------------------------------- | --------------------------------- | -------------------------------------------------------------------------------- |
+| `--bg-color`                                                         | `#0a0a0a`                                    | `#faf7f2`                         | Page background                                                                  |
+| `--bg-light-color`                                                   | `#141414`                                    | `#f2ece1`                         | Section backgrounds (e.g. Features strip)                                        |
+| `--bg-card-color`                                                    | `#1a1a1a`                                    | `#ffffff`                         | Cards, inputs                                                                    |
+| `--color-primary` / `--color-primary-light` / `--color-primary-dark` | `#c8a45c` / `#e8d5a3` / `#a88535`            | `#a88535` / `#c8a45c` / `#8a6b28` | Gold accents, prices, active states                                              |
+| `--on-primary`                                                       | `#14110c` (fixed, doesn't change with theme) | —                                 | Text color for anything sitting on top of `--color-primary` (gold buttons/pills) |
+| `--color-rust`                                                       | `#a8452e`                                    | `#a8452e`                         | "Spicy" tag                                                                      |
+| `--color-sage`                                                       | `#7c8a5e`                                    | `#5f6e46`                         | "Veg" tag                                                                        |
+| `--text-color` / `--text-light-color`                                | `#eaeaea` / `#9a9a9a`                        | `#1a1512` / `#6b6258`             | Body text                                                                        |
+| `--border-color`                                                     | `rgba(200, 164, 92, 0.2)`                    | `rgba(168, 133, 53, 0.28)`        | Card/section borders (translucent gold)                                          |
+| `--radius` / `--radius-sm`                                           | `8px` / `4px`                                | same                              | Corner rounding                                                                  |
+| `--transition`                                                       | `0.3s cubic-bezier(0.4, 0, 0.2, 1)`          | same                              | Shared hover/interaction easing                                                  |
+
+Light mode is applied via `[data-theme="light"]` on `<html>`, toggled by the moon/sun icon in the header and persisted in `localStorage`. Because every color in the site is a CSS variable, the whole theme swap needs zero changes to `App.css` — only `index.css`'s token definitions differ between themes.
 
 Breakpoints (mobile-first — base styles are phone, then layered up):
 
@@ -56,36 +59,43 @@ addis-eats-react/
 │   ├── hooks/
 │   │   └── useFetch.js       # generic fetch hook (loading/error/data)
 │   ├── context/
-│   │   ├── CartContext.jsx   # global cart state — add/remove/update qty/place order
-│   │   └── ThemeContext.jsx  # light/dark theme state persisted in localStorage
+│   │   ├── CartContext.jsx   # global cart state — add/remove/update qty/place order, persisted
+│   │   ├── AuthContext.jsx   # mock auth — sign up/in/out, profile (username + avatar), persisted
+│   │   └── ThemeContext.jsx  # light/dark mode, persisted
 │   ├── Home/
 │   │   ├── Hero.jsx
 │   │   ├── Features.jsx
-│   │   ├── Story.jsx
-│   │   ├── BestFoods.jsx      # live preview pulled from the same dish data as Menu
-│   │   ├── Offers.jsx
+│   │   ├── Story.jsx          # has id="story" for the header's anchor link
+│   │   ├── BestFoods.jsx      # live preview pulled from the same dish data as Menu, + quick-add
+│   │   ├── Offers.jsx         # same as BestFoods, different dish slice, + quick-add
 │   │   └── Home.jsx
 │   ├── Menu/
 │   │   ├── CategoryBar.jsx
 │   │   ├── DishCard.jsx
 │   │   ├── DishList.jsx
-│   │   └── Menu.jsx
+│   │   └── Menu.jsx            # supports auto-focusing search via router state
 │   ├── Cart/
-│   │   └── Cart.jsx           # cart list, quantity steppers, subtotal, place order
+│   │   └── Cart.jsx            # cart list, quantity steppers, subtotal, "Proceed to Checkout"
 │   ├── Checkout/
-│   │   └── Checkout.jsx       # delivery/pickup form, validation, fees, order summary
+│   │   └── Checkout.jsx        # delivery/pickup toggle, validated form, order summary
 │   ├── OrderHistory/
-│   │   └── OrderHistory.jsx   # replaces the earlier Contact placeholder
+│   │   └── OrderHistory.jsx    # past orders incl. delivery/pickup details
+│   ├── Auth/
+│   │   ├── SignIn.jsx
+│   │   ├── SignUp.jsx
+│   │   └── Profile.jsx         # edit username, upload avatar (stored as base64)
 │   ├── ui/
 │   │   ├── Button.jsx
 │   │   └── Spinner.jsx
 │   ├── Footer.jsx
-│   ├── ScrollToHash.jsx       # smooth scrolling for links such as /#story
-│   ├── Layout.jsx             # persistent header + footer + bottom tab bar (mobile)
-│   ├── App.jsx                # routes: / , /menu , /cart , /checkout , /order-history
-│   ├── App.css                # all component styles, mobile-first
-│   ├── index.css              # design tokens + base styles
-│   └── main.jsx                # wraps App in BrowserRouter + CartProvider
+│   ├── Layout.jsx              # persistent header + footer + bottom tab bar (mobile)
+│   ├── AccountMenu.jsx         # avatar + dropdown (Profile / Sign Out) in the header
+│   ├── RequireAuth.jsx         # route guard — redirects to /signin, returns after login
+│   ├── ScrollToHash.jsx        # scrolls to #hash targets on route change (fixes /#story)
+│   ├── App.jsx                 # all routes, incl. guarded /checkout and /profile
+│   ├── App.css                 # all component styles, mobile-first
+│   ├── index.css               # design tokens (dark + light theme) + base styles
+│   └── main.jsx                 # wraps App in BrowserRouter + ThemeProvider + AuthProvider + CartProvider
 ├── index.html
 └── package.json
 ```
@@ -140,17 +150,20 @@ npm run dev
 - Added a missing tablet-width (768px) column step for the Menu grid (was jumping straight from 1 column on phone to 3 on desktop, skipping tablet)
 - Fixed the "Our Story" anchor link — `id="story"` was missing from the `Story` section despite the CSS already expecting it
 
-### Day 4 — Checkout, theme switching, and navigation polish
+### Day 4 — Checkout, light/dark mode, accounts
 
-- Added the `/checkout` route and `Checkout.jsx` with delivery/pickup selection, customer details, Ethiopian phone-number validation, delivery-address validation, delivery fees, estimated preparation times, and an order summary
-- Updated `Cart.jsx` so the cart now leads to checkout before an order is placed
-- Extended `CartContext.jsx` so placed orders store checkout details, delivery fees, totals, and itemized history; cart and order history remain persisted in `localStorage`
-- Added `ThemeContext.jsx` and a header theme toggle with persisted dark/light mode selection
-- Added `ScrollToHash.jsx` for smooth in-page and cross-page hash navigation, including the home page's `/#story` link
-- Updated `Layout.jsx` with working search navigation, theme controls, checkout-aware routing, and responsive navigation states
-- Updated `main.jsx` to provide both `ThemeProvider` and `CartProvider` around the application
-- Added light-theme design tokens and checkout/order-history styles in `index.css` and `App.css`
+- Added **real light/dark mode**: a `ThemeContext` toggled by the header's moon/sun icon, persisted in `localStorage`, applied via `[data-theme="light"]` on `<html>`. Since the whole site's styling runs on CSS variables, light mode needed zero changes to `App.css` — only new token values in `index.css`
+- Introduced a fixed `--on-primary` token for text sitting on gold buttons/pills, replacing several spots that had reused `var(--bg-color)` as a shortcut — those would have broken in light mode (light text on light gold) if left as-is
+- Wired the header **search icon** — navigates to `/menu` and auto-focuses the search input (via React Router navigation state, read in `Menu.jsx`)
+- Fixed the `/#story` cross-page scroll bug with a new `ScrollToHash` component — added `id="story"` to the `Story` section (was missing despite the CSS already expecting it) and a `useLocation`-based scroll effect that runs on every route change
+- Built a full **checkout flow**: delivery/pickup toggle, name/phone/address form with real validation (Ethiopian phone format `0XXXXXXXXX` / `+251XXXXXXXXX`, letters-only names, minimum-length address that can't be pure digits), a delivery estimate, and an order summary sidebar
+- `CartContext`'s `placeOrder` now accepts delivery/pickup details so `OrderHistory` can show who an order was for and where it went, not just what was ordered
+- Added **cart + order history persistence** via `localStorage` (previously wiped on every page refresh) — same pattern (reducer + `useEffect` write-through) reused for auth below
+- Built a mock **account system** (`AuthContext`): username/password sign up and sign in, persisted in `localStorage`. **Not real secure authentication** — no hashing, no backend — appropriate for a school project only
+- Made `/checkout` and `/profile` protected routes via `RequireAuth` — signing in mid-checkout returns the user to `/checkout` afterward instead of dropping them on the homepage
+- Replaced the plain "demo ↩" chip with a proper `AccountMenu`: circular avatar (initial letter, or an uploaded photo) that opens a dropdown (Profile / Sign Out) on click, closes on click-outside
+- Built a **Profile page**: avatar upload (stored as base64 in `localStorage`, capped at 2MB per image to protect the shared storage quota) and an inline "Edit" toggle for the username instead of an always-open input
 
-### Remaining
+### Remaining (Day 5+)
 
-- Admin panel: login, dashboard, dish manager, and order manager
+- Then: admin panel (login, dashboard, dish manager, order manager)
