@@ -1,19 +1,74 @@
 import { Link } from "react-router-dom";
-import { useCart } from "../context/CartContext";
+import { useOrders } from "../context/OrderContext";
+import { useAuth } from "../context/AuthContext";
+
+const STEPS = [
+  { key: "pending", label: "Placed", icon: "✓" },
+  { key: "preparing", label: "Kitchen", icon: "🍳" },
+  { key: "on-the-way", label: "On Way", icon: "🛵" },
+  { key: "delivered", label: "Arrived", icon: "🏠" },
+];
+
+function StatusTimeline({ currentStatus }) {
+  const currentIndex = STEPS.findIndex((s) => s.key === currentStatus);
+
+  return (
+    <div className="status-timeline">
+      {STEPS.map((step, i) => {
+        const state =
+          i < currentIndex ? "done" : i === currentIndex ? "active" : "upcoming";
+        return (
+          <div className={`timeline-step ${state}`} key={step.key}>
+            <div className="timeline-icon">{step.icon}</div>
+            <span className="timeline-label">{step.label}</span>
+            {i < STEPS.length - 1 && <div className="timeline-line" />}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 export default function OrderHistory() {
-  const { orderHistory } = useCart();
+  const { orders } = useOrders();
+  const { currentUser } = useAuth();
 
-  if (orderHistory.length === 0) {
+  // ✅ Only show the signed-in user's orders
+  const myOrders = (orders || []).filter(
+    (o) => o.customerUsername === currentUser?.username
+  );
+
+  // --- Empty states ---
+  if (!currentUser) {
     return (
       <section className="placeholder-page">
         <div className="title-band">
           <h1 className="serif">
-            Order <em>History</em>
+            Order <em>Tracking</em>
           </h1>
           <div className="rule" />
           <p className="placeholder-message">
-            No past orders found. Once you place an order, it'll show up here.
+            Please{" "}
+            <Link to="/signin" style={{ color: "var(--color-primary)" }}>
+              sign in
+            </Link>{" "}
+            to see your order history.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
+  if (myOrders.length === 0) {
+    return (
+      <section className="placeholder-page">
+        <div className="title-band">
+          <h1 className="serif">
+            Order <em>Tracking</em>
+          </h1>
+          <div className="rule" />
+          <p className="placeholder-message">
+            No orders yet. Once you place an order, you can track it here in real-time.
           </p>
         </div>
       </section>
@@ -24,22 +79,28 @@ export default function OrderHistory() {
     <section className="order-history-page">
       <div className="title-band">
         <h1 className="serif">
-          Order <em>History</em>
+          Order <em>Tracking</em>
         </h1>
         <div className="rule" />
       </div>
 
       <div className="order-history-list">
-        {orderHistory.map((order) => (
+        {myOrders.map((order) => (
           <div className="order-card" key={order.id}>
             <div className="order-card-header">
-              <span className="order-date">
-                {new Date(order.placedAt).toLocaleString()}
-              </span>
-              <span className="order-total serif">
-                {order.total} <sup>Birr</sup>
+              <div>
+                <span className="order-id serif">#{order.id.slice(-6)}</span>
+                <span className="order-date">
+                  {new Date(order.placedAt).toLocaleString()}
+                </span>
+              </div>
+              <span className={`order-status-pill status-${order.status}`}>
+                {order.status.replace(/-/g, " ")}
               </span>
             </div>
+
+            <StatusTimeline currentStatus={order.status} />
+
             <div className="order-items">
               {order.items.map((item) => (
                 <div className="order-item-row" key={item.id}>
@@ -51,13 +112,24 @@ export default function OrderHistory() {
                   </span>
                 </div>
               ))}
-              {order.delivery && (
-                <div className="order-delivery-info">
-                  <span>{order.delivery.type === "delivery" ? "🚚 Delivery" : "🏬 Pickup"}</span>
-                  <span>{order.delivery.name} · {order.delivery.phone}</span>
-                  {order.delivery.address && <span>{order.delivery.address}</span>}
-                </div>
-              )}
+            </div>
+
+            {order.delivery && (
+              <div className="order-delivery-info">
+                <span>
+                  {order.delivery.type === "delivery" ? "🚚 Delivery" : "🏬 Pickup"}
+                </span>
+                <span>
+                  {order.delivery.name} · {order.delivery.phone}
+                </span>
+                {order.delivery.address && <span>{order.delivery.address}</span>}
+              </div>
+            )}
+
+            <div className="order-footer">
+              <span className="order-total serif">
+                Total: {order.total} <sup>Birr</sup>
+              </span>
             </div>
           </div>
         ))}
