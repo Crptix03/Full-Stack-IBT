@@ -5,18 +5,27 @@ import Home from "./Home/Home";
 import Menu from "./Menu/Menu";
 import Cart from "./Cart/Cart";
 import Checkout from "./Checkout/Checkout";
+import OrderConfirmation from "./Checkout/OrderConfirmation";
 import OrderHistory from "./OrderHistory/OrderHistory";
 import SignIn from "./Auth/SignIn";
 import SignUp from "./Auth/SignUp";
 import RequireAuth from "./RequireAuth";
-import ScrollToHash from "./ScrollToHash";
 import Profile from "./Auth/Profile";
+
+import RequireAdmin from "./admin/RequireAdmin";
+import AdminLayout from "./admin/AdminLayout";
+import Dashboard from "./admin/Dashboard";
+import InventoryManager from "./admin/InventoryManager";
+import DishManager from "./admin/DishManager";
+import CategoryManager from "./admin/CategoryManager";
+import OrderManager from "./admin/OrderManager";
+import SalesReports from "./admin/SalesReports";
 
 export default function App() {
   return (
-    <Layout>
-      <ScrollToHash />
-      <Routes>
+    <Routes>
+      {/* Customer side */}
+      <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/cart" element={<Cart />} />
@@ -29,6 +38,15 @@ export default function App() {
           }
         />
         <Route
+          path="/order-confirmation"
+          element={
+            <RequireAuth>
+              <OrderConfirmation />
+            </RequireAuth>
+          }
+        />
+
+        <Route
           path="/profile"
           element={
             <RequireAuth>
@@ -39,7 +57,23 @@ export default function App() {
         <Route path="/order-history" element={<OrderHistory />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-      </Routes>
-    </Layout>
+      </Route>
+
+      <Route
+        path="/admin"
+        element={
+          <RequireAdmin>
+            <AdminLayout />
+          </RequireAdmin>
+        }
+      >
+        <Route index element={<Dashboard />} />
+        <Route path="inventory" element={<InventoryManager />} />
+        <Route path="dishes" element={<DishManager />} />
+        <Route path="categories" element={<CategoryManager />} />
+        <Route path="orders" element={<OrderManager />} />
+        <Route path="reports" element={<SalesReports />} />
+      </Route>
+    </Routes>
   );
 }
