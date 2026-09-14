@@ -1,41 +1,56 @@
-import { useState, useMemo, useCallback } from "react";
-import { useFetch } from "../hooks/useFetch";
-import { getDishes } from "../api/dishes";
+import { useState, useMemo, useRef, useEffect } from "react";
+import { useLocation, useSearchParams } from "react-router-dom";
+import { useMenu } from "../context/MenuContext";
 import { useCart } from "../context/CartContext";
 import CategoryBar from "./CategoryBar";
 import DishList from "./DishList";
-import { useRef, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 
 export default function Menu() {
-  const fetcher = useCallback(() => getDishes(), []);
-  const { data: dishes, loading, error } = useFetch(fetcher);
-  const [activeCategory, setActiveCategory] = useState("all");
+  const { dishes, categories, loading, error } = useMenu();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // ✅ Initialize from URL query param
+  const initialCategory = searchParams.get("category") || "all";
+  const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [searchTerm, setSearchTerm] = useState("");
+
   const { addToCart } = useCart();
   const location = useLocation();
   const searchInputRef = useRef(null);
 
   useEffect(() => {
     if (location.state?.focusSearch && searchInputRef.current) {
-      searchInputRef.current.focus();
+      // Prevent the browser from auto-scrolling to the input
+      searchInputRef.current.focus({ preventScroll: true });
     }
   }, [location.state]);
 
-  const categories = useMemo(() => {
-    if (!dishes) return [];
-    return [...new Set(dishes.map((d) => d.category))];
-  }, [dishes]);
+  // ✅ Sync category when URL changes (back/forward navigation)
+  useEffect(() => {
+    const urlCategory = searchParams.get("category") || "all";
+    if (urlCategory !== activeCategory) {
+      setActiveCategory(urlCategory);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
+  // ✅ Update URL when user picks a different category
+  const handleCategoryChange = (category) => {
+    setActiveCategory(category);
+    if (category === "all") {
+      searchParams.delete("category");
+    } else {
+      searchParams.set("category", category);
+    }
+    setSearchParams(searchParams, { replace: true });
+  };
 
   const filteredDishes = useMemo(() => {
     if (!dishes) return [];
-
-    let result = dishes;
-
+    let result = dishes.filter((d) => !d.isHidden);
     if (activeCategory !== "all") {
       result = result.filter((d) => d.category === activeCategory);
     }
-
     const term = searchTerm.trim().toLowerCase();
     if (term) {
       result = result.filter(
@@ -44,13 +59,8 @@ export default function Menu() {
           d.description.toLowerCase().includes(term)
       );
     }
-
     return result;
   }, [dishes, activeCategory, searchTerm]);
-
-    const handleAdd = (dish) => {
-      addToCart(dish);
-    };
 
   return (
     <section className="menu">
@@ -61,7 +71,6 @@ export default function Menu() {
         <div className="rule" />
       </div>
 
-      {/* Sticks below the header while the dish grid scrolls */}
       <div className="sticky-filters">
         <div className="search-wrap">
           <svg viewBox="0 0 24 24" fill="none" strokeWidth="2">
@@ -75,23 +84,11 @@ export default function Menu() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          {searchTerm && (
-            <button
-              className="search-clear"
-              onClick={() => setSearchTerm("")}
-              aria-label="Clear search"
-            >
-              <svg viewBox="0 0 24 24" fill="none" strokeWidth="2">
-                <path d="M6 6l12 12M18 6L6 18" />
-              </svg>
-            </button>
-          )}
         </div>
-
         <CategoryBar
           categories={categories}
           active={activeCategory}
-          onSelect={setActiveCategory}
+          onSelect={handleCategoryChange}
         />
       </div>
 
@@ -99,7 +96,7 @@ export default function Menu() {
         dishes={filteredDishes}
         loading={loading}
         error={error}
-        onAdd={handleAdd}
+        onAdd={addToCart}
       />
     </section>
   );
