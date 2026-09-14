@@ -1,7 +1,26 @@
 // src/Home/Features.jsx
-import React from 'react';
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export default function Features() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const HEADER_OFFSET = 80;
+
+  const scrollToStory = () => {
+    if (location.pathname === "/") {
+      const el = document.getElementById("story");
+      if (el) {
+        const top =
+          el.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+    } else {
+      navigate("/#story");
+    }
+  };
+
   const features = [
     {
       icon: (
@@ -12,7 +31,8 @@ export default function Features() {
       ),
       title: "Fast Delivery",
       desc: "Fresh, hot gourmet meals delivered swiftly to your doorstep.",
-      link: "Order Now"
+      label: "Order Now",
+      action: () => navigate("/menu"),
     },
     {
       icon: (
@@ -22,7 +42,8 @@ export default function Features() {
       ),
       title: "Premium Recipes",
       desc: "Crafted by master chefs using only the finest seasonal ingredients.",
-      link: "Learn More"
+      label: "Learn More",
+      action: scrollToStory,
     },
     {
       icon: (
@@ -32,7 +53,8 @@ export default function Features() {
       ),
       title: "Made with Passion",
       desc: "Every plate is artfully arranged for a memorable dining experience.",
-      link: "View Options"
+      label: "View Options",
+      action: () => navigate("/menu"),
     },
     {
       icon: (
@@ -45,8 +67,9 @@ export default function Features() {
       ),
       title: "Refreshing Drinks",
       desc: "Quench your thirst with our selection of classic sodas and crisp, refreshing beverages.",
-      link: "See Drinks"
-    }
+      label: "See Drinks",
+      action: () => navigate("/menu?category=drinks"),
+    },
   ];
 
   return (
@@ -57,7 +80,13 @@ export default function Features() {
             <div className="feature-icon">{feature.icon}</div>
             <h3>{feature.title}</h3>
             <p>{feature.desc}</p>
-            <a href="#menu">{feature.link}</a>
+            <button
+              type="button"
+              className="feature-link"
+              onClick={feature.action}
+            >
+              {feature.label}
+            </button>
           </div>
         ))}
       </div>
