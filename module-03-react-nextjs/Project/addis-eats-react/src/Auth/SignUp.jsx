@@ -1,16 +1,17 @@
 import { useState } from "react";
 import { useNavigate, Link, Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import PasswordInput from "./PasswordInput";
 
 export default function SignUp() {
   const { currentUser, signUp } = useAuth();
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
   if (currentUser) return <Navigate to="/" replace />;
@@ -64,6 +65,7 @@ export default function SignUp() {
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            autoComplete="username"
           />
         </div>
 
@@ -74,6 +76,7 @@ export default function SignUp() {
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             placeholder="Abebe Kebede"
+            autoComplete="name"
           />
         </div>
 
@@ -84,24 +87,28 @@ export default function SignUp() {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="+251 9xx xxx xxx"
+            autoComplete="tel"
           />
         </div>
 
         <div className="field">
           <label>Password</label>
-          <input
-            type="password"
+          <PasswordInput
+            id="signup-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            autoComplete="new-password"
           />
         </div>
 
         <div className="field">
           <label>Confirm Password</label>
-          <input
-            type="password"
+          <PasswordInput
+            id="signup-confirm"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Re-enter password"
+            autoComplete="new-password"
           />
         </div>
 
