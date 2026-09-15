@@ -3,7 +3,10 @@ import { createContext, useContext, useEffect, useState, useCallback } from "rea
 const MenuContext = createContext(null);
 const MENU_KEY = "royale-menu";
 const CATEGORY_KEY = "royale-categories";
+const VERSION_KEY = "royale-menu-version";
 const SEED_URL = "/menu-data.json";
+
+const CURRENT_VERSION = "8";
 
 const DEFAULT_CATEGORIES = ["starters", "mains", "soups", "desserts", "drinks"];
 
@@ -17,6 +20,18 @@ export function MenuProvider({ children }) {
   useEffect(() => {
     async function load() {
       try {
+        const savedVersion = localStorage.getItem(VERSION_KEY);
+        const isOutdated = savedVersion !== CURRENT_VERSION;
+
+        if (isOutdated) {
+          console.log(
+            `📦 Menu version changed (${savedVersion} → ${CURRENT_VERSION}). Clearing cache...`
+          );
+          localStorage.removeItem(MENU_KEY);
+          localStorage.removeItem(CATEGORY_KEY);
+          localStorage.setItem(VERSION_KEY, CURRENT_VERSION);
+        }
+
         const savedMenu = localStorage.getItem(MENU_KEY);
         const savedCats = localStorage.getItem(CATEGORY_KEY);
 
@@ -40,11 +55,12 @@ export function MenuProvider({ children }) {
     load();
   }, []);
 
-  // Persist
+  // Persist menu
   useEffect(() => {
     if (!loading) localStorage.setItem(MENU_KEY, JSON.stringify(dishes));
   }, [dishes, loading]);
 
+  // Persist categories
   useEffect(() => {
     if (!loading) localStorage.setItem(CATEGORY_KEY, JSON.stringify(categories));
   }, [categories, loading]);
@@ -83,6 +99,7 @@ export function MenuProvider({ children }) {
     const seed = await res.json();
     setDishes(seed);
     setCategories(DEFAULT_CATEGORIES);
+    localStorage.setItem(VERSION_KEY, CURRENT_VERSION);
   }, []);
 
   return (
