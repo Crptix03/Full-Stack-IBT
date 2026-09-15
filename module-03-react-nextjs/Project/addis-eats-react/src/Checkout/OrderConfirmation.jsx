@@ -6,7 +6,7 @@ export default function OrderConfirmation() {
   const navigate = useNavigate();
   const order = location.state?.order;
 
-  // If someone lands here without an order, redirect home
+
   useEffect(() => {
     if (!order) {
       navigate("/", { replace: true });
