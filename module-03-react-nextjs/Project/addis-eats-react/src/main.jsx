@@ -1,28 +1,32 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import React from "react";
+import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext";
-import { CartProvider } from "./context/CartContext";
-import { ThemeProvider } from "./context/ThemeContext";
-import { MenuProvider } from "./context/MenuContext";
-import { OrderProvider } from "./context/OrderContext";
 import App from "./App";
 import "./index.css";
 
-createRoot(document.getElementById("root")).render(
-  <StrictMode>
+import { AuthProvider } from "./context/AuthContext";
+import { CartProvider } from "./context/CartContext";
+import { MenuProvider } from "./context/MenuContext";
+import { OrderProvider } from "./context/OrderContext";
+import { ThemeProvider } from "./context/ThemeContext";
+import { FavoritesProvider } from "./context/FavoritesContext"; // ✅ NEW
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider>
         <AuthProvider>
           <MenuProvider>
-            <OrderProvider>
+            <FavoritesProvider>   {/* ✅ NEW */}
               <CartProvider>
-                <App />
+                <OrderProvider>
+                  <App />
+                </OrderProvider>
               </CartProvider>
-            </OrderProvider>
+            </FavoritesProvider>
           </MenuProvider>
         </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>
-  </StrictMode>
+  </React.StrictMode>
 );
