@@ -4,12 +4,14 @@ import { useFetch } from "../hooks/useFetch";
 import { getDishes } from "../api/dishes";
 import { useCart } from "../context/CartContext";
 import Spinner from "../ui/Spinner";
+import DishModal from "../Menu/DishModal";
 
 export default function Offers() {
   const fetcher = useCallback(() => getDishes(), []);
   const { data: dishes, loading, error } = useFetch(fetcher);
   const { addToCart } = useCart();
   const [addedId, setAddedId] = useState(null);
+  const [selectedDish, setSelectedDish] = useState(null); // ✅ Modal state
 
   const preview = dishes ? dishes.slice(4, 10) : [];
 
@@ -32,9 +34,27 @@ export default function Offers() {
       {!loading && !error && (
         <div className="offer-list">
           {preview.map((dish) => (
-            <div className="offer-row" key={dish.id}>
+            <div
+              className="offer-row"
+              key={dish.id}
+              onClick={() => setSelectedDish(dish)}   // ✅ Open modal
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") setSelectedDish(dish);
+              }}
+            >
               <div className="offer-img">
                 <img src={`/${dish.img}`} alt={dish.name} />
+
+                {/* Discount badge (top-LEFT to avoid clashing with the tag) */}
+                {dish.originalPrice && dish.originalPrice > dish.price && (
+                  <span className="offer-discount">
+                    {Math.round(((dish.originalPrice - dish.price) / dish.originalPrice) * 100)}% OFF
+                  </span>
+                )}
+
+                {/* Category tag (top-right) */}
                 {dish.tag && <span className="offer-tag">{dish.tag}</span>}
               </div>
               <div className="offer-body">
@@ -42,12 +62,28 @@ export default function Offers() {
                 <span className="name serif">{dish.name}</span>
                 <span className="desc">{dish.description}</span>
                 <div className="offer-footer">
-                  <span className="price serif">
-                    {dish.price} <sup>Birr</sup>
-                  </span>
+                  <div className="offer-prices">
+                    {dish.originalPrice && dish.originalPrice > dish.price ? (
+                      <>
+                        <span className="price-original serif">
+                          {dish.originalPrice} <sup>Birr</sup>
+                        </span>
+                        <span className="price serif">
+                          {dish.price} <sup>Birr</sup>
+                        </span>
+                      </>
+                    ) : (
+                      <span className="price serif">
+                        {dish.price} <sup>Birr</sup>
+                      </span>
+                    )}
+                  </div>
                   <button
                     className={`offer-add-btn ${addedId === dish.id ? "added" : ""}`}
-                    onClick={() => handleAdd(dish)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAdd(dish);
+                    }}
                   >
                     {addedId === dish.id ? "Added ✓" : "+ Add"}
                   </button>
@@ -63,6 +99,15 @@ export default function Offers() {
           View All Menu
         </Link>
       </div>
+
+      {/* ✅ Modal */}
+      {selectedDish && (
+        <DishModal
+          dish={selectedDish}
+          onClose={() => setSelectedDish(null)}
+          onAdd={addToCart}
+        />
+      )}
     </section>
   );
 }
