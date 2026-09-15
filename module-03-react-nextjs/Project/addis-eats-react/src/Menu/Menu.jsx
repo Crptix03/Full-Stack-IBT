@@ -4,28 +4,29 @@ import { useMenu } from "../context/MenuContext";
 import { useCart } from "../context/CartContext";
 import CategoryBar from "./CategoryBar";
 import DishList from "./DishList";
+import DishModal from "./DishModal";
+import { useFavorites } from "../context/FavoritesContext";
 
 export default function Menu() {
   const { dishes, categories, loading, error } = useMenu();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // ✅ Initialize from URL query param
   const initialCategory = searchParams.get("category") || "all";
   const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedDish, setSelectedDish] = useState(null); // ✅ Modal state
 
   const { addToCart } = useCart();
+  const { favorites } = useFavorites();
   const location = useLocation();
   const searchInputRef = useRef(null);
 
   useEffect(() => {
     if (location.state?.focusSearch && searchInputRef.current) {
-      // Prevent the browser from auto-scrolling to the input
       searchInputRef.current.focus({ preventScroll: true });
     }
   }, [location.state]);
 
-  // ✅ Sync category when URL changes (back/forward navigation)
   useEffect(() => {
     const urlCategory = searchParams.get("category") || "all";
     if (urlCategory !== activeCategory) {
@@ -34,7 +35,6 @@ export default function Menu() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
-  // ✅ Update URL when user picks a different category
   const handleCategoryChange = (category) => {
     setActiveCategory(category);
     if (category === "all") {
@@ -48,7 +48,9 @@ export default function Menu() {
   const filteredDishes = useMemo(() => {
     if (!dishes) return [];
     let result = dishes.filter((d) => !d.isHidden);
-    if (activeCategory !== "all") {
+    if (activeCategory === "favorites") {
+      result = result.filter((d) => favorites.includes(d.id));
+    } else if (activeCategory !== "all") {
       result = result.filter((d) => d.category === activeCategory);
     }
     const term = searchTerm.trim().toLowerCase();
@@ -60,7 +62,7 @@ export default function Menu() {
       );
     }
     return result;
-  }, [dishes, activeCategory, searchTerm]);
+  }, [dishes, activeCategory, searchTerm, favorites]);
 
   return (
     <section className="menu">
@@ -97,7 +99,17 @@ export default function Menu() {
         loading={loading}
         error={error}
         onAdd={addToCart}
+        onOpen={setSelectedDish}
       />
+
+      {/* ✅ Modal renders only when a dish is selected */}
+      {selectedDish && (
+        <DishModal
+          dish={selectedDish}
+          onClose={() => setSelectedDish(null)}
+          onAdd={addToCart}
+        />
+      )}
     </section>
   );
 }
