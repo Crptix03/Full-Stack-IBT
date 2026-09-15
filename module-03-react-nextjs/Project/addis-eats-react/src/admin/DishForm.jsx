@@ -84,15 +84,6 @@ export default function DishForm({ initial, categories, onSave, onCancel }) {
         </label>
 
         <label>
-          Stock
-          <input
-            type="number"
-            value={form.stock}
-            onChange={(e) => handleChange("stock", e.target.value)}
-          />
-        </label>
-
-        <label>
           Tag (optional)
           <input
             value={form.tag}
