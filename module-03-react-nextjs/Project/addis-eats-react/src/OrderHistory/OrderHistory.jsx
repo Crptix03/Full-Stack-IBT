@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useOrders } from "../context/OrderContext";
 import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
 
 const STEPS = [
   { key: "pending", label: "Placed", icon: "✓" },
@@ -32,11 +33,29 @@ function StatusTimeline({ currentStatus }) {
 export default function OrderHistory() {
   const { orders } = useOrders();
   const { currentUser } = useAuth();
+  const { addToCart } = useCart();
+  const navigate = useNavigate();
 
   // ✅ Only show the signed-in user's orders
   const myOrders = (orders || []).filter(
     (o) => o.customerUsername === currentUser?.username
   );
+
+  // ── Reorder handler ─────────────────────────────────────
+  const handleReorder = (order) => {
+    order.items.forEach((item) => {
+      // Add to cart with the same qty
+      for (let i = 0; i < item.qty; i++) {
+        addToCart({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          img: item.img, // may be undefined on older orders, but won't break
+        });
+      }
+    });
+    navigate("/cart");
+  };
 
   // --- Empty states ---
   if (!currentUser) {
@@ -130,6 +149,15 @@ export default function OrderHistory() {
               <span className="order-total serif">
                 Total: {order.total} <sup>Birr</sup>
               </span>
+
+              {/* ✅ Reorder button */}
+              <button
+                type="button"
+                className="btn-outline reorder-btn"
+                onClick={() => handleReorder(order)}
+              >
+                ↺ Reorder
+              </button>
             </div>
           </div>
         ))}
