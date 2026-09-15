@@ -1,0 +1,152 @@
+import { useEffect } from "react";
+import { useFavorites } from "../context/FavoritesContext";
+
+export default function DishModal({ dish, onClose, onAdd }) {
+  const { isFavorite, toggleFavorite } = useFavorites();
+
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handleKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
+  if (!dish) return null;
+
+  const favorited = isFavorite(dish.id);
+
+  const hasDiscount =
+    dish.originalPrice && dish.originalPrice > dish.price;
+
+  const discountPercent = hasDiscount
+    ? Math.round(
+        ((dish.originalPrice - dish.price) / dish.originalPrice) * 100
+      )
+    : 0;
+
+  const savedAmount = hasDiscount ? dish.originalPrice - dish.price : 0;
+
+  return (
+    <div className="dish-modal-backdrop" onClick={onClose}>
+      <div
+        className="dish-modal"
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+      >
+        <button
+          className="dish-modal-close"
+          onClick={onClose}
+          aria-label="Close"
+        >
+          <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+
+        <div className="dish-modal-hero">
+          <img
+            src={
+              typeof dish.img === "string" && dish.img.startsWith("/")
+                ? dish.img
+                : typeof dish.img === "string"
+                ? `/${dish.img.replace(/^(Imgaes|Images|images)\//, "images/")}`
+                : "/images/placeholder.jpg"
+            }
+            alt={dish.name}
+          />
+
+          {hasDiscount && (
+            <span className="dish-modal-discount">
+              {discountPercent}% OFF
+            </span>
+          )}
+
+          {dish.tag && (
+            <span className={`dish-modal-tag dish-tag-${dish.tagClass || "default"}`}>
+              {dish.tag}
+            </span>
+          )}
+        </div>
+
+        <div className="dish-modal-body">
+          <div className="dish-modal-header">
+            <div>
+              <span className="dish-modal-category">{dish.category}</span>
+              <h2 className="serif">{dish.name}</h2>
+            </div>
+
+            <div className="dish-modal-prices">
+              {hasDiscount && (
+                <span className="dish-modal-original serif">
+                  {dish.originalPrice} <sup>Birr</sup>
+                </span>
+              )}
+              <span className="dish-modal-price serif">
+                {dish.price} <sup>Birr</sup>
+              </span>
+            </div>
+          </div>
+
+          <p className="dish-modal-desc">{dish.description}</p>
+
+          <div className="dish-modal-section">
+            <h3 className="serif">Ingredients</h3>
+            {dish.ingredients && dish.ingredients.length > 0 ? (
+              <ul className="dish-modal-ingredients">
+                {dish.ingredients.map((ing, i) => (
+                  <li key={i}>{ing}</li>
+                ))}
+              </ul>
+            ) : (
+              <p className="dish-modal-empty">
+                Ingredients not available for this dish.
+              </p>
+            )}
+          </div>
+
+          {/* ❤️ Favorite + Add to Order actions */}
+          <div className="dish-modal-actions">
+            <button
+              className={`dish-modal-fav ${favorited ? "active" : ""}`}
+              onClick={() => toggleFavorite(dish.id)}
+              aria-label={favorited ? "Remove from favorites" : "Add to favorites"}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill={favorited ? "currentColor" : "none"}
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+              </svg>
+              <span>{favorited ? "Favorited" : "Add to Favorites"}</span>
+            </button>
+
+            <button
+              className="dish-modal-add"
+              onClick={() => {
+                onAdd(dish);
+                onClose();
+              }}
+            >
+              + Add to Order · {dish.price} Birr
+              {hasDiscount && (
+                <span className="dish-modal-save">
+                  &nbsp;· Save {savedAmount} Birr
+                </span>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
