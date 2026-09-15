@@ -53,8 +53,8 @@ export default function Features() {
       ),
       title: "Made with Passion",
       desc: "Every plate is artfully arranged for a memorable dining experience.",
-      label: "View Options",
-      action: () => navigate("/menu"),
+      label: "View Favorites",         
+      action: () => navigate("/favorites"), // 
     },
     {
       icon: (
