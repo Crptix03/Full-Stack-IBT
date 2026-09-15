@@ -1,3 +1,5 @@
+import { useFavorites } from "../context/FavoritesContext";
+
 const CATEGORY_LABELS = {
   all: "All Items",
   starters: "Starters",
@@ -8,6 +10,8 @@ const CATEGORY_LABELS = {
 };
 
 export default function CategoryBar({ categories, active, onSelect }) {
+  const { favoritesCount } = useFavorites();
+
   return (
     <div className="category-bar">
       {["all", ...categories].map((cat) => (
@@ -19,6 +23,12 @@ export default function CategoryBar({ categories, active, onSelect }) {
           {CATEGORY_LABELS[cat] || cat}
         </button>
       ))}
+      <button
+        className={`cat-btn ${active === "favorites" ? "active" : ""}`}
+        onClick={() => onSelect("favorites")}
+      >
+        Favorites{favoritesCount > 0 ? ` (${favoritesCount})` : ""}
+      </button>
     </div>
   );
 }
