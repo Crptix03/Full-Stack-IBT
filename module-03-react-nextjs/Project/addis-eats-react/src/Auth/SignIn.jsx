@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useLocation, Link, Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import PasswordInput from "./PasswordInput";
 
 export default function SignIn() {
   const { currentUser, signIn } = useAuth();
@@ -40,16 +41,30 @@ export default function SignIn() {
       <form className="auth-form" onSubmit={handleSubmit} noValidate>
         <div className="field">
           <label>Username</label>
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            autoComplete="username"
+          />
         </div>
+
         <div className="field">
           <label>Password</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <PasswordInput
+            id="signin-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+          />
         </div>
+
         {error && <span className="field-error">{error}</span>}
+
         <button type="submit" className="cart-place-order">
           Sign In
         </button>
+
         <p className="auth-switch">
           Don't have an account? <Link to="/signup">Sign up</Link>
         </p>
