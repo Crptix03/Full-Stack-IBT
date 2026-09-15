@@ -13,7 +13,6 @@ function init() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       const parsed = JSON.parse(saved);
-      // Only keep the `items` field — order history now lives in OrderContext
       return { items: parsed.items || [] };
     }
   } catch (err) {
