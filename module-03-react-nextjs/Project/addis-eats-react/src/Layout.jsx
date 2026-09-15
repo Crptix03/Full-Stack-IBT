@@ -15,7 +15,6 @@ export default function Layout() {
 
   const HEADER_OFFSET = 80;
 
-  // ── Scroll spy: is the story section visible? ──
   useEffect(() => {
     if (location.pathname !== "/") {
       setActiveSection(null);
@@ -118,6 +117,8 @@ export default function Layout() {
           >
             Menu
           </NavLink>
+
+          {/* ❌ Favorites link removed from nav bar */}
 
           <NavLink
             to="/order-history"
