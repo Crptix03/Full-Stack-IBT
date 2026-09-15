@@ -27,8 +27,8 @@ export default function Footer() {
           </p>
           <div className="socials">
             <a href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook" className="social-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+              <svg viewBox="6 4 11 20" fill="currentColor">
+                <path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-2.796c0-2.454 1.492-3.793 3.692-3.793 1.054 0 1.958.078 2.222.113v2.578h-1.524c-1.194 0-1.424.567-1.424 1.399v1.998h3.019l-.393 3.667h-2.626v7.98H9.101z" />
               </svg>
             </a>
             <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram" className="social-icon">
@@ -47,7 +47,7 @@ export default function Footer() {
           <Link to="/">Home</Link>
           <Link to="/#story">Our Story</Link>
           <Link to="/menu">Dining Menu</Link>
-          <Link to="/contact">Contact</Link>
+          <Link to="/Order-History">Order History</Link>
         </div>
 
         {/* OPENING HOURS */}
