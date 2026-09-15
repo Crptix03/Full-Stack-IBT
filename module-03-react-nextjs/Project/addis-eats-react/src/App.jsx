@@ -1,8 +1,9 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 import Layout from "./Layout";
 import Home from "./Home/Home";
 import Menu from "./Menu/Menu";
+import Favorites from "./Menu/Favorites";
 import Cart from "./Cart/Cart";
 import Checkout from "./Checkout/Checkout";
 import OrderConfirmation from "./Checkout/OrderConfirmation";
@@ -10,24 +11,32 @@ import OrderHistory from "./OrderHistory/OrderHistory";
 import SignIn from "./Auth/SignIn";
 import SignUp from "./Auth/SignUp";
 import RequireAuth from "./RequireAuth";
+import ScrollToHash from "./ScrollToHash";
 import Profile from "./Auth/Profile";
 
 import RequireAdmin from "./admin/RequireAdmin";
 import AdminLayout from "./admin/AdminLayout";
 import Dashboard from "./admin/Dashboard";
-import InventoryManager from "./admin/InventoryManager";
 import DishManager from "./admin/DishManager";
-import CategoryManager from "./admin/CategoryManager";
 import OrderManager from "./admin/OrderManager";
-import SalesReports from "./admin/SalesReports";
+import UserManager from "./admin/UserManager";
+
+function CustomerLayout() {
+  return (
+    <Layout>
+      <ScrollToHash />
+      <Outlet />
+    </Layout>
+  );
+}
 
 export default function App() {
   return (
     <Routes>
-      {/* Customer side */}
-      <Route element={<Layout />}>
+      <Route element={<CustomerLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/menu" element={<Menu />} />
+        <Route path="/favorites" element={<Favorites />} />
         <Route path="/cart" element={<Cart />} />
         <Route
           path="/checkout"
@@ -45,7 +54,6 @@ export default function App() {
             </RequireAuth>
           }
         />
-
         <Route
           path="/profile"
           element={
@@ -68,12 +76,16 @@ export default function App() {
         }
       >
         <Route index element={<Dashboard />} />
-        <Route path="inventory" element={<InventoryManager />} />
         <Route path="dishes" element={<DishManager />} />
-        <Route path="categories" element={<CategoryManager />} />
         <Route path="orders" element={<OrderManager />} />
-        <Route path="reports" element={<SalesReports />} />
+        <Route path="users" element={<UserManager />} />
+        <Route path="reports" element={<Navigate to="/admin" replace />} />
+        <Route path="inventory" element={<Navigate to="/admin" replace />} />
+        <Route path="categories" element={<Navigate to="/admin" replace />} />
+        <Route path="*" element={<Navigate to="/admin" replace />} />
       </Route>
+
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
