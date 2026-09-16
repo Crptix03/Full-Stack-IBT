@@ -598,8 +598,6 @@ header nav { display: none; }
   margin-left: 3px;
 }
 
-
-
 /* ==============================
    OFFER DISCOUNTS
 ============================== */
@@ -1155,25 +1153,8 @@ header nav { display: none; }
 
 /* ==============================
    DISH DETAIL MODAL
+   (backdrop is now handled by <Modal> using .modal-backdrop)
 ============================== */
-.dish-modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-  padding: 1rem;
-  backdrop-filter: blur(8px);
-  animation: fadeIn 0.25s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
 .dish-modal {
   background: var(--bg-card-color);
   border: 1px solid var(--border-color);
@@ -1794,18 +1775,13 @@ header nav { display: none; }
 
 .order-footer {
   display: flex;
-  justify-content: flex-end;
-  padding-top: 1rem;
-  margin-top: 1rem;
-  border-top: 1px dashed var(--border-color);
-}
-
-.order-footer {
-  display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
+  padding-top: 1rem;
+  margin-top: 1rem;
+  border-top: 1px dashed var(--border-color);
 }
 
 .reorder-btn {
@@ -2561,7 +2537,7 @@ footer {
   display: none;
   gap: 0.5rem;
   overflow-x: auto;
-  padding-bottom: 4px;;
+  padding-bottom: 4px;
 }
 .admin-nav::-webkit-scrollbar { display: none; }
 
@@ -2862,6 +2838,9 @@ footer {
   border-color: var(--color-rust);
 }
 
+/* ==============================
+   PORTAL MODAL (base wrapper used by Modal.jsx)
+============================== */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -2869,10 +2848,24 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 100;
+  z-index: 1000;
   padding: 1rem;
   backdrop-filter: blur(6px);
+  animation: fadeIn 0.25s ease;
 }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-panel {
+  outline: none;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .admin-modal {
   background: var(--bg-card-color);
   border: 1px solid var(--border-color);
@@ -2964,6 +2957,124 @@ footer {
 }
 .btn-filled:hover { background: var(--color-primary-dark); }
 
+/* ==============================
+   ERROR BOUNDARY FALLBACK
+============================== */
+.error-boundary-fallback {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1.5rem;
+}
+
+.error-boundary-card {
+  text-align: center;
+  max-width: 520px;
+  width: 100%;
+  background: var(--bg-card-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 3rem 2rem;
+  box-shadow: 0 12px 28px var(--color-shadow);
+}
+
+.error-boundary-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
+  background: rgba(168, 69, 46, 0.12);
+  border: 1px solid var(--color-rust);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-boundary-icon svg {
+  width: 34px;
+  height: 34px;
+  stroke: var(--color-rust);
+  stroke-width: 1.5;
+}
+
+.error-boundary-card h2 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+  line-height: 1.15;
+}
+
+.error-boundary-card h2 em {
+  font-style: italic;
+  color: var(--color-primary-light);
+}
+
+.error-boundary-card .rule {
+  width: 48px;
+  height: 1px;
+  background: var(--color-primary);
+  margin: 1rem auto 1.5rem;
+}
+
+.error-boundary-message {
+  color: var(--text-light-color);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  margin-bottom: 2rem;
+}
+
+.error-boundary-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.error-boundary-actions .cart-place-order {
+  text-decoration: none;
+}
+
+.error-boundary-actions .btn-outline {
+  display: inline-block;
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  padding: 0.9rem 2rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all var(--transition);
+  text-align: center;
+}
+
+.error-boundary-actions .btn-outline:hover {
+  background: var(--color-primary);
+  color: var(--on-primary);
+}
+
+/* Dev-only error details (never shown in production) */
+.error-boundary-details {
+  margin-top: 1.5rem;
+  padding: 12px 16px;
+  background: var(--bg-light-color);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-sm);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 12px;
+  color: var(--color-rust);
+  text-align: left;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+
+/* ---------- Chart panels ---------- */
 .chart-panel {
   margin-bottom: 1rem;
 }
@@ -3223,6 +3334,62 @@ footer {
   white-space: nowrap;
 }
 
+/* ==============================
+   PAGE SKELETON (Suspense fallback)
+============================== */
+.page-skeleton {
+  padding: 100px 24px 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.skeleton-title {
+  width: 260px;
+  height: 32px;
+  border-radius: 6px;
+  margin: 0 auto 16px;
+  background: linear-gradient(90deg, #222 25%, #2d2d2d 50%, #222 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s infinite;
+}
+.skeleton-rule {
+  width: 60px;
+  height: 2px;
+  margin: 0 auto 40px;
+  background: rgba(201, 169, 97, 0.5);
+}
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+.skeleton-card {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #1a1a1a;
+  padding-bottom: 16px;
+}
+.skeleton-img {
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(90deg, #222 25%, #2d2d2d 50%, #222 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s infinite;
+}
+.skeleton-line {
+  height: 14px;
+  margin: 12px 16px 0;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #222 25%, #2d2d2d 50%, #222 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s infinite;
+}
+.skeleton-line.short {
+  width: 55%;
+}
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
 
 /* =========================================================
    TABLET — 768px and up
@@ -3501,6 +3668,15 @@ footer {
   }
   .admin-user-top strong {
     font-size: 15px;
+  }
+
+  .error-boundary-actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+  .error-boundary-actions > * {
+    flex: 1;
+    max-width: 220px;
   }
 }
 
