@@ -6,8 +6,8 @@ export default function Hero() {
     <section className="hero" id="hero">
       {/* LEFT — 2 stacked images */}
       <div className="hero-col hero-left">
-        <img src="/Images/hero1.jpg" alt="Signature Plated Dishes" className="img-a" />
-        <img src="/Images/hero3.jpg" alt="Chef's Specials" className="img-b" />
+        <img src="/images/hero1.jpg" alt="Signature Plated Dishes" className="img-a" />
+        <img src="/images/hero3.jpg" alt="Chef's Specials" className="img-b" />
       </div>
 
       {/* CENTER — Copy and CTA */}
@@ -33,8 +33,8 @@ export default function Hero() {
 
       {/* RIGHT — 2 stacked images */}
       <div className="hero-col hero-right">
-        <img src="/Images/hero2.jpg" alt="Wine & Dining" className="img-c" />
-        <img src="/Images/hero4.jpg" alt="Elegant Table Setting" className="img-d" />
+        <img src="/images/hero2.jpg" alt="Wine & Dining" className="img-c" />
+        <img src="/images/hero4.jpg" alt="Elegant Table Setting" className="img-d" />
       </div>
     </section>
   );
