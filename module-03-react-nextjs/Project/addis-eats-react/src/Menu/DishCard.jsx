@@ -1,9 +1,20 @@
+import { memo } from "react";
 import Button from "../ui/Button";
 import { useFavorites } from "../context/FavoritesContext";
 
-export default function DishCard({ dish, onAdd, onOpen }) {
+function DishCard({ dish, onAdd, onOpen }) {
   const { isFavorite, toggleFavorite } = useFavorites();
   const favorited = isFavorite(dish.id);
+
+  // 🎬 Demo-only crash do /menu?crash=1 to trigger the error boundary.
+  // Dead-code-eliminated in production builds (import.meta.env.DEV becomes false).
+  if (
+    import.meta.env.DEV &&
+    dish.id &&
+    new URLSearchParams(window.location.search).get("crash") === "1"
+  ) {
+    throw new Error("Demo: forced crash");
+  }
 
   const hasDiscount =
     dish.originalPrice && dish.originalPrice > dish.price;
@@ -92,3 +103,5 @@ export default function DishCard({ dish, onAdd, onOpen }) {
     </div>
   );
 }
+
+export default memo(DishCard);
