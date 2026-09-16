@@ -1224,7 +1224,7 @@ header nav { display: none; }
   display: block;
 }
 
-/* ✅ Category tag moved to bottom-right to avoid the close button */
+/*  Category tag moved to bottom-right to avoid the close button */
 .dish-modal-tag {
   position: absolute;
   bottom: 14px;
@@ -1270,7 +1270,7 @@ header nav { display: none; }
   line-height: 1.15;
 }
 
-/* ✅ Prices group — nicely spaced with nowrap */
+/*  Prices group — nicely spaced with nowrap */
 .dish-modal-prices {
   display: flex;
   align-items: baseline;
@@ -1309,7 +1309,7 @@ header nav { display: none; }
   margin-left: 2px;
 }
 
-/* ✅ Discount badge top-left */
+/*  Discount badge top-left */
 .dish-modal-discount {
   position: absolute;
   top: 14px;
