@@ -11,7 +11,7 @@ import ErrorBoundary from "./ErrorBoundary";
 import PageSkeleton from "./ui/PageSkeleton";
 
 // ── Lazy-loaded routes (split out of the main bundle) ──
-const Menu = lazy(() => import("./Menu/Menu"));           // ✅ NOW LAZY
+const Menu = lazy(() => import("./Menu/Menu"));           
 const Favorites = lazy(() => import("./Menu/Favorites"));
 const Cart = lazy(() => import("./Cart/Cart"));
 const Checkout = lazy(() => import("./Checkout/Checkout"));
