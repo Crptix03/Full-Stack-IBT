@@ -1,20 +1,8 @@
-import { useEffect } from "react";
 import { useFavorites } from "../context/FavoritesContext";
+import Modal from "../ui/Modal";
 
 export default function DishModal({ dish, onClose, onAdd }) {
   const { isFavorite, toggleFavorite } = useFavorites();
-
-  useEffect(() => {
-    const handleKey = (e) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", handleKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", handleKey);
-      document.body.style.overflow = "";
-    };
-  }, [onClose]);
 
   if (!dish) return null;
 
@@ -32,13 +20,8 @@ export default function DishModal({ dish, onClose, onAdd }) {
   const savedAmount = hasDiscount ? dish.originalPrice - dish.price : 0;
 
   return (
-    <div className="dish-modal-backdrop" onClick={onClose}>
-      <div
-        className="dish-modal"
-        onClick={(e) => e.stopPropagation()}
-        role="dialog"
-        aria-modal="true"
-      >
+    <Modal onClose={onClose} labelledBy="dish-modal-title">
+      <div className="dish-modal">
         <button
           className="dish-modal-close"
           onClick={onClose}
@@ -79,7 +62,7 @@ export default function DishModal({ dish, onClose, onAdd }) {
           <div className="dish-modal-header">
             <div>
               <span className="dish-modal-category">{dish.category}</span>
-              <h2 className="serif">{dish.name}</h2>
+              <h2 className="serif" id="dish-modal-title">{dish.name}</h2>
             </div>
 
             <div className="dish-modal-prices">
@@ -147,6 +130,6 @@ export default function DishModal({ dish, onClose, onAdd }) {
           </div>
         </div>
       </div>
-    </div>
+    </Modal>
   );
 }
