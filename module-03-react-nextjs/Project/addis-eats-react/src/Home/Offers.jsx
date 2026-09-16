@@ -1,17 +1,20 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useFetch } from "../hooks/useFetch";
-import { getDishes } from "../api/dishes";
+import { useMenu } from "../context/MenuContext";
 import { useCart } from "../context/CartContext";
 import Spinner from "../ui/Spinner";
 import DishModal from "../Menu/DishModal";
 
 export default function Offers() {
-  const fetcher = useCallback(() => getDishes(), []);
-  const { data: dishes, loading, error } = useFetch(fetcher);
+  const { dishes: allDishes, loading } = useMenu();
+  const error = null;
+
+  //  Filter out hidden dishes (respects admin changes)
+  const dishes = allDishes.filter((d) => !d.isHidden);
+
   const { addToCart } = useCart();
   const [addedId, setAddedId] = useState(null);
-  const [selectedDish, setSelectedDish] = useState(null); // ✅ Modal state
+  const [selectedDish, setSelectedDish] = useState(null); //  Modal state
 
   const preview = dishes ? dishes.slice(4, 10) : [];
 
@@ -37,7 +40,7 @@ export default function Offers() {
             <div
               className="offer-row"
               key={dish.id}
-              onClick={() => setSelectedDish(dish)}   // ✅ Open modal
+              onClick={() => setSelectedDish(dish)}   //  Open modal
               role="button"
               tabIndex={0}
               onKeyDown={(e) => {
@@ -100,7 +103,7 @@ export default function Offers() {
         </Link>
       </div>
 
-      {/* ✅ Modal */}
+      {/*  Modal */}
       {selectedDish && (
         <DishModal
           dish={selectedDish}
