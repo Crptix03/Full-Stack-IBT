@@ -21,6 +21,7 @@ This project was built as a complete restaurant management and ordering experien
 - Menu management for dishes
 - Order tracking and status updates
 - User management for customers and admin accounts
+- Error boundaries, lazy-loaded routes, and a portal-based modal for resilience and performance
 
 ---
 
@@ -34,10 +35,11 @@ This project was built as a complete restaurant management and ordering experien
 - Add-to-cart flow with persistent cart state
 - Checkout form with validation for customer details
 - Delivery and pickup options
-- Order confirmation screen
+- Order confirmation screen with matching order ID from Order History
 - Profile page with avatar upload and username editing
 - Account creation and sign-in flow
 - Theme toggle between dark and light mode
+- Reorder button on past orders that re-adds all items to the cart
 
 ### Admin side
 
@@ -48,14 +50,29 @@ This project was built as a complete restaurant management and ordering experien
 - User manager to inspect registered users and identify admin accounts
 - Persistent localStorage-backed menu and order data
 
+### Resilience & Performance
+
+- **Error boundaries** placed at meaningful seams — one wraps the whole app as a last resort, and each page (Menu, Cart, Checkout, etc.) has its own boundary so a failure in one region does not blank the entire screen.
+- **On-brand fallback UI** for caught errors, with a "Try Again" button that resets the boundary and a link back to the menu.
+- **Dev-only error details** — the stack trace and message only render in development; production builds hide them from users.
+- **Route-based code splitting** with `React.lazy` + `Suspense`. Every page except Home is a separate chunk, downloaded only when the user navigates to it.
+- **Skeleton loading state** (`PageSkeleton`) shown while lazy chunks are downloading — a shape roughly matching the incoming content, so the layout doesn't jump.
+- **Portal-based modals** using `createPortal` — dish details render into a `#modal-root` div outside the app tree so they escape `overflow: hidden` on any ancestor card.
+- **Accessible modal behavior** — focus moves into the modal on open, `Escape` closes it, and focus returns to the triggering element on close. Includes `role="dialog"` and `aria-labelledby`.
+- **Profiled and fixed a re-render** — clicking "+ Add to Order" dropped from **16.3 ms to 7.6 ms** (53% faster) after memoizing the cart context value and wrapping `DishCard` in `React.memo`. Full details in `PROFILE.md`.
+
 ---
 
 ## Tech stack
 
-- React
+- React 18
 - Vite
 - React Router
 - Context API + useReducer
+- `React.lazy` + `Suspense` for route-based code splitting
+- `createPortal` for accessible modals
+- Error boundaries (class components) for runtime resilience
+- `React.memo`, `useCallback`, `useMemo` for targeted performance work
 - CSS custom properties and responsive styling
 - localStorage for demo persistence
 
@@ -76,9 +93,10 @@ Use this account to access the admin panel:
 addis-eats-react/
 ├── .gitignore
 ├── eslint.config.js
-├── index.html
+├── index.html                    # includes #root and #modal-root
 ├── package-lock.json
 ├── package.json
+├── PROFILE.md                    # Day 34 performance profile
 ├── vite.config.js
 ├── public/
 │   ├── menu-data.json
@@ -118,28 +136,29 @@ addis-eats-react/
 │   │   └── Story.jsx
 │   ├── Menu/
 │   │   ├── CategoryBar.jsx
-│   │   ├── DishCard.jsx
+│   │   ├── DishCard.jsx          # memoized leaf
 │   │   ├── DishList.jsx
 │   │   ├── Favorites.jsx
 │   │   ├── Menu.jsx
-│   │   └── DishModal.jsx
+│   │   └── DishModal.jsx         # uses <Modal /> portal
 │   ├── OrderHistory/
 │   │   └── OrderHistory.jsx
 │   ├── ui/
 │   │   ├── Button.jsx
+│   │   ├── Modal.jsx             # createPortal + focus trap + Escape
+│   │   ├── PageSkeleton.jsx      # Suspense fallback
 │   │   └── Spinner.jsx
 │   ├── AccountMenu.jsx
 │   ├── App.css
-│   ├── App.jsx
+│   ├── App.jsx                   # lazy routes + error boundaries
+│   ├── ErrorBoundary.jsx         # class component
 │   ├── Footer.jsx
-│   ├── Home.jsx
+│   ├── index.css
 │   ├── Layout.jsx
 │   ├── main.jsx
 │   ├── RequireAuth.jsx
-│   ├── ScrollToHash.jsx
-│   └── index.css
-├── README.md
-└── public/
+│   └── ScrollToHash.jsx
+└── README.md
 ```
 
 ---
@@ -149,7 +168,7 @@ addis-eats-react/
 1. Open the project folder:
 
 ```bash
-cd sq2-horenus-dessalegn/module-03-react-nextjs/Project/addis-eats-react
+cd addis-eats-react
 ```
 
 2. Install dependencies:
@@ -158,13 +177,46 @@ cd sq2-horenus-dessalegn/module-03-react-nextjs/Project/addis-eats-react
 npm install
 ```
 
-3. Start the app:
+3. Start the app in development mode:
 
 ```bash
 npm run dev
 ```
 
-4. Open the local URL shown in the terminal (usually Vite default port 5173).
+4. Open the local URL shown in the terminal (usually `http://localhost:5173`).
+
+### Production build (used for performance profiling)
+
+```bash
+npm run build
+npm run preview
+```
+
+Open `http://localhost:4173` to see the fully optimized production bundle.
+
+---
+
+## Verifying the Day 34 hardening
+
+### Error boundary
+
+Visit `/menu?crash=1` in **development mode** — a dish will throw during render, and the error boundary around the Menu route will show the fallback. The header, cart pill, and footer remain fully functional.
+
+(The throw is guarded by `import.meta.env.DEV` and `dish.id`, so it never fires in production builds.)
+
+### Lazy loading
+
+Run `npm run build` and look at the output. You'll see one chunk per lazy route (`Menu-*.js`, `Checkout-*.js`, `OrderHistory-*.js`, `Dashboard-*.js`, etc.) plus the main `index-*.js` bundle.
+
+On a Slow 3G network profile, navigating to a lazy route shows the `<PageSkeleton />` fallback while the chunk downloads.
+
+### Portal modal
+
+Open a dish from the menu — inspect the DOM and confirm the modal renders inside `#modal-root` (outside `#root`), not inside the dish grid. Keyboard: `Escape` closes it; focus returns to the dish card that opened it.
+
+### Performance profile
+
+`PROFILE.md` documents the measured re-render that was identified and fixed during this stage of the project. It records which interaction was profiled, the before/after render times, the root cause, the two changes that were applied, and what was reverted after measurement showed no benefit.
 
 ---
 
@@ -173,6 +225,7 @@ npm run dev
 - This is a front-end demo project, so authentication and data are stored in localStorage.
 - Passwords are not encrypted, which is fine for learning and demonstration but not production-safe.
 - The app is designed to showcase a complete restaurant workflow in one browser-based project.
+- The Day 34 error boundary demo (`/menu?crash=1`) is intentionally guarded to development only — production builds are unaffected.
 
 ---
 
@@ -185,5 +238,9 @@ This project demonstrates a working restaurant app from start to finish:
 - profile and account system
 - admin dashboard and store management
 - responsive design and theme switching
+- resilient runtime with error boundaries
+- route-based code splitting and skeleton loading states
+- accessible, portal-based modals
+- measured and fixed a real performance bottleneck
 
 It was built as a practical React project to simulate how a real restaurant website and business dashboard could work together in one application.
