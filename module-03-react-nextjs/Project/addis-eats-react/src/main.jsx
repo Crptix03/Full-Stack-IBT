@@ -9,7 +9,7 @@ import { CartProvider } from "./context/CartContext";
 import { MenuProvider } from "./context/MenuContext";
 import { OrderProvider } from "./context/OrderContext";
 import { ThemeProvider } from "./context/ThemeContext";
-import { FavoritesProvider } from "./context/FavoritesContext"; // ✅ NEW
+import { FavoritesProvider } from "./context/FavoritesContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -17,7 +17,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <ThemeProvider>
         <AuthProvider>
           <MenuProvider>
-            <FavoritesProvider>   {/* ✅ NEW */}
+            <FavoritesProvider>
               <CartProvider>
                 <OrderProvider>
                   <App />
