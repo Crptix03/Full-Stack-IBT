@@ -1,25 +1,31 @@
 import "./App.css";
+import { lazy, Suspense } from "react";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
+
 import Layout from "./Layout";
 import Home from "./Home/Home";
-import Menu from "./Menu/Menu";
-import Favorites from "./Menu/Favorites";
-import Cart from "./Cart/Cart";
-import Checkout from "./Checkout/Checkout";
-import OrderConfirmation from "./Checkout/OrderConfirmation";
-import OrderHistory from "./OrderHistory/OrderHistory";
-import SignIn from "./Auth/SignIn";
-import SignUp from "./Auth/SignUp";
-import RequireAuth from "./RequireAuth";
 import ScrollToHash from "./ScrollToHash";
-import Profile from "./Auth/Profile";
-
+import RequireAuth from "./RequireAuth";
 import RequireAdmin from "./admin/RequireAdmin";
-import AdminLayout from "./admin/AdminLayout";
-import Dashboard from "./admin/Dashboard";
-import DishManager from "./admin/DishManager";
-import OrderManager from "./admin/OrderManager";
-import UserManager from "./admin/UserManager";
+import ErrorBoundary from "./ErrorBoundary";
+import PageSkeleton from "./ui/PageSkeleton";
+
+// ── Lazy-loaded routes (split out of the main bundle) ──
+const Menu = lazy(() => import("./Menu/Menu"));           // ✅ NOW LAZY
+const Favorites = lazy(() => import("./Menu/Favorites"));
+const Cart = lazy(() => import("./Cart/Cart"));
+const Checkout = lazy(() => import("./Checkout/Checkout"));
+const OrderConfirmation = lazy(() => import("./Checkout/OrderConfirmation"));
+const OrderHistory = lazy(() => import("./OrderHistory/OrderHistory"));
+const SignIn = lazy(() => import("./Auth/SignIn"));
+const SignUp = lazy(() => import("./Auth/SignUp"));
+const Profile = lazy(() => import("./Auth/Profile"));
+
+const AdminLayout = lazy(() => import("./admin/AdminLayout"));
+const Dashboard = lazy(() => import("./admin/Dashboard"));
+const DishManager = lazy(() => import("./admin/DishManager"));
+const OrderManager = lazy(() => import("./admin/OrderManager"));
+const UserManager = lazy(() => import("./admin/UserManager"));
 
 function CustomerLayout() {
   return (
@@ -32,60 +38,130 @@ function CustomerLayout() {
 
 export default function App() {
   return (
-    <Routes>
-      <Route element={<CustomerLayout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/menu" element={<Menu />} />
-        <Route path="/favorites" element={<Favorites />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route
-          path="/checkout"
-          element={
-            <RequireAuth>
-              <Checkout />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/order-confirmation"
-          element={
-            <RequireAuth>
-              <OrderConfirmation />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <RequireAuth>
-              <Profile />
-            </RequireAuth>
-          }
-        />
-        <Route path="/order-history" element={<OrderHistory />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-      </Route>
+    <ErrorBoundary>
+      <Routes>
+        {/* ── Customer side ── */}
+        <Route element={<CustomerLayout />}>
+          <Route
+            path="/"
+            element={
+              <ErrorBoundary>
+                <Home />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/menu"
+            element={
+              <ErrorBoundary>
+                <Suspense fallback={<PageSkeleton />}>
+                  <Menu />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/favorites"
+            element={
+              <ErrorBoundary>
+                <Suspense fallback={<PageSkeleton />}>
+                  <Favorites />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/cart"
+            element={
+              <ErrorBoundary>
+                <Suspense fallback={<PageSkeleton />}>
+                  <Cart />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <RequireAuth>
+                <ErrorBoundary>
+                  <Suspense fallback={<PageSkeleton />}>
+                    <Checkout />
+                  </Suspense>
+                </ErrorBoundary>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/order-confirmation"
+            element={
+              <RequireAuth>
+                <Suspense fallback={<PageSkeleton />}>
+                  <OrderConfirmation />
+                </Suspense>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <RequireAuth>
+                <Suspense fallback={<PageSkeleton />}>
+                  <Profile />
+                </Suspense>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/order-history"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <OrderHistory />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/signin"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <SignIn />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <SignUp />
+              </Suspense>
+            }
+          />
+        </Route>
 
-      <Route
-        path="/admin"
-        element={
-          <RequireAdmin>
-            <AdminLayout />
-          </RequireAdmin>
-        }
-      >
-        <Route index element={<Dashboard />} />
-        <Route path="dishes" element={<DishManager />} />
-        <Route path="orders" element={<OrderManager />} />
-        <Route path="users" element={<UserManager />} />
-        <Route path="reports" element={<Navigate to="/admin" replace />} />
-        <Route path="inventory" element={<Navigate to="/admin" replace />} />
-        <Route path="categories" element={<Navigate to="/admin" replace />} />
-        <Route path="*" element={<Navigate to="/admin" replace />} />
-      </Route>
+        {/* ── Admin side ── */}
+        <Route
+          path="/admin"
+          element={
+            <RequireAdmin>
+              <Suspense fallback={<PageSkeleton />}>
+                <AdminLayout />
+              </Suspense>
+            </RequireAdmin>
+          }
+        >
+          <Route index element={<Suspense fallback={<PageSkeleton />}><Dashboard /></Suspense>} />
+          <Route path="dishes" element={<Suspense fallback={<PageSkeleton />}><DishManager /></Suspense>} />
+          <Route path="orders" element={<Suspense fallback={<PageSkeleton />}><OrderManager /></Suspense>} />
+          <Route path="users" element={<Suspense fallback={<PageSkeleton />}><UserManager /></Suspense>} />
 
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+          <Route path="reports" element={<Navigate to="/admin" replace />} />
+          <Route path="inventory" element={<Navigate to="/admin" replace />} />
+          <Route path="categories" element={<Navigate to="/admin" replace />} />
+          <Route path="*" element={<Navigate to="/admin" replace />} />
+        </Route>
+
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </ErrorBoundary>
   );
 }
