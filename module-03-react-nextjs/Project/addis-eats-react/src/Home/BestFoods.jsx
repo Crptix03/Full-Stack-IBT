@@ -1,14 +1,17 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useFetch } from "../hooks/useFetch";
-import { getDishes } from "../api/dishes";
+import { useMenu } from "../context/MenuContext";
 import { useCart } from "../context/CartContext";
 import Spinner from "../ui/Spinner";
 import DishModal from "../Menu/DishModal";
 
 export default function BestFoods() {
-  const fetcher = useCallback(() => getDishes(), []);
-  const { data: dishes, loading, error } = useFetch(fetcher);
+  const { dishes: allDishes, loading } = useMenu();
+  const error = null;
+
+  //  Filter out hidden dishes (respects admin changes)
+  const dishes = allDishes.filter((d) => !d.isHidden);
+
   const { addToCart } = useCart();
   const [addedId, setAddedId] = useState(null);
   const [selectedDish, setSelectedDish] = useState(null);
@@ -16,7 +19,7 @@ export default function BestFoods() {
   const preview = dishes ? dishes.slice(0, 4) : [];
 
   const handleAdd = (e, dish) => {
-    e.stopPropagation(); // ✅ Prevent modal from opening
+    e.stopPropagation(); //  Prevent modal from opening
     addToCart(dish);
     setAddedId(dish.id);
     setTimeout(() => setAddedId(null), 1200);
