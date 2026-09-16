@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useEffect } from "react";
+import { createContext, useContext, useReducer, useEffect, useCallback, useMemo } from "react";
 
 const CartContext = createContext(null);
 
@@ -92,10 +92,23 @@ export function CartProvider({ children }) {
     }
   }, [state]);
 
-  const addToCart = (dish) => dispatch({ type: "ADD_TO_CART", dish });
-  const removeFromCart = (id) => dispatch({ type: "REMOVE_FROM_CART", id });
-  const updateQty = (id, qty) => dispatch({ type: "UPDATE_QTY", id, qty });
-  const clearCart = () => dispatch({ type: "CLEAR_CART" });
+  //  Stable callbacks — same reference across renders, so memoized children don't re-render
+  const addToCart = useCallback(
+    (dish) => dispatch({ type: "ADD_TO_CART", dish }),
+    []
+  );
+  const removeFromCart = useCallback(
+    (id) => dispatch({ type: "REMOVE_FROM_CART", id }),
+    []
+  );
+  const updateQty = useCallback(
+    (id, qty) => dispatch({ type: "UPDATE_QTY", id, qty }),
+    []
+  );
+  const clearCart = useCallback(
+    () => dispatch({ type: "CLEAR_CART" }),
+    []
+  );
 
   const cartCount = state.items.reduce((sum, item) => sum + item.qty, 0);
   const cartTotal = state.items.reduce(
@@ -103,18 +116,22 @@ export function CartProvider({ children }) {
     0
   );
 
+  //  Memoized context value — new reference only when cart contents actually change
+  const value = useMemo(
+    () => ({
+      items: state.items,
+      addToCart,
+      removeFromCart,
+      updateQty,
+      clearCart,
+      cartCount,
+      cartTotal,
+    }),
+    [state.items, addToCart, removeFromCart, updateQty, clearCart, cartCount, cartTotal]
+  );
+
   return (
-    <CartContext.Provider
-      value={{
-        items: state.items,
-        addToCart,
-        removeFromCart,
-        updateQty,
-        clearCart,
-        cartCount,
-        cartTotal,
-      }}
-    >
+    <CartContext.Provider value={value}>
       {children}
     </CartContext.Provider>
   );
