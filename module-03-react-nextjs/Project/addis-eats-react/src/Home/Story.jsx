@@ -5,10 +5,10 @@ export default function Story() {
     <section className="story" id="story">
       <div className="story-images">
         <div className="img-main">
-          <img src="/Images/cheif.jpg" alt="Chef preparing a dish" />
+          <img src="/images/cheif.jpg" alt="Chef preparing a dish" />
         </div>
         <div className="img-sub">
-          <img src="/Images/spices.jpg" alt="Spices" />
+          <img src="/images/spices.jpg" alt="Spices" />
         </div>
         <div className="badge serif">Est. 2026</div>
       </div>
