@@ -36,7 +36,7 @@ export default function OrderHistory() {
   const { addToCart } = useCart();
   const navigate = useNavigate();
 
-  // ✅ Only show the signed-in user's orders
+  //  Only show the signed-in user's orders
   const myOrders = (orders || []).filter(
     (o) => o.customerUsername === currentUser?.username
   );
@@ -150,7 +150,7 @@ export default function OrderHistory() {
                 Total: {order.total} <sup>Birr</sup>
               </span>
 
-              {/* ✅ Reorder button */}
+              {/*  Reorder button */}
               <button
                 type="button"
                 className="btn-outline reorder-btn"
