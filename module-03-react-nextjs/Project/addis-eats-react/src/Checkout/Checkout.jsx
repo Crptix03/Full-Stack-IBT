@@ -10,7 +10,6 @@ export default function Checkout() {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
-  // ✅ Pre-fill from user profile (falls back to empty for guests)
   const [orderType, setOrderType] = useState("delivery");
   const [name, setName] = useState(currentUser?.fullName || "");
   const [phone, setPhone] = useState(currentUser?.phone || "");
@@ -80,7 +79,7 @@ export default function Checkout() {
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return;
 
-    // Build the order object once
+    // Build the order payload (no ID, no status — OrderContext handles that)
     const orderPayload = {
       items,
       subtotal: cartTotal,
@@ -93,21 +92,14 @@ export default function Checkout() {
         deliveryFee,
       },
       customerUsername: currentUser?.username || "Guest",
-      customerEmail: currentUser?.email || "",
     };
 
-    // Save to context (single call)
-    placeOrder(orderPayload);
-
-    // Pass a preview object to the confirmation page
-    const orderForConfirmation = {
-      ...orderPayload,
-      id: `order-${Date.now()}`,
-    };
+    //  placeOrder now returns the real, final order object
+    const newOrder = placeOrder(orderPayload);
 
     clearCart();
     navigate("/order-confirmation", {
-      state: { order: orderForConfirmation },
+      state: { order: newOrder },
     });
   };
 
@@ -140,35 +132,27 @@ export default function Checkout() {
             </button>
           </div>
 
-          {/* Name — read-only if signed in */}
+          {/* Name — always editable, pre-filled when signed in */}
           <div className="field">
             <label>Your Name *</label>
-            {currentUser ? (
-              <div className="field-static-readonly">{name || "Not set"}</div>
-            ) : (
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Enter your name"
-              />
-            )}
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your name"
+            />
             {errors.name && <span className="field-error">{errors.name}</span>}
           </div>
 
-          {/* Phone — read-only if signed in */}
+          {/* Phone — always editable, pre-filled when signed in */}
           <div className="field">
             <label>Phone Number *</label>
-            {currentUser ? (
-              <div className="field-static-readonly">{phone || "Not set"}</div>
-            ) : (
-              <input
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="+251 9xx xxx xxx"
-              />
-            )}
+            <input
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="+251 9xx xxx xxx"
+            />
             {errors.phone && <span className="field-error">{errors.phone}</span>}
           </div>
 
