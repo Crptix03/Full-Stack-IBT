@@ -118,7 +118,6 @@ export default function Layout() {
             Menu
           </NavLink>
 
-          {/* ❌ Favorites link removed from nav bar */}
 
           <NavLink
             to="/order-history"
