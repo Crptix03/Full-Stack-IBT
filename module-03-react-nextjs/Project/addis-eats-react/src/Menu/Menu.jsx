@@ -14,7 +14,7 @@ export default function Menu() {
   const initialCategory = searchParams.get("category") || "all";
   const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedDish, setSelectedDish] = useState(null); // ✅ Modal state
+  const [selectedDish, setSelectedDish] = useState(null); 
 
   const { addToCart } = useCart();
   const { favorites } = useFavorites();
@@ -102,7 +102,7 @@ export default function Menu() {
         onOpen={setSelectedDish}
       />
 
-      {/* ✅ Modal renders only when a dish is selected */}
+      {/* Modal renders only when a dish is selected */}
       {selectedDish && (
         <DishModal
           dish={selectedDish}
