@@ -23,19 +23,8 @@ function init() {
 function orderReducer(state, action) {
   switch (action.type) {
     case "PLACE_ORDER": {
-        const newOrder = {
-            id: `order-${Date.now()}`,
-            placedAt: new Date().toISOString(),
-            items: action.items,
-            subtotal: action.subtotal,
-            total: action.total,
-            delivery: action.delivery || null,
-            customerUsername: action.customerUsername || "Guest",  // ✅ REQUIRED
-            customerEmail: action.customerEmail || "",              // ✅ REQUIRED
-            status: "pending",
-            statusHistory: [{ status: "pending", at: new Date().toISOString() }],
-        };
-        return { ...state, orders: [newOrder, ...state.orders] };
+      //  Just store what was handed to us — no more ID generation here
+      return { ...state, orders: [action.order, ...state.orders] };
     }
 
     case "UPDATE_STATUS": {
@@ -100,8 +89,25 @@ export function OrderProvider({ children }) {
     return () => window.removeEventListener("storage", syncFromStorage);
   }, []);
 
-  const placeOrder = (payload) =>
-    dispatch({ type: "PLACE_ORDER", ...payload });
+  //  Build the order ONCE, dispatch it, and return the SAME object
+  const placeOrder = (payload) => {
+    const now = new Date().toISOString();
+    const newOrder = {
+      // Spread payload first, so explicit fields below can override safely
+      ...payload,
+
+      // Guaranteed fields
+      id: `order-${Date.now()}`,
+      placedAt: now,
+      status: "pending",
+      statusHistory: [{ status: "pending", at: now }],
+      customerUsername: payload.customerUsername || "Guest",
+      delivery: payload.delivery || null,
+    };
+
+    dispatch({ type: "PLACE_ORDER", order: newOrder });
+    return newOrder;
+  };
 
   const updateStatus = (id, status) =>
     dispatch({ type: "UPDATE_STATUS", id, status });
