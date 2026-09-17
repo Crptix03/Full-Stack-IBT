@@ -1,4 +1,4 @@
-import { useFavorites } from "../context/FavoritesContext";
+import { useFavoritesStore, selectFavoritesCount } from "../stores/useFavoritesStore";
 
 const CATEGORY_LABELS = {
   all: "All Items",
@@ -10,7 +10,7 @@ const CATEGORY_LABELS = {
 };
 
 export default function CategoryBar({ categories, active, onSelect }) {
-  const { favoritesCount } = useFavorites();
+  const favoritesCount = useFavoritesStore(selectFavoritesCount);
 
   return (
     <div className="category-bar">

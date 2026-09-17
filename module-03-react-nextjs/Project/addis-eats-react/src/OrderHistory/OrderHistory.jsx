@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useOrders } from "../context/OrderContext";
-import { useAuth } from "../context/AuthContext";
-import { useCart } from "../context/CartContext";
+import { useOrderStore } from "../stores/useOrderStore";
+import { useAuthStore } from "../stores/useAuthStore";
+import { useCartStore } from "../stores/useCartStore";
 
 const STEPS = [
   { key: "pending", label: "Placed", icon: "✓" },
@@ -31,12 +31,12 @@ function StatusTimeline({ currentStatus }) {
 }
 
 export default function OrderHistory() {
-  const { orders } = useOrders();
-  const { currentUser } = useAuth();
-  const { addToCart } = useCart();
+  const orders = useOrderStore((s) => s.orders);
+  const currentUser = useAuthStore((s) => s.currentUser);
+  const addToCart = useCartStore((s) => s.addToCart);
   const navigate = useNavigate();
 
-  //  Only show the signed-in user's orders
+  // Only show the signed-in user's orders
   const myOrders = (orders || []).filter(
     (o) => o.customerUsername === currentUser?.username
   );
@@ -50,7 +50,7 @@ export default function OrderHistory() {
           id: item.id,
           name: item.name,
           price: item.price,
-          img: item.img, // may be undefined on older orders, but won't break
+          img: item.img,
         });
       }
     });
@@ -150,7 +150,7 @@ export default function OrderHistory() {
                 Total: {order.total} <sup>Birr</sup>
               </span>
 
-              {/*  Reorder button */}
+              {/* Reorder button */}
               <button
                 type="button"
                 className="btn-outline reorder-btn"

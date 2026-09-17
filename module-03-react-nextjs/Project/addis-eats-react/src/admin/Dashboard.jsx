@@ -1,21 +1,19 @@
 import { useMemo } from "react";
-import { useOrders } from "../context/OrderContext";
-import { useMenu } from "../context/MenuContext";
+import { useOrderStore } from "../stores/useOrderStore";
+import { useMenuStore } from "../stores/useMenuStore";
 
 export default function Dashboard() {
-  const { orders } = useOrders();
-  const { dishes } = useMenu();
+  const orders = useOrderStore((s) => s.orders);
+  const dishes = useMenuStore((s) => s.dishes);
 
   const orderList = orders || [];
   const dishList = dishes || [];
 
-  // ── Overall stats ──
   const totalRevenue = orderList.reduce((sum, o) => sum + (o.total || 0), 0);
   const avgOrder = orderList.length
     ? Math.round(totalRevenue / orderList.length)
     : 0;
 
-  // ── Last 7 days revenue ──
   const last7Days = useMemo(() => {
     const days = [];
     const today = new Date();
@@ -39,7 +37,6 @@ export default function Dashboard() {
 
   const maxDailyRevenue = Math.max(...last7Days.map((d) => d.revenue), 1);
 
-  // ── Top dishes ──
   const topDishes = useMemo(() => {
     const counts = {};
     orderList.forEach((o) => {
@@ -57,7 +54,6 @@ export default function Dashboard() {
 
   const maxDishQty = Math.max(...topDishes.map((d) => d.qty), 1);
 
-  // ── Order status counts ──
   const statusCounts = useMemo(() => {
     const counts = { pending: 0, preparing: 0, "on-the-way": 0, delivered: 0, cancelled: 0 };
     orderList.forEach((o) => {
@@ -73,7 +69,6 @@ export default function Dashboard() {
         <p>Overview of your restaurant operations</p>
       </header>
 
-      {/* ── Top stat cards ── */}
       <div className="stat-grid">
         <div className="stat-card">
           <span>Total Revenue</span>
@@ -97,7 +92,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* ── Revenue Bar Chart (last 7 days) ── */}
       <div className="admin-panel chart-panel">
         <div className="chart-head">
           <h2 className="serif">Revenue — Last 7 Days</h2>
@@ -126,7 +120,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* ── Two-column: Top Dishes + Status Breakdown ── */}
       <div className="admin-panels">
         <div className="admin-panel">
           <h2 className="serif">Top Dishes</h2>
@@ -170,7 +163,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* ── Recent Orders ── */}
       <div className="admin-panel">
         <h2 className="serif">Recent Orders</h2>
         {orderList.length === 0 ? (

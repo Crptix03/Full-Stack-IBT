@@ -1,20 +1,20 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useMenu } from "../context/MenuContext";
-import { useCart } from "../context/CartContext";
+import { useMenuStore } from "../stores/useMenuStore";
+import { useCartStore } from "../stores/useCartStore";
 import Spinner from "../ui/Spinner";
 import DishModal from "../Menu/DishModal";
 
 export default function Offers() {
-  const { dishes: allDishes, loading } = useMenu();
+  const allDishes = useMenuStore((s) => s.dishes);
+  const loading = useMenuStore((s) => s.loading);
   const error = null;
 
-  //  Filter out hidden dishes (respects admin changes)
   const dishes = allDishes.filter((d) => !d.isHidden);
 
-  const { addToCart } = useCart();
+  const addToCart = useCartStore((s) => s.addToCart);
   const [addedId, setAddedId] = useState(null);
-  const [selectedDish, setSelectedDish] = useState(null); //  Modal state
+  const [selectedDish, setSelectedDish] = useState(null);
 
   const preview = dishes ? dishes.slice(4, 10) : [];
 
@@ -40,7 +40,7 @@ export default function Offers() {
             <div
               className="offer-row"
               key={dish.id}
-              onClick={() => setSelectedDish(dish)}   //  Open modal
+              onClick={() => setSelectedDish(dish)}
               role="button"
               tabIndex={0}
               onKeyDown={(e) => {
@@ -50,14 +50,12 @@ export default function Offers() {
               <div className="offer-img">
                 <img src={`/${dish.img}`} alt={dish.name} />
 
-                {/* Discount badge (top-LEFT to avoid clashing with the tag) */}
                 {dish.originalPrice && dish.originalPrice > dish.price && (
                   <span className="offer-discount">
                     {Math.round(((dish.originalPrice - dish.price) / dish.originalPrice) * 100)}% OFF
                   </span>
                 )}
 
-                {/* Category tag (top-right) */}
                 {dish.tag && <span className="offer-tag">{dish.tag}</span>}
               </div>
               <div className="offer-body">
@@ -103,7 +101,6 @@ export default function Offers() {
         </Link>
       </div>
 
-      {/*  Modal */}
       {selectedDish && (
         <DishModal
           dish={selectedDish}

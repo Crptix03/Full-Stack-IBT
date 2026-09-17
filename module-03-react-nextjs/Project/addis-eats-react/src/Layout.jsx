@@ -1,14 +1,15 @@
 import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Footer from "./Footer";
-import { useCart } from "./context/CartContext";
-import { useTheme } from "./context/ThemeContext";
+import { useCartStore, selectCartCount } from "./stores/useCartStore";
+import { useThemeStore } from "./stores/useThemeStore";
 import AccountMenu from "./AccountMenu";
 import ScrollToHash from "./ScrollToHash";
 
 export default function Layout() {
-  const { cartCount } = useCart();
-  const { theme, toggleTheme } = useTheme();
+  const cartCount = useCartStore(selectCartCount);
+  const theme = useThemeStore((s) => s.theme);
+  const toggleTheme = useThemeStore((s) => s.toggleTheme)
   const navigate = useNavigate();
   const location = useLocation();
   const [activeSection, setActiveSection] = useState(null);
@@ -117,7 +118,6 @@ export default function Layout() {
           >
             Menu
           </NavLink>
-
 
           <NavLink
             to="/order-history"

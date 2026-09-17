@@ -1,20 +1,28 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useCart } from "../context/CartContext";
-import { useOrders } from "../context/OrderContext";
-import { useAuth } from "../context/AuthContext";
+import { useCartStore, selectCartTotal } from "../stores/useCartStore";
+import { useOrderStore } from "../stores/useOrderStore";
+import { useAuthStore } from "../stores/useAuthStore";
 
 export default function Checkout() {
-  const { items, cartTotal, clearCart } = useCart();
-  const { placeOrder } = useOrders();
-  const { currentUser } = useAuth();
+  const items = useCartStore((s) => s.items);
+  const cartTotal = useCartStore(selectCartTotal);
+  const clearCart = useCartStore((s) => s.clearCart);
+
+  const placeOrder = useOrderStore((s) => s.placeOrder);
+
+  const currentUser = useAuthStore((s) => s.currentUser);
   const navigate = useNavigate();
 
   const [orderType, setOrderType] = useState("delivery");
-  const [name, setName] = useState(currentUser?.fullName || "");
-  const [phone, setPhone] = useState(currentUser?.phone || "");
   const [address, setAddress] = useState("");
   const [errors, setErrors] = useState({});
+
+  //  Read from profile (guaranteed non-empty after our SignUp validation,
+  // but still guard against legacy accounts with blank profiles)
+  const name = currentUser?.fullName?.trim() || "";
+  const phone = currentUser?.phone?.trim() || "";
+  const profileIncomplete = !name || !phone;
 
   const deliveryFee = orderType === "delivery" ? 100 : 0;
   const total = cartTotal + deliveryFee;
@@ -40,26 +48,13 @@ export default function Checkout() {
     );
   }
 
+  //  Only validate the address — name and phone come from the profile
   const validate = () => {
     const newErrors = {};
 
-    const trimmedName = name.trim();
-    if (!trimmedName) {
-      newErrors.name = "Name is required";
-    } else if (trimmedName.length < 2) {
-      newErrors.name = "Name must be at least 2 characters long";
-    } else if (
-      !/^[a-zA-Z\s\u00C0-\u024F\u1200-\u137F'-]+$/.test(trimmedName)
-    ) {
-      newErrors.name = "Please enter a valid name";
-    }
-
-    const cleanedPhone = phone.trim().replace(/[\s-]/g, "");
-    if (!cleanedPhone) {
-      newErrors.phone = "Phone number is required";
-    } else if (!/^(?:\+251|0)[79]\d{8}$/.test(cleanedPhone)) {
-      newErrors.phone =
-        "Enter a valid Ethiopian number (e.g. 0901020304 or +251901020304)";
+    if (profileIncomplete) {
+      newErrors.profile =
+        "Your profile is missing required details. Please update it first.";
     }
 
     if (orderType === "delivery") {
@@ -79,22 +74,20 @@ export default function Checkout() {
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return;
 
-    // Build the order payload (no ID, no status — OrderContext handles that)
     const orderPayload = {
       items,
       subtotal: cartTotal,
       total,
       delivery: {
         type: orderType,
-        name: name.trim(),
-        phone: phone.trim(),
+        name,
+        phone,
         address: orderType === "delivery" ? address.trim() : null,
         deliveryFee,
       },
       customerUsername: currentUser?.username || "Guest",
     };
 
-    //  placeOrder now returns the real, final order object
     const newOrder = placeOrder(orderPayload);
 
     clearCart();
@@ -132,31 +125,33 @@ export default function Checkout() {
             </button>
           </div>
 
-          {/* Name — always editable, pre-filled when signed in */}
+          {/* Profile incomplete banner (only for legacy accounts) */}
+          {profileIncomplete && (
+            <div className="profile-incomplete-notice">
+              <p>
+                Your profile is missing a {!name ? "name" : "phone number"}.{" "}
+                <Link to="/profile">Update your profile</Link> to continue.
+              </p>
+            </div>
+          )}
+
+          {/* Name — read-only from profile */}
           <div className="field">
-            <label>Your Name *</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your name"
-            />
-            {errors.name && <span className="field-error">{errors.name}</span>}
+            <label>Your Name</label>
+            <div className="field-static-readonly">
+              {name || "Not set"}
+            </div>
           </div>
 
-          {/* Phone — always editable, pre-filled when signed in */}
+          {/* Phone — read-only from profile */}
           <div className="field">
-            <label>Phone Number *</label>
-            <input
-              type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="+251 9xx xxx xxx"
-            />
-            {errors.phone && <span className="field-error">{errors.phone}</span>}
+            <label>Phone Number</label>
+            <div className="field-static-readonly">
+              {phone || "Not set"}
+            </div>
           </div>
 
-          {/* Delivery address — only shown for delivery */}
+          {/* Delivery address — editable */}
           {orderType === "delivery" && (
             <div className="field">
               <label>Delivery Address *</label>
@@ -172,6 +167,10 @@ export default function Checkout() {
             </div>
           )}
 
+          {errors.profile && (
+            <span className="field-error">{errors.profile}</span>
+          )}
+
           {/* Estimated time */}
           <div className="delivery-estimate">
             {orderType === "delivery" ? (
@@ -185,7 +184,11 @@ export default function Checkout() {
             )}
           </div>
 
-          <button type="submit" className="cart-place-order">
+          <button
+            type="submit"
+            className="cart-place-order"
+            disabled={profileIncomplete}
+          >
             Place Order
           </button>
         </form>

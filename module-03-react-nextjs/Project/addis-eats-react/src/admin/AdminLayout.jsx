@@ -1,6 +1,6 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { useTheme } from "../context/ThemeContext";
+import { useAuthStore } from "../stores/useAuthStore";
+import { useThemeStore } from "../stores/useThemeStore";
 
 const LINKS = [
   { to: "/admin", label: "Dashboard", icon: "📊", end: true },
@@ -10,8 +10,9 @@ const LINKS = [
 ];
 
 export default function AdminLayout() {
-  const { signOut } = useAuth();
-  const { theme, toggleTheme } = useTheme();
+  const signOut = useAuthStore((s) => s.signOut);
+  const theme = useThemeStore((s) => s.theme);
+  const toggleTheme = useThemeStore((s) => s.toggleTheme);
   const navigate = useNavigate();
 
   const handleLogout = () => {

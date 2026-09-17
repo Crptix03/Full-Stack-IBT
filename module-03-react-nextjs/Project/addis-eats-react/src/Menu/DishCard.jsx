@@ -1,13 +1,13 @@
 import { memo } from "react";
 import Button from "../ui/Button";
-import { useFavorites } from "../context/FavoritesContext";
+import { useFavoritesStore } from "../stores/useFavoritesStore";
 
 function DishCard({ dish, onAdd, onOpen }) {
-  const { isFavorite, toggleFavorite } = useFavorites();
-  const favorited = isFavorite(dish.id);
+  const favorites = useFavoritesStore((s) => s.favorites);
+  const toggleFavorite = useFavoritesStore((s) => s.toggleFavorite);
+  const favorited = favorites.includes(dish.id);
 
-  // 🎬 Demo-only crash do /menu?crash=1 to trigger the error boundary.
-  // Dead-code-eliminated in production builds (import.meta.env.DEV becomes false).
+  // 🎬 Demo-only crash — visit /menu?crash=1 to trigger the error boundary.
   if (
     import.meta.env.DEV &&
     dish.id &&
@@ -26,7 +26,7 @@ function DishCard({ dish, onAdd, onOpen }) {
     : 0;
 
   const handleFavoriteClick = (e) => {
-    e.stopPropagation(); // don't open modal
+    e.stopPropagation();
     toggleFavorite(dish.id);
   };
 
@@ -55,7 +55,6 @@ function DishCard({ dish, onAdd, onOpen }) {
           </span>
         )}
 
-        {/* ❤️ Favorite button (bottom-right of image) */}
         <button
           className={`dish-fav-btn ${favorited ? "active" : ""}`}
           onClick={handleFavoriteClick}

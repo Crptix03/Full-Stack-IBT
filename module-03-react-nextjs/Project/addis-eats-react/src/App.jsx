@@ -1,5 +1,5 @@
 import "./App.css";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 
 import Layout from "./Layout";
@@ -9,9 +9,10 @@ import RequireAuth from "./RequireAuth";
 import RequireAdmin from "./admin/RequireAdmin";
 import ErrorBoundary from "./ErrorBoundary";
 import PageSkeleton from "./ui/PageSkeleton";
+import { useMenuStore } from "./stores/useMenuStore";
 
 // ── Lazy-loaded routes (split out of the main bundle) ──
-const Menu = lazy(() => import("./Menu/Menu"));           
+const Menu = lazy(() => import("./Menu/Menu"));
 const Favorites = lazy(() => import("./Menu/Favorites"));
 const Cart = lazy(() => import("./Cart/Cart"));
 const Checkout = lazy(() => import("./Checkout/Checkout"));
@@ -37,6 +38,11 @@ function CustomerLayout() {
 }
 
 export default function App() {
+  //  Load the menu once at app startup
+  useEffect(() => {
+    useMenuStore.getState().loadMenu();
+  }, []);
+
   return (
     <ErrorBoundary>
       <Routes>

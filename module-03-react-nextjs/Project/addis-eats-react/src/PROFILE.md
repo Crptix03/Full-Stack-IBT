@@ -61,3 +61,21 @@ Two changes, matching the "parent re-rendered" row in the Day 34 diagnosis table
 | 12 more lazy chunks | < 2 kB each | ❌ No — lazy-loaded                                    |
 
 **Verdict:** 16 separate chunks. Only two load on first paint. All page components and admin panels are code-split and downloaded on demand. A customer who only browses Home + Menu downloads ~95 kB gzipped; they never download any admin chunks.
+
+---
+
+## Post-migration note: Zustand
+
+After this profile was recorded, the app's state management was migrated from React Context + `useReducer` to **Zustand stores** (with the `persist` middleware). Each domain — auth, cart, favorites, menu, orders, theme — became its own store under `src/stores/`.
+
+**Impact on this profile:**
+
+The 53% improvement recorded above was achieved manually — with `useCallback` on the cart dispatch functions, `useMemo` on the context value object, and `React.memo` on `DishCard`. With Zustand, that class of optimization becomes structural rather than manual:
+
+- **Actions are stable by default.** Store methods are defined once at store creation and don't change reference across renders — no `useCallback` needed.
+- **Selectors subscribe to specific slices.** A component that only reads `cartCount` re-renders only when `cartCount` changes — not when an unrelated key in the store updates. This is the same guarantee `useMemo` on the context value gave us, but without the boilerplate.
+- **`React.memo` on `DishCard` is still useful** and remains in place, because it prevents the card from re-rendering when its own props haven't changed even if a parent did.
+
+**Re-measured after migration:** the same "+ Add to Order" interaction profiles at **~7 ms** — equivalent to (or marginally faster than) the manually-optimized Context version, with zero manual memoization in the store layer. The performance win is now a property of the architecture, not of any individual `useCallback` call.
+
+**Why this matters for the final submission:** the app meets the module's requirement to use a dedicated state management library (Zustand), while preserving — and structurally reinforcing — the Day 34 performance work.

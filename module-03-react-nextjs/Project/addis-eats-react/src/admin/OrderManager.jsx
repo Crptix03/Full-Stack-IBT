@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { useOrders } from "../context/OrderContext";
+import { useOrderStore } from "../stores/useOrderStore";
 
 const STATUSES = ["pending", "preparing", "on-the-way", "delivered", "cancelled"];
 
 export default function OrderManager() {
-  const { orders, updateStatus, deleteOrder } = useOrders();
+  const orders = useOrderStore((s) => s.orders);
+  const updateStatus = useOrderStore((s) => s.updateStatus);
+  const deleteOrder = useOrderStore((s) => s.deleteOrder);
   const [search, setSearch] = useState("");
 
   const filtered = orders.filter((o) =>
@@ -38,7 +40,6 @@ export default function OrderManager() {
             </div>
 
             <div className="admin-order-body">
-              {/* ---- Customer info ---- */}
               <div>
                 <strong>{o.delivery?.name || "Guest"}</strong>
                 <p>{o.delivery?.phone}</p>
@@ -48,12 +49,8 @@ export default function OrderManager() {
                     Account: <strong>{o.customerUsername}</strong>
                   </p>
                 )}
-                {o.customerEmail && (
-                  <p className="muted">Email: {o.customerEmail}</p>
-                )}
               </div>
 
-              {/* ---- Items ---- */}
               <ul className="order-items-mini">
                 {o.items.map((i) => (
                   <li key={i.id}>
@@ -62,7 +59,6 @@ export default function OrderManager() {
                 ))}
               </ul>
 
-              {/* ---- Status controls ---- */}
               <div className="status-stack">
                 <span className={`status-pill status-${o.status}`}>
                   {o.status.replace(/-/g, " ")}

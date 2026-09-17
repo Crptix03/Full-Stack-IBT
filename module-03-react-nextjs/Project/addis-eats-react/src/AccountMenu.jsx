@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "./context/AuthContext";
+import { useAuthStore } from "./stores/useAuthStore";
 
 export default function AccountMenu() {
-  const { currentUser, signOut } = useAuth();
+  const currentUser = useAuthStore((s) => s.currentUser);
+  const signOut = useAuthStore((s) => s.signOut);
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
   const navigate = useNavigate();

@@ -59,7 +59,8 @@ This project was built as a complete restaurant management and ordering experien
 - **Skeleton loading state** (`PageSkeleton`) shown while lazy chunks are downloading — a shape roughly matching the incoming content, so the layout doesn't jump.
 - **Portal-based modals** using `createPortal` — dish details render into a `#modal-root` div outside the app tree so they escape `overflow: hidden` on any ancestor card.
 - **Accessible modal behavior** — focus moves into the modal on open, `Escape` closes it, and focus returns to the triggering element on close. Includes `role="dialog"` and `aria-labelledby`.
-- **Profiled and fixed a re-render** — clicking "+ Add to Order" dropped from **16.3 ms to 7.6 ms** (53% faster) after memoizing the cart context value and wrapping `DishCard` in `React.memo`. Full details in `PROFILE.md`.
+- **Zustand state management** — all six state domains (auth, cart, favorites, menu, orders, theme) live in Zustand stores with the `persist` middleware. Components subscribe to only the slices they need via selectors, so re-renders are minimal by default — no manual `useCallback`/`useMemo` on context values required.
+- **Profiled and fixed a re-render** — clicking "+ Add to Order" dropped from **16.3 ms to 7.6 ms** (53% faster). Originally achieved via `useCallback` + `useMemo` on the Cart context; after migrating to Zustand, the same optimization is structural. Full details in `PROFILE.md`.
 
 ---
 
@@ -68,13 +69,13 @@ This project was built as a complete restaurant management and ordering experien
 - React 18
 - Vite
 - React Router
-- Context API + useReducer
+- **Zustand** for state management (with the `persist` middleware)
 - `React.lazy` + `Suspense` for route-based code splitting
 - `createPortal` for accessible modals
 - Error boundaries (class components) for runtime resilience
-- `React.memo`, `useCallback`, `useMemo` for targeted performance work
+- `React.memo` for targeted performance work
 - CSS custom properties and responsive styling
-- localStorage for demo persistence
+- localStorage for demo persistence (via Zustand's `persist`)
 
 ---
 
@@ -89,7 +90,7 @@ Use this account to access the admin panel:
 
 ## Project structure
 
-```bash
+````bash
 addis-eats-react/
 ├── .gitignore
 ├── eslint.config.js
@@ -98,6 +99,7 @@ addis-eats-react/
 ├── package.json
 ├── PROFILE.md                    # Day 34 performance profile
 ├── vite.config.js
+├── dist/                         # production build output (gitignored)
 ├── public/
 │   ├── menu-data.json
 │   └── images/
@@ -120,13 +122,6 @@ addis-eats-react/
 │   ├── Checkout/
 │   │   ├── Checkout.jsx
 │   │   └── OrderConfirmation.jsx
-│   ├── context/
-│   │   ├── AuthContext.jsx
-│   │   ├── CartContext.jsx
-│   │   ├── FavoritesContext.jsx
-│   │   ├── MenuContext.jsx
-│   │   ├── OrderContext.jsx
-│   │   └── ThemeContext.jsx
 │   ├── Home/
 │   │   ├── BestFoods.jsx
 │   │   ├── Features.jsx
@@ -143,6 +138,13 @@ addis-eats-react/
 │   │   └── DishModal.jsx         # uses <Modal /> portal
 │   ├── OrderHistory/
 │   │   └── OrderHistory.jsx
+│   ├── stores/                   # Zustand stores (one per domain)
+│   │   ├── useAuthStore.js
+│   │   ├── useCartStore.js
+│   │   ├── useFavoritesStore.js
+│   │   ├── useMenuStore.js
+│   │   ├── useOrderStore.js
+│   │   └── useThemeStore.js
 │   ├── ui/
 │   │   ├── Button.jsx
 │   │   ├── Modal.jsx             # createPortal + focus trap + Escape
@@ -150,16 +152,15 @@ addis-eats-react/
 │   │   └── Spinner.jsx
 │   ├── AccountMenu.jsx
 │   ├── App.css
-│   ├── App.jsx                   # lazy routes + error boundaries
+│   ├── App.jsx                   # lazy routes + error boundaries + loadMenu()
 │   ├── ErrorBoundary.jsx         # class component
 │   ├── Footer.jsx
 │   ├── index.css
 │   ├── Layout.jsx
-│   ├── main.jsx
+│   ├── main.jsx                  # just <BrowserRouter> + <App />
 │   ├── RequireAuth.jsx
 │   └── ScrollToHash.jsx
-└── README.md
-```
+└── README.md```
 
 ---
 
@@ -169,7 +170,7 @@ addis-eats-react/
 
 ```bash
 cd addis-eats-react
-```
+````
 
 2. Install dependencies:
 

@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useNavigate, Link, Navigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuthStore } from "../stores/useAuthStore";
 import PasswordInput from "./PasswordInput";
 
 export default function SignUp() {
-  const { currentUser, signUp } = useAuth();
+  const currentUser = useAuthStore((s) => s.currentUser);
+  const signUp = useAuthStore((s) => s.signUp);
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
@@ -23,15 +24,28 @@ export default function SignUp() {
       setError("Username must be at least 3 characters.");
       return;
     }
-    if (!fullName.trim() || fullName.trim().length < 2) {
+
+    //  Full name validation (no numbers, no special symbols)
+    const trimmedName = fullName.trim();
+    if (!trimmedName) {
       setError("Please enter your full name.");
       return;
     }
+    if (trimmedName.length < 2) {
+      setError("Name must be at least 2 characters.");
+      return;
+    }
+    if (!/^[a-zA-Z\s\u00C0-\u024F\u1200-\u137F'-]+$/.test(trimmedName)) {
+      setError("Please enter a valid name (letters only, no numbers).");
+      return;
+    }
+
     const cleanedPhone = phone.trim().replace(/[\s-]/g, "");
     if (!/^(?:\+251|0)[79]\d{8}$/.test(cleanedPhone)) {
       setError("Enter a valid Ethiopian number (e.g. 0901020304 or +251901020304)");
       return;
     }
+
     if (!password || password.length < 6) {
       setError("Password must be at least 6 characters.");
       return;
@@ -41,7 +55,7 @@ export default function SignUp() {
       return;
     }
 
-    const result = signUp(username, password, fullName.trim(), phone.trim());
+    const result = signUp(username, password, trimmedName, phone.trim());
     if (!result.success) {
       setError(result.error);
       return;

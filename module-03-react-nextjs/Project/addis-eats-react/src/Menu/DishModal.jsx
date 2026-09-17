@@ -1,12 +1,13 @@
-import { useFavorites } from "../context/FavoritesContext";
+import { useFavoritesStore } from "../stores/useFavoritesStore";
 import Modal from "../ui/Modal";
 
 export default function DishModal({ dish, onClose, onAdd }) {
-  const { isFavorite, toggleFavorite } = useFavorites();
+  const favorites = useFavoritesStore((s) => s.favorites);
+  const toggleFavorite = useFavoritesStore((s) => s.toggleFavorite);
 
   if (!dish) return null;
 
-  const favorited = isFavorite(dish.id);
+  const favorited = favorites.includes(dish.id);
 
   const hasDiscount =
     dish.originalPrice && dish.originalPrice > dish.price;
@@ -94,7 +95,6 @@ export default function DishModal({ dish, onClose, onAdd }) {
             )}
           </div>
 
-          {/* ❤️ Favorite + Add to Order actions */}
           <div className="dish-modal-actions">
             <button
               className={`dish-modal-fav ${favorited ? "active" : ""}`}

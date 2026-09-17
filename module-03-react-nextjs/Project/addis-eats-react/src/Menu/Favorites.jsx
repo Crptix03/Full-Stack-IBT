@@ -1,19 +1,21 @@
 import { Link } from "react-router-dom";
-import { useMenu } from "../context/MenuContext";
-import { useFavorites } from "../context/FavoritesContext";
-import { useCart } from "../context/CartContext";
+import { useMenuStore } from "../stores/useMenuStore";
+import { useFavoritesStore } from "../stores/useFavoritesStore";
+import { useCartStore } from "../stores/useCartStore";
 import DishCard from "./DishCard";
 import Spinner from "../ui/Spinner";
 import { useState } from "react";
 import DishModal from "./DishModal";
 
 export default function Favorites() {
-  const { dishes, loading, error } = useMenu();
-  const { favorites, removeFavorite } = useFavorites();
-  const { addToCart } = useCart();
+  const dishes = useMenuStore((s) => s.dishes);
+  const loading = useMenuStore((s) => s.loading);
+  const error = useMenuStore((s) => s.error);
+
+  const favorites = useFavoritesStore((s) => s.favorites);
+  const addToCart = useCartStore((s) => s.addToCart);
   const [selectedDish, setSelectedDish] = useState(null);
 
-  // Filter dishes to only those that are favorited and not hidden
   const favoriteDishes = (dishes || []).filter(
     (d) => favorites.includes(d.id) && !d.isHidden
   );
@@ -58,7 +60,6 @@ export default function Favorites() {
             dish={dish}
             onAdd={addToCart}
             onOpen={setSelectedDish}
-            onRemoveFavorite={removeFavorite}
           />
         ))}
       </div>

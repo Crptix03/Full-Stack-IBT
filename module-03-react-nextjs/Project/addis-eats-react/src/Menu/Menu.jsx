@@ -1,23 +1,27 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { useMenu } from "../context/MenuContext";
-import { useCart } from "../context/CartContext";
+import { useMenuStore } from "../stores/useMenuStore";
+import { useCartStore } from "../stores/useCartStore";
+import { useFavoritesStore } from "../stores/useFavoritesStore";
 import CategoryBar from "./CategoryBar";
 import DishList from "./DishList";
 import DishModal from "./DishModal";
-import { useFavorites } from "../context/FavoritesContext";
 
 export default function Menu() {
-  const { dishes, categories, loading, error } = useMenu();
+  const dishes = useMenuStore((s) => s.dishes);
+  const categories = useMenuStore((s) => s.categories);
+  const loading = useMenuStore((s) => s.loading);
+  const error = useMenuStore((s) => s.error);
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const initialCategory = searchParams.get("category") || "all";
   const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedDish, setSelectedDish] = useState(null); 
+  const [selectedDish, setSelectedDish] = useState(null);
 
-  const { addToCart } = useCart();
-  const { favorites } = useFavorites();
+  const addToCart = useCartStore((s) => s.addToCart);
+  const favorites = useFavoritesStore((s) => s.favorites);
   const location = useLocation();
   const searchInputRef = useRef(null);
 
@@ -102,7 +106,6 @@ export default function Menu() {
         onOpen={setSelectedDish}
       />
 
-      {/* Modal renders only when a dish is selected */}
       {selectedDish && (
         <DishModal
           dish={selectedDish}

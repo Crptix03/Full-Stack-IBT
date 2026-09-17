@@ -1,32 +1,31 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useMenu } from "../context/MenuContext";
-import { useCart } from "../context/CartContext";
+import { useMenuStore } from "../stores/useMenuStore";
+import { useCartStore } from "../stores/useCartStore";
 import Spinner from "../ui/Spinner";
 import DishModal from "../Menu/DishModal";
 
 export default function BestFoods() {
-  const { dishes: allDishes, loading } = useMenu();
+  const allDishes = useMenuStore((s) => s.dishes);
+  const loading = useMenuStore((s) => s.loading);
   const error = null;
 
-  //  Filter out hidden dishes (respects admin changes)
   const dishes = allDishes.filter((d) => !d.isHidden);
 
-  const { addToCart } = useCart();
+  const addToCart = useCartStore((s) => s.addToCart);
   const [addedId, setAddedId] = useState(null);
   const [selectedDish, setSelectedDish] = useState(null);
 
   const preview = dishes ? dishes.slice(0, 4) : [];
 
   const handleAdd = (e, dish) => {
-    e.stopPropagation(); //  Prevent modal from opening
+    e.stopPropagation();
     addToCart(dish);
     setAddedId(dish.id);
     setTimeout(() => setAddedId(null), 1200);
   };
 
   const handleOpen = (e, dish) => {
-    // Ignore clicks on the add button
     if (e.target.closest(".bf-add-btn")) return;
     setSelectedDish(dish);
   };
@@ -95,7 +94,6 @@ export default function BestFoods() {
         )}
       </div>
 
-      {/* Modal rendered OUTSIDE the grid, still inside section */}
       {selectedDish && (
         <DishModal
           dish={selectedDish}

@@ -1,10 +1,16 @@
 import { useState } from "react";
-import { useMenu } from "../context/MenuContext";
+import { useMenuStore } from "../stores/useMenuStore";
 import DishForm from "./DishForm";
 
 export default function DishManager() {
-  const { dishes, categories, updateDish, removeDish, toggleAvailability, addDish } = useMenu();
-  const [editing, setEditing] = useState(null); // null = closed, {} = new, dish = edit
+  const dishes = useMenuStore((s) => s.dishes);
+  const categories = useMenuStore((s) => s.categories);
+  const updateDish = useMenuStore((s) => s.updateDish);
+  const removeDish = useMenuStore((s) => s.removeDish);
+  const toggleAvailability = useMenuStore((s) => s.toggleAvailability);
+  const addDish = useMenuStore((s) => s.addDish);
+
+  const [editing, setEditing] = useState(null);
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
 

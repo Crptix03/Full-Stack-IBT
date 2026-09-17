@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useNavigate, useLocation, Link, Navigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuthStore } from "../stores/useAuthStore";
 import PasswordInput from "./PasswordInput";
 
 export default function SignIn() {
-  const { currentUser, signIn } = useAuth();
+  const currentUser = useAuthStore((s) => s.currentUser);
+  const signIn = useAuthStore((s) => s.signIn);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";

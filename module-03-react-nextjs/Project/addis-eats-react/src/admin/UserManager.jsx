@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useAuthStore } from "../stores/useAuthStore";
 
 export default function UserManager() {
-  const { users, currentUser } = useAuth();
+  const users = useAuthStore((s) => s.users);
+  const currentUser = useAuthStore((s) => s.currentUser);
   const [search, setSearch] = useState("");
 
   const filtered = users.filter((u) => {
@@ -51,7 +52,6 @@ export default function UserManager() {
 
           return (
             <div className="admin-user-card" key={u.username}>
-              {/* Avatar / initial */}
               <div className="admin-user-avatar">
                 {u.avatar ? (
                   <img src={u.avatar} alt={u.username} />
@@ -60,7 +60,6 @@ export default function UserManager() {
                 )}
               </div>
 
-              {/* Info */}
               <div className="admin-user-info">
                 <div className="admin-user-top">
                   <strong>{u.username}</strong>
@@ -76,7 +75,6 @@ export default function UserManager() {
                 )}
               </div>
 
-              {/* Actions — placeholder buttons */}
               <div className="admin-user-actions">
                 <span className="admin-user-status">
                   {u.isAdmin ? "Administrator" : "Customer"}

@@ -1,8 +1,10 @@
 import { useState, useRef } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useAuthStore } from "../stores/useAuthStore";
 
 export default function Profile() {
-  const { currentUser, updateProfile } = useAuth();
+  const currentUser = useAuthStore((s) => s.currentUser);
+  const updateProfile = useAuthStore((s) => s.updateProfile);
+
   const [username, setUsername] = useState(currentUser.username);
   const [fullName, setFullName] = useState(currentUser.fullName || "");
   const [phone, setPhone] = useState(currentUser.phone || "");
@@ -34,14 +36,28 @@ export default function Profile() {
     e.preventDefault();
     setSuccess(false);
 
+    // ── Username validation ────────────────────────────────
     if (!username.trim() || username.trim().length < 3) {
       setError("Username must be at least 3 characters.");
       return;
     }
-    if (!fullName.trim() || fullName.trim().length < 2) {
+
+    // ── Full name validation (same rule as SignUp) ─────────
+    const trimmedName = fullName.trim();
+    if (!trimmedName) {
       setError("Please enter your full name.");
       return;
     }
+    if (trimmedName.length < 2) {
+      setError("Name must be at least 2 characters.");
+      return;
+    }
+    if (!/^[a-zA-Z\s\u00C0-\u024F\u1200-\u137F'-]+$/.test(trimmedName)) {
+      setError("Please enter a valid name (letters only, no numbers).");
+      return;
+    }
+
+    // ── Phone validation ──────────────────────────────────
     const cleanedPhone = phone.trim().replace(/[\s-]/g, "");
     if (!/^(?:\+251|0)[79]\d{8}$/.test(cleanedPhone)) {
       setError("Enter a valid Ethiopian number.");
@@ -50,7 +66,7 @@ export default function Profile() {
 
     const result = updateProfile(
       username,
-      fullName.trim(),
+      trimmedName,
       phone.trim(),
       avatar
     );
@@ -58,6 +74,7 @@ export default function Profile() {
       setError(result.error);
       return;
     }
+
     setError("");
     setSuccess(true);
     setTimeout(() => setSuccess(false), 2500);

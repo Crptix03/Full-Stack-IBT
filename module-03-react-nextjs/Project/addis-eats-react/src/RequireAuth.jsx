@@ -1,8 +1,8 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "./context/AuthContext";
+import { useAuthStore } from "./stores/useAuthStore";
 
 export default function RequireAuth({ children }) {
-  const { currentUser } = useAuth();
+  const currentUser = useAuthStore((s) => s.currentUser);
   const location = useLocation();
 
   if (!currentUser) {
