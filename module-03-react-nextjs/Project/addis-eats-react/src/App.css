@@ -1754,13 +1754,35 @@ header nav { display: none; }
 .order-item-row {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 13px;
   color: var(--text-light-color);
-  padding: 4px 0;
+  padding: 6px 0;
+  gap: 12px;
 }
+
 .order-item-row sup {
   font-size: 10px;
   margin-left: 3px;
+}
+
+/* Left side: thumbnail + "1× Crispy Sambusa" */
+.order-item-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+/* Dish thumbnail */
+.order-item-thumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+  flex-shrink: 0;
+  background: var(--bg-light-color);
 }
 
 .order-delivery-info {

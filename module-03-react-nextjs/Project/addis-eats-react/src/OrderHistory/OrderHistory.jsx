@@ -123,9 +123,22 @@ export default function OrderHistory() {
             <div className="order-items">
               {order.items.map((item) => (
                 <div className="order-item-row" key={item.id}>
-                  <span>
-                    {item.qty}× {item.name}
-                  </span>
+                  <div className="order-item-left">
+                    {item.img && (
+                      <img
+                        src={
+                          item.img.startsWith("/")
+                            ? item.img
+                            : `/${item.img.replace(/^(Imgaes|Images|images)\//, "images/")}`
+                        }
+                        alt={item.name}
+                        className="order-item-thumb"
+                      />
+                    )}
+                    <span>
+                      {item.qty}× {item.name}
+                    </span>
+                  </div>
                   <span>
                     {item.price * item.qty} <sup>Birr</sup>
                   </span>

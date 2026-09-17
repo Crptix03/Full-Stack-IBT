@@ -7,7 +7,7 @@ export const useOrderStore = create(
     (set) => ({
       orders: [],
 
-      // ✅ Build the full order ONCE, dispatch it, and return the SAME object
+      //  Build the full order ONCE, dispatch it, and return the SAME object
       placeOrder: (payload) => {
         const now = new Date().toISOString();
         const newOrder = {
