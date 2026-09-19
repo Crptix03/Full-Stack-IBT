@@ -6,6 +6,7 @@ const LINKS = [
   { to: "/admin", label: "Dashboard", icon: "📊", end: true },
   { to: "/admin/dishes", label: "Menu", icon: "🍽️" },
   { to: "/admin/orders", label: "Orders", icon: "🚚" },
+  { to: "/admin/reviews", label: "Reviews", icon: "⭐" },
   { to: "/admin/users", label: "Users", icon: "👥" },
 ];
 

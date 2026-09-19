@@ -1,13 +1,25 @@
 import { useFavoritesStore } from "../stores/useFavoritesStore";
+import { useReviewStore } from "../stores/useReviewStore";
+import StarRating from "../ui/StarRating";
 import Modal from "../ui/Modal";
 
 export default function DishModal({ dish, onClose, onAdd }) {
   const favorites = useFavoritesStore((s) => s.favorites);
   const toggleFavorite = useFavoritesStore((s) => s.toggleFavorite);
 
+  //  Subscribe to ratings array — re-renders when any rating changes
+  const ratings = useReviewStore((s) => s.ratings);
+
   if (!dish) return null;
 
   const favorited = favorites.includes(dish.id);
+
+  // ── Average rating for this dish ────────────────────────
+  const dishRatings = ratings.filter((r) => r.dishId === dish.id);
+  const averageRating =
+    dishRatings.length > 0
+      ? dishRatings.reduce((sum, r) => sum + r.stars, 0) / dishRatings.length
+      : 0;
 
   const hasDiscount =
     dish.originalPrice && dish.originalPrice > dish.price;
@@ -79,6 +91,20 @@ export default function DishModal({ dish, onClose, onAdd }) {
           </div>
 
           <p className="dish-modal-desc">{dish.description}</p>
+
+          {/* Average rating — shown only if the dish has at least one rating */}
+          {dishRatings.length > 0 && (
+            <div className="dish-modal-rating">
+              <StarRating value={averageRating} size={18} />
+              <span className="dish-modal-rating-value">
+                {averageRating.toFixed(1)}
+              </span>
+              <span className="dish-modal-rating-count">
+                ({dishRatings.length}{" "}
+                {dishRatings.length === 1 ? "rating" : "ratings"})
+              </span>
+            </div>
+          )}
 
           <div className="dish-modal-section">
             <h3 className="serif">Ingredients</h3>

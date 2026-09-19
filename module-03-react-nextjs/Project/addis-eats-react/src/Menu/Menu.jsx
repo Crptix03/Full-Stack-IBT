@@ -25,11 +25,6 @@ export default function Menu() {
   const location = useLocation();
   const searchInputRef = useRef(null);
 
-  useEffect(() => {
-    if (location.state?.focusSearch && searchInputRef.current) {
-      searchInputRef.current.focus({ preventScroll: true });
-    }
-  }, [location.state]);
 
   useEffect(() => {
     const urlCategory = searchParams.get("category") || "all";

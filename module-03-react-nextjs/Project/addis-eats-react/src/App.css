@@ -1035,7 +1035,7 @@ header nav { display: none; }
   font-family: var(--font-heading);
   font-size: 18px;
   font-weight: 500;
-  color: #fff;
+  color: var(--text-color);         
   margin-bottom: 8px;
   line-height: 1.25;
 }
@@ -1340,6 +1340,31 @@ header nav { display: none; }
   font-size: 0.95rem;
   line-height: 1.65;
   margin-bottom: 1.75rem;
+}
+/* Average rating row in dish modal */
+.dish-modal-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+  padding: 8px 12px;
+  background: rgba(200, 164, 92, 0.06);
+  border-left: 2px solid var(--color-primary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.dish-modal-rating-value {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.dish-modal-rating-count {
+  font-size: 12px;
+  color: var(--text-light-color);
+  line-height: 1;
 }
 
 .dish-modal-section {
@@ -1824,6 +1849,273 @@ header nav { display: none; }
   color: #111;
 }
 
+/* ==============================
+   STAR RATING
+============================== */
+.star-rating {
+  display: inline-flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.star {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: default;
+  color: var(--border-color);        
+  transition: color 0.15s ease, transform 0.1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.star svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  stroke-width: 1.5;                  
+}
+
+.star.filled {
+  color: var(--color-primary);
+}
+
+.star.filled svg {
+  fill: currentColor;
+}
+
+.star-rating.interactive .star {
+  cursor: pointer;
+}
+
+.star-rating.interactive .star:hover {
+  transform: scale(1.15);
+}
+.star-rating.interactive .star:hover svg {
+  fill: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* ==============================
+   RATING ON DISH CARD
+============================== */
+.dish-card-rating {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  padding: 4px 10px;
+  border-radius: 999px;
+  color: var(--color-primary);
+  font-size: 11px;
+  font-weight: 600;
+  z-index: 2;
+}
+
+.dish-card-rating-count {
+  color: var(--text-light-color);
+  font-weight: 400;
+  font-size: 10px;
+}
+
+/* ==============================
+   RATING IN DISH MODAL
+============================== */
+.dish-modal-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+  padding: 8px 12px;
+  background: rgba(200, 164, 92, 0.06);
+  border-left: 2px solid var(--color-primary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.dish-modal-rating-value {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.dish-modal-rating-count {
+  font-size: 12px;
+  color: var(--text-light-color);
+}
+
+/* ==============================
+   RATING MODAL
+============================== */
+.rating-modal {
+  background: var(--bg-card-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 2rem;
+  max-width: 480px;
+  width: 100%;
+  position: relative;
+}
+
+.rating-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.rating-modal-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.rating-modal-eyebrow {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-light-color);
+  margin-bottom: 4px;
+}
+
+.rating-modal-header h2 {
+  font-size: 1.25rem;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.rating-modal-stars {
+  display: flex;
+  justify-content: center;
+  padding: 0.75rem 0 1.5rem;
+}
+
+.rating-modal .field {
+  margin-bottom: 1.25rem;
+}
+
+.rating-modal textarea {
+  width: 100%;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  font-family: var(--font-body);
+  font-size: 13px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  outline: none;
+  resize: vertical;
+  min-height: 70px;
+  transition: border-color var(--transition);
+}
+
+.rating-modal textarea:focus {
+  border-color: var(--color-primary);
+}
+
+.rating-modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 0.5rem;
+}
+.rating-modal-actions .cart-place-order {
+  white-space: nowrap;
+}
+
+.rating-modal-actions > * {
+  flex: 1;
+}
+
+.rating-modal-actions .btn-outline {
+  display: inline-block;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-light-color);
+  padding: 12px 20px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.rating-modal-actions .btn-outline:hover {
+  border-color: var(--color-rust);
+  color: var(--color-rust);
+}
+.rating-modal .field-hint {
+  margin-top: 6px;
+  margin-bottom: 4px;
+}
+
+.cart-place-order:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  white-space: nowrap;
+}
+
+/* ==============================
+   RATE BUTTON ON ORDER ITEM
+============================== */
+.order-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.order-item-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.order-item-rate-btn {
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  align-self: flex-start;
+  white-space: nowrap;
+}
+
+.order-item-rate-btn:hover {
+  background: var(--color-primary);
+  color: var(--on-primary);
+}
+
+.order-item-rate-btn.ghost {
+  border-color: var(--border-color);
+  color: var(--text-light-color);
+  font-size: 10px;
+  padding: 2px 8px;
+}
+
+.order-item-rate-btn.ghost:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: transparent;
+}
+
 /* ---------- Spinner ---------- */
 .spinner { display: flex; justify-content: center; padding: 60px 0; }
 .spinner-circle {
@@ -1889,6 +2181,70 @@ header nav { display: none; }
 
 .field-error { display: block; color: var(--color-rust); font-size: 11px; margin-top: 5px; }
 
+/* Special instructions in admin order card */
+.order-notes {
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: rgba(200, 164, 92, 0.08);
+  border-left: 2px solid var(--color-primary);
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--color-primary-light);
+  line-height: 1.5;
+}
+
+.order-notes em {
+  color: var(--text-color);
+  font-style: italic;
+}
+
+/* Special instructions — customer view (inside delivery info block) */
+.order-notes-inline {
+  display: block;
+  margin-top: 6px;
+  padding: 6px 10px;
+  background: rgba(200, 164, 92, 0.08);
+  border-left: 2px solid var(--color-primary);
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--color-primary-light);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* Quick-pick note pills */
+.quick-notes {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.note-tag {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-light-color);
+  font-family: var(--font-body);
+  font-size: 11px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.note-tag:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.note-tag.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--on-primary);
+  font-weight: 500;
+}
+
 .delivery-estimate {
   font-size: 13px;
   color: var(--text-light-color);
@@ -1897,6 +2253,38 @@ header nav { display: none; }
   border-radius: var(--radius-sm);
   padding: 12px 14px;
   margin-bottom: 20px;
+}
+/* Textarea in checkout form */
+.checkout-form textarea {
+  width: 100%;
+  background: var(--bg-card-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  font-family: var(--font-body);
+  font-size: 14px;
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  outline: none;
+  resize: vertical;
+  min-height: 80px;
+  transition: border-color var(--transition);
+}
+
+.checkout-form textarea:focus {
+  border-color: var(--color-primary);
+}
+
+.checkout-form textarea::placeholder {
+  color: var(--text-light-color);
+}
+
+/* Character counter hint */
+.field-hint {
+  display: block;
+  font-size: 11px;
+  color: var(--text-light-color);
+  margin-top: 4px;
+  text-align: right;
 }
 .delivery-estimate strong { color: var(--color-primary-light); }
 
@@ -2862,6 +3250,213 @@ footer {
 }
 
 /* ==============================
+   ADMIN — REVIEWS & RATINGS
+============================== */
+
+/* Overall score in header */
+.review-overall {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.review-overall-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-light-color);
+}
+
+.review-overall-score {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.review-overall-score strong {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+/* Section head with sort dropdown */
+.review-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.review-section-head h2 {
+  font-size: 1rem;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.review-sort {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-light-color);
+}
+
+.review-sort select {
+  background: var(--bg-light-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 12px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.review-sort select:focus {
+  border-color: var(--color-primary);
+}
+
+/* ── Dish Leaderboard ── */
+.review-dish-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.review-dish-row {
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--bg-light-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--transition);
+}
+
+.review-dish-row:hover {
+  border-color: var(--color-primary);
+}
+
+.review-dish-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+}
+
+.review-dish-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.review-dish-info strong {
+  font-size: 13.5px;
+  color: var(--text-color);
+}
+
+.review-dish-category {
+  font-size: 11px;
+  color: var(--text-light-color);
+  text-transform: capitalize;
+}
+
+.review-dish-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.review-dish-rating strong {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  color: var(--color-primary);
+}
+
+.review-dish-count {
+  font-size: 11px;
+  color: var(--text-light-color);
+}
+
+/* ── Ratings Feed ── */
+.review-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.review-feed-row {
+  padding: 12px 14px;
+  background: var(--bg-light-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  border-left: 2px solid var(--color-primary);
+}
+
+.review-feed-main {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.review-feed-top {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 12.5px;
+}
+
+.review-feed-user {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.review-feed-verb {
+  color: var(--text-light-color);
+}
+
+.review-feed-dish {
+  color: var(--text-color);
+}
+
+.review-feed-stars {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.review-feed-date {
+  font-size: 11px;
+  color: var(--text-light-color);
+}
+
+.review-feed-comment {
+  font-size: 12.5px;
+  color: var(--text-light-color);
+  font-style: italic;
+  line-height: 1.5;
+  margin: 4px 0 0;
+  padding-left: 8px;
+  border-left: 1px dashed var(--border-color);
+}
+
+
+
+/* ==============================
    PORTAL MODAL (base wrapper used by Modal.jsx)
 ============================== */
 .modal-backdrop {
@@ -3701,7 +4296,32 @@ footer {
     flex: 1;
     max-width: 220px;
   }
+  .review-section-head {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .review-dish-row {
+    grid-template-columns: 52px 1fr auto;
+    padding: 12px 16px;
+    gap: 16px;
+  }
+
+  .review-dish-thumb {
+    width: 52px;
+    height: 52px;
+  }
+
+  .review-overall {
+    align-items: flex-end;
+  }
+
+  .review-feed-row {
+    padding: 14px 18px;
+  }
 }
+
 
 /* =========================================================
    DESKTOP — 1024px and up

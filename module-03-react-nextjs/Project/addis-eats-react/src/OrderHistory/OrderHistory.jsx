@@ -1,7 +1,11 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useOrderStore } from "../stores/useOrderStore";
 import { useAuthStore } from "../stores/useAuthStore";
 import { useCartStore } from "../stores/useCartStore";
+import { useReviewStore } from "../stores/useReviewStore";
+import RatingModal from "../ui/RatingModal";
+import StarRating from "../ui/StarRating";
 
 const STEPS = [
   { key: "pending", label: "Placed", icon: "✓" },
@@ -34,17 +38,26 @@ export default function OrderHistory() {
   const orders = useOrderStore((s) => s.orders);
   const currentUser = useAuthStore((s) => s.currentUser);
   const addToCart = useCartStore((s) => s.addToCart);
+  const ratings = useReviewStore((s) => s.ratings);
   const navigate = useNavigate();
+
+  // Local state for the currently open rating modal
+  const [ratingDish, setRatingDish] = useState(null);
 
   // Only show the signed-in user's orders
   const myOrders = (orders || []).filter(
     (o) => o.customerUsername === currentUser?.username
   );
 
+  // Helper — find the current user's rating for a dish
+  const getUserRating = (dishId) =>
+    ratings.find(
+      (r) => r.dishId === dishId && r.username === currentUser?.username
+    ) || null;
+
   // ── Reorder handler ─────────────────────────────────────
   const handleReorder = (order) => {
     order.items.forEach((item) => {
-      // Add to cart with the same qty
       for (let i = 0; i < item.qty; i++) {
         addToCart({
           id: item.id,
@@ -104,76 +117,117 @@ export default function OrderHistory() {
       </div>
 
       <div className="order-history-list">
-        {myOrders.map((order) => (
-          <div className="order-card" key={order.id}>
-            <div className="order-card-header">
-              <div>
-                <span className="order-id serif">#{order.id.slice(-6)}</span>
-                <span className="order-date">
-                  {new Date(order.placedAt).toLocaleString()}
-                </span>
-              </div>
-              <span className={`order-status-pill status-${order.status}`}>
-                {order.status.replace(/-/g, " ")}
-              </span>
-            </div>
+        {myOrders.map((order) => {
+          // Cancelled orders can't be rated — the food was never made
+          const canRate = order.status !== "cancelled";
 
-            <StatusTimeline currentStatus={order.status} />
-
-            <div className="order-items">
-              {order.items.map((item) => (
-                <div className="order-item-row" key={item.id}>
-                  <div className="order-item-left">
-                    {item.img && (
-                      <img
-                        src={
-                          item.img.startsWith("/")
-                            ? item.img
-                            : `/${item.img.replace(/^(Imgaes|Images|images)\//, "images/")}`
-                        }
-                        alt={item.name}
-                        className="order-item-thumb"
-                      />
-                    )}
-                    <span>
-                      {item.qty}× {item.name}
-                    </span>
-                  </div>
-                  <span>
-                    {item.price * item.qty} <sup>Birr</sup>
+          return (
+            <div className="order-card" key={order.id}>
+              <div className="order-card-header">
+                <div>
+                  <span className="order-id serif">#{order.id.slice(-6)}</span>
+                  <span className="order-date">
+                    {new Date(order.placedAt).toLocaleString()}
                   </span>
                 </div>
-              ))}
-            </div>
-
-            {order.delivery && (
-              <div className="order-delivery-info">
-                <span>
-                  {order.delivery.type === "delivery" ? "🚚 Delivery" : "🏬 Pickup"}
+                <span className={`order-status-pill status-${order.status}`}>
+                  {order.status.replace(/-/g, " ")}
                 </span>
-                <span>
-                  {order.delivery.name} · {order.delivery.phone}
-                </span>
-                {order.delivery.address && <span>{order.delivery.address}</span>}
               </div>
-            )}
 
-            <div className="order-footer">
-              <span className="order-total serif">
-                Total: {order.total} <sup>Birr</sup>
-              </span>
+              <StatusTimeline currentStatus={order.status} />
 
-              {/* Reorder button */}
-              <button
-                type="button"
-                className="btn-outline reorder-btn"
-                onClick={() => handleReorder(order)}
-              >
-                ↺ Reorder
-              </button>
+              <div className="order-items">
+                {order.items.map((item) => {
+                  const userRating = getUserRating(item.id);
+
+                  return (
+                    <div className="order-item-row" key={item.id}>
+                      <div className="order-item-left">
+                        {item.img && (
+                          <img
+                            src={
+                              item.img.startsWith("/")
+                                ? item.img
+                                : `/${item.img.replace(/^(Imgaes|Images|images)\//, "images/")}`
+                            }
+                            alt={item.name}
+                            className="order-item-thumb"
+                          />
+                        )}
+                        <div className="order-item-info">
+                          <span>
+                            {item.qty}× {item.name}
+                          </span>
+
+                          {/* Rating UI — only for non-cancelled orders */}
+                          {canRate && (
+                            <>
+                              {userRating ? (
+                                <div className="order-item-rating">
+                                  <StarRating value={userRating.stars} size={14} />
+                                  <button
+                                    type="button"
+                                    className="order-item-rate-btn ghost"
+                                    onClick={() => setRatingDish(item)}
+                                  >
+                                    Edit
+                                  </button>
+                                </div>
+                              ) : (
+                                <button
+                                  type="button"
+                                  className="order-item-rate-btn"
+                                  onClick={() => setRatingDish(item)}
+                                >
+                                  ★ Rate this dish
+                                </button>
+                              )}
+                            </>
+                          )}
+                        </div>
+                      </div>
+                      <span>
+                        {item.price * item.qty} <sup>Birr</sup>
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {order.delivery && (
+                <div className="order-delivery-info">
+                  <span>
+                    {order.delivery.type === "delivery" ? "🚚 Delivery" : "🏬 Pickup"}
+                  </span>
+                  <span>
+                    {order.delivery.name} · {order.delivery.phone}
+                  </span>
+                  {order.delivery.address && <span>{order.delivery.address}</span>}
+                  {order.delivery.notes && (
+                    <span className="order-notes-inline">
+                      📝 {order.delivery.notes}
+                    </span>
+                  )}
+                </div>
+              )}
+
+              <div className="order-footer">
+                <span className="order-total serif">
+                  Total: {order.total} <sup>Birr</sup>
+                </span>
+
+                <button
+                  type="button"
+                  className="btn-outline reorder-btn"
+                  onClick={() => handleReorder(order)}
+                >
+                  ↺ Reorder
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <div className="offers-footer">
@@ -181,6 +235,15 @@ export default function OrderHistory() {
           Order Again
         </Link>
       </div>
+
+      {/* Rating modal — renders only when a dish is being rated */}
+      {ratingDish && (
+        <RatingModal
+          dish={ratingDish}
+          username={currentUser.username}
+          onClose={() => setRatingDish(null)}
+        />
+      )}
     </section>
   );
 }

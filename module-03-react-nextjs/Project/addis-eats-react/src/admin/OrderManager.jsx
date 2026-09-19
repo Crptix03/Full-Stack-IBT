@@ -41,14 +41,19 @@ export default function OrderManager() {
 
             <div className="admin-order-body">
               <div>
-                <strong>{o.delivery?.name || "Guest"}</strong>
-                <p>{o.delivery?.phone}</p>
-                <p>{o.delivery?.address || "Pickup"}</p>
-                {o.customerUsername && (
-                  <p className="muted">
-                    Account: <strong>{o.customerUsername}</strong>
-                  </p>
-                )}
+                  <strong>{o.delivery?.name || "Guest"}</strong>
+                  <p>{o.delivery?.phone}</p>
+                  <p>{o.delivery?.address || "Pickup"}</p>
+                  {o.customerUsername && (
+                    <p className="muted">
+                      Account: <strong>{o.customerUsername}</strong>
+                    </p>
+                  )}
+                  {o.delivery?.notes && (
+                    <p className="order-notes">
+                      📝 <em>{o.delivery.notes}</em>
+                    </p>
+                  )}
               </div>
 
               <ul className="order-items-mini">

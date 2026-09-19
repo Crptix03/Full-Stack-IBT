@@ -4,6 +4,13 @@ import { useCartStore, selectCartTotal } from "../stores/useCartStore";
 import { useOrderStore } from "../stores/useOrderStore";
 import { useAuthStore } from "../stores/useAuthStore";
 
+const QUICK_NOTES = [
+  "🚫 No onions",
+  "🌶️ Extra spicy",
+  "🧂 No salt",
+  "🔔 Ring the bell twice",
+];
+
 export default function Checkout() {
   const items = useCartStore((s) => s.items);
   const cartTotal = useCartStore(selectCartTotal);
@@ -16,16 +23,35 @@ export default function Checkout() {
 
   const [orderType, setOrderType] = useState("delivery");
   const [address, setAddress] = useState("");
+  const [notes, setNotes] = useState("");
   const [errors, setErrors] = useState({});
 
-  //  Read from profile (guaranteed non-empty after our SignUp validation,
-  // but still guard against legacy accounts with blank profiles)
   const name = currentUser?.fullName?.trim() || "";
   const phone = currentUser?.phone?.trim() || "";
   const profileIncomplete = !name || !phone;
 
   const deliveryFee = orderType === "delivery" ? 100 : 0;
   const total = cartTotal + deliveryFee;
+
+  // ── Quick-note helpers ────────────────────────────────
+  const hasNote = (tag) => notes.toLowerCase().includes(tag.toLowerCase());
+
+  const toggleNote = (tag) => {
+    setNotes((current) => {
+      // Split on commas, trim each part
+      const parts = current
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean);
+
+      if (parts.some((p) => p.toLowerCase() === tag.toLowerCase())) {
+        // Remove it
+        return parts.filter((p) => p.toLowerCase() !== tag.toLowerCase()).join(", ");
+      }
+      // Add it
+      return parts.length ? `${parts.join(", ")}, ${tag}` : tag;
+    });
+  };
 
   // Empty cart guard
   if (items.length === 0) {
@@ -48,7 +74,6 @@ export default function Checkout() {
     );
   }
 
-  //  Only validate the address — name and phone come from the profile
   const validate = () => {
     const newErrors = {};
 
@@ -84,6 +109,7 @@ export default function Checkout() {
         phone,
         address: orderType === "delivery" ? address.trim() : null,
         deliveryFee,
+        notes: notes.trim() || null,
       },
       customerUsername: currentUser?.username || "Guest",
     };
@@ -125,7 +151,7 @@ export default function Checkout() {
             </button>
           </div>
 
-          {/* Profile incomplete banner (only for legacy accounts) */}
+          {/* Profile incomplete banner */}
           {profileIncomplete && (
             <div className="profile-incomplete-notice">
               <p>
@@ -138,20 +164,16 @@ export default function Checkout() {
           {/* Name — read-only from profile */}
           <div className="field">
             <label>Your Name</label>
-            <div className="field-static-readonly">
-              {name || "Not set"}
-            </div>
+            <div className="field-static-readonly">{name || "Not set"}</div>
           </div>
 
           {/* Phone — read-only from profile */}
           <div className="field">
             <label>Phone Number</label>
-            <div className="field-static-readonly">
-              {phone || "Not set"}
-            </div>
+            <div className="field-static-readonly">{phone || "Not set"}</div>
           </div>
 
-          {/* Delivery address — editable */}
+          {/* Delivery address */}
           {orderType === "delivery" && (
             <div className="field">
               <label>Delivery Address *</label>
@@ -166,6 +188,34 @@ export default function Checkout() {
               )}
             </div>
           )}
+
+          {/* Special Instructions with quick-pick pills */}
+          <div className="field">
+            <label>Special Instructions</label>
+            <textarea
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="e.g. No onions, extra spicy, ring the bell twice, leave at the door..."
+              rows={3}
+              maxLength={300}
+            />
+
+            <div className="quick-notes">
+              {QUICK_NOTES.map((tag) => (
+                <button
+                  key={tag}
+                  type="button"
+                  className={`note-tag ${hasNote(tag) ? "active" : ""}`}
+                  onClick={() => toggleNote(tag)}
+                >
+                  {hasNote(tag) ? "✓ " : "+ "}
+                  {tag}
+                </button>
+              ))}
+            </div>
+
+            <span className="field-hint">{notes.length}/300</span>
+          </div>
 
           {errors.profile && (
             <span className="field-error">{errors.profile}</span>

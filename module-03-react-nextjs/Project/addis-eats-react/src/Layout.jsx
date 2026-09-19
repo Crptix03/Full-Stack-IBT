@@ -9,7 +9,7 @@ import ScrollToHash from "./ScrollToHash";
 export default function Layout() {
   const cartCount = useCartStore(selectCartCount);
   const theme = useThemeStore((s) => s.theme);
-  const toggleTheme = useThemeStore((s) => s.toggleTheme)
+  const toggleTheme = useThemeStore((s) => s.toggleTheme);
   const navigate = useNavigate();
   const location = useLocation();
   const [activeSection, setActiveSection] = useState(null);
@@ -130,16 +130,7 @@ export default function Layout() {
         </nav>
 
         <div className="header-actions">
-          <button
-            className="icon-btn"
-            aria-label="Search"
-            onClick={() => navigate("/menu", { state: { focusSearch: true } })}
-          >
-            <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.6" strokeLinecap="round">
-              <circle cx="11" cy="11" r="7" />
-              <path d="m21 21-4.35-4.35" />
-            </svg>
-          </button>
+          {/* ✅ Search button removed */}
 
           <button className="icon-btn" aria-label="Toggle Theme" onClick={toggleTheme}>
             {theme === "dark" ? (

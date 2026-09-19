@@ -10,6 +10,7 @@ import RequireAdmin from "./admin/RequireAdmin";
 import ErrorBoundary from "./ErrorBoundary";
 import PageSkeleton from "./ui/PageSkeleton";
 import { useMenuStore } from "./stores/useMenuStore";
+const ReviewManager = lazy(() => import("./admin/ReviewManager"));
 
 // ── Lazy-loaded routes (split out of the main bundle) ──
 const Menu = lazy(() => import("./Menu/Menu"));
@@ -157,6 +158,7 @@ export default function App() {
         >
           <Route index element={<Suspense fallback={<PageSkeleton />}><Dashboard /></Suspense>} />
           <Route path="dishes" element={<Suspense fallback={<PageSkeleton />}><DishManager /></Suspense>} />
+          <Route path="reviews" element={<Suspense fallback={<PageSkeleton />}><ReviewManager /></Suspense>} />
           <Route path="orders" element={<Suspense fallback={<PageSkeleton />}><OrderManager /></Suspense>} />
           <Route path="users" element={<Suspense fallback={<PageSkeleton />}><UserManager /></Suspense>} />
 

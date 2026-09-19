@@ -1,6 +1,6 @@
 # Addis Eats React
 
-A full React restaurant web app for a modern Ethiopian food brand. This project combines a customer-facing food ordering experience with a working admin panel for menu, order, and user management.
+A full React restaurant web app for a modern Ethiopian food brand. This project combines a customer-facing food ordering experience with a working admin panel for menu, order, user, and review management.
 
 The app is built with Vite + React and uses localStorage as a mock backend so the project works fully in the browser without a separate server.
 
@@ -14,14 +14,17 @@ This project was built as a complete restaurant management and ordering experien
 - Menu browsing with categories, search, and favorites
 - Cart with quantity updates and totals
 - Checkout flow with validation and order placement
-- Customer order history
+- Customer order history with reorder and dish thumbnails
+- Special instructions on orders (per-order notes for the kitchen)
+- Dish rating and review system (customers rate, admin analyzes)
 - Sign up / sign in / profile management
 - Light and dark theme switching
 - Admin dashboard with revenue and order stats
 - Menu management for dishes
 - Order tracking and status updates
 - User management for customers and admin accounts
-- Error boundaries, lazy-loaded routes, and a portal-based modal for resilience and performance
+- Reviews & ratings analytics for the admin
+- Error boundaries, lazy-loaded routes, and portal-based modals for resilience and performance
 
 ---
 
@@ -35,20 +38,27 @@ This project was built as a complete restaurant management and ordering experien
 - Add-to-cart flow with persistent cart state
 - Checkout form with validation for customer details
 - Delivery and pickup options
+- **Special instructions field** — customers can add per-order notes (with quick-pick pills like "No onions" or "Extra spicy")
 - Order confirmation screen with matching order ID from Order History
 - Profile page with avatar upload and username editing
 - Account creation and sign-in flow
 - Theme toggle between dark and light mode
 - Reorder button on past orders that re-adds all items to the cart
+- **Rate ordered dishes** with a star rating and optional comment
+- Average dish ratings visible on menu cards and in the dish modal
+- Order history with dish thumbnails for a polished, scannable list
 
 ### Admin side
 
 - Protected admin route using role-based access
 - Dashboard with revenue, average order value, top dishes, and recent orders
 - Menu manager to add, edit, hide/show, and remove dishes
-- Order manager to update statuses like pending, preparing, on-the-way, delivered, and cancelled
+- Order manager with **special instructions visible per order** for the kitchen
 - User manager to inspect registered users and identify admin accounts
-- Persistent localStorage-backed menu and order data
+- **Reviews & Ratings manager** with two views:
+  - **Dish Leaderboard** — dishes sorted by highest rating, most rated, or name, so you instantly see what customers love
+  - **All Ratings feed** — every rating with the customer's username, the dish, stars, timestamp, and comment; searchable by customer, dish, or comment
+- Persistent localStorage-backed menu, order, and rating data
 
 ### Resilience & Performance
 
@@ -57,9 +67,9 @@ This project was built as a complete restaurant management and ordering experien
 - **Dev-only error details** — the stack trace and message only render in development; production builds hide them from users.
 - **Route-based code splitting** with `React.lazy` + `Suspense`. Every page except Home is a separate chunk, downloaded only when the user navigates to it.
 - **Skeleton loading state** (`PageSkeleton`) shown while lazy chunks are downloading — a shape roughly matching the incoming content, so the layout doesn't jump.
-- **Portal-based modals** using `createPortal` — dish details render into a `#modal-root` div outside the app tree so they escape `overflow: hidden` on any ancestor card.
+- **Portal-based modals** using `createPortal` — dish details and rating modals render into a `#modal-root` div outside the app tree so they escape `overflow: hidden` on any ancestor card.
 - **Accessible modal behavior** — focus moves into the modal on open, `Escape` closes it, and focus returns to the triggering element on close. Includes `role="dialog"` and `aria-labelledby`.
-- **Zustand state management** — all six state domains (auth, cart, favorites, menu, orders, theme) live in Zustand stores with the `persist` middleware. Components subscribe to only the slices they need via selectors, so re-renders are minimal by default — no manual `useCallback`/`useMemo` on context values required.
+- **Zustand state management** — all seven state domains (auth, cart, favorites, menu, orders, reviews, theme) live in Zustand stores with the `persist` middleware. Components subscribe to only the slices they need via selectors, so re-renders are minimal by default.
 - **Profiled and fixed a re-render** — clicking "+ Add to Order" dropped from **16.3 ms to 7.6 ms** (53% faster). Originally achieved via `useCallback` + `useMemo` on the Cart context; after migrating to Zustand, the same optimization is structural. Full details in `PROFILE.md`.
 
 ---
@@ -90,7 +100,7 @@ Use this account to access the admin panel:
 
 ## Project structure
 
-````bash
+```bash
 addis-eats-react/
 ├── .gitignore
 ├── eslint.config.js
@@ -111,6 +121,7 @@ addis-eats-react/
 │   │   ├── DishManager.jsx
 │   │   ├── OrderManager.jsx
 │   │   ├── RequireAdmin.jsx
+│   │   ├── ReviewManager.jsx     # ratings analytics
 │   │   └── UserManager.jsx
 │   ├── Auth/
 │   │   ├── Profile.jsx
@@ -131,25 +142,28 @@ addis-eats-react/
 │   │   └── Story.jsx
 │   ├── Menu/
 │   │   ├── CategoryBar.jsx
-│   │   ├── DishCard.jsx          # memoized leaf
+│   │   ├── DishCard.jsx          # memoized leaf + rating badge
 │   │   ├── DishList.jsx
 │   │   ├── Favorites.jsx
 │   │   ├── Menu.jsx
-│   │   └── DishModal.jsx         # uses <Modal /> portal
+│   │   └── DishModal.jsx         # uses <Modal /> portal + avg rating
 │   ├── OrderHistory/
-│   │   └── OrderHistory.jsx
+│   │   └── OrderHistory.jsx      # thumbnails + rate button
 │   ├── stores/                   # Zustand stores (one per domain)
 │   │   ├── useAuthStore.js
 │   │   ├── useCartStore.js
 │   │   ├── useFavoritesStore.js
 │   │   ├── useMenuStore.js
 │   │   ├── useOrderStore.js
+│   │   ├── useReviewStore.js     # ratings persistence
 │   │   └── useThemeStore.js
 │   ├── ui/
 │   │   ├── Button.jsx
 │   │   ├── Modal.jsx             # createPortal + focus trap + Escape
 │   │   ├── PageSkeleton.jsx      # Suspense fallback
-│   │   └── Spinner.jsx
+│   │   ├── RatingModal.jsx       # rate-a-dish modal
+│   │   ├── Spinner.jsx
+│   │   └── StarRating.jsx        # reusable star component
 │   ├── AccountMenu.jsx
 │   ├── App.css
 │   ├── App.jsx                   # lazy routes + error boundaries + loadMenu()
@@ -160,7 +174,8 @@ addis-eats-react/
 │   ├── main.jsx                  # just <BrowserRouter> + <App />
 │   ├── RequireAuth.jsx
 │   └── ScrollToHash.jsx
-└── README.md```
+└── README.md
+```
 
 ---
 
@@ -170,7 +185,7 @@ addis-eats-react/
 
 ```bash
 cd addis-eats-react
-````
+```
 
 2. Install dependencies:
 
@@ -234,14 +249,16 @@ Open a dish from the menu — inspect the DOM and confirm the modal renders insi
 
 This project demonstrates a working restaurant app from start to finish:
 
-- user-facing ordering experience
-- shopping cart and checkout flow
+- user-facing ordering experience with search, favorites, and dish ratings
+- shopping cart, checkout flow, and special instructions per order
 - profile and account system
-- admin dashboard and store management
+- admin dashboard, order tracking, and store management
+- admin reviews analytics with dish leaderboard and full ratings feed
 - responsive design and theme switching
 - resilient runtime with error boundaries
 - route-based code splitting and skeleton loading states
 - accessible, portal-based modals
+- Zustand state management with persisted stores
 - measured and fixed a real performance bottleneck
 
 It was built as a practical React project to simulate how a real restaurant website and business dashboard could work together in one application.

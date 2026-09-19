@@ -1,11 +1,16 @@
 import { memo } from "react";
 import Button from "../ui/Button";
 import { useFavoritesStore } from "../stores/useFavoritesStore";
+import { useReviewStore } from "../stores/useReviewStore";
+import StarRating from "../ui/StarRating";
 
 function DishCard({ dish, onAdd, onOpen }) {
   const favorites = useFavoritesStore((s) => s.favorites);
   const toggleFavorite = useFavoritesStore((s) => s.toggleFavorite);
   const favorited = favorites.includes(dish.id);
+
+  // Subscribe to ratings — re-renders when any rating changes
+  const ratings = useReviewStore((s) => s.ratings);
 
   // 🎬 Demo-only crash — visit /menu?crash=1 to trigger the error boundary.
   if (
@@ -24,6 +29,13 @@ function DishCard({ dish, onAdd, onOpen }) {
         ((dish.originalPrice - dish.price) / dish.originalPrice) * 100
       )
     : 0;
+
+  // ── Average rating for this dish ────────────────────────
+  const dishRatings = ratings.filter((r) => r.dishId === dish.id);
+  const averageRating =
+    dishRatings.length > 0
+      ? dishRatings.reduce((sum, r) => sum + r.stars, 0) / dishRatings.length
+      : null;
 
   const handleFavoriteClick = (e) => {
     e.stopPropagation();
@@ -55,6 +67,18 @@ function DishCard({ dish, onAdd, onOpen }) {
           </span>
         )}
 
+        {/*  Average rating badge — bottom-left, only when ratings exist */}
+        {averageRating !== null && (
+          <div className="dish-card-rating">
+            <StarRating value={averageRating} size={12} />
+            <span>{averageRating.toFixed(1)}</span>
+            <span className="dish-card-rating-count">
+              ({dishRatings.length})
+            </span>
+          </div>
+        )}
+
+        {/* ❤️ Favorite button (bottom-right of image) */}
         <button
           className={`dish-fav-btn ${favorited ? "active" : ""}`}
           onClick={handleFavoriteClick}
