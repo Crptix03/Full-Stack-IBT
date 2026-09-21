@@ -1,8 +1,8 @@
 import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Footer from "./Footer";
-import { useCartStore, selectCartCount } from "./stores/useCartStore";
-import { useThemeStore } from "./stores/useThemeStore";
+import { useCartStore, selectCartCount } from "../stores/useCartStore";
+import { useThemeStore } from "../stores/useThemeStore";
 import AccountMenu from "./AccountMenu";
 import ScrollToHash from "./ScrollToHash";
 

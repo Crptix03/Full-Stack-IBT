@@ -127,7 +127,8 @@ addis-eats-react/
 │   │   ├── Profile.jsx
 │   │   ├── SignIn.jsx
 │   │   ├── SignUp.jsx
-│   │   └── PasswordInput.jsx
+│   │   ├── PasswordInput.jsx
+│   │   └── RequireAuth.jsx
 │   ├── Cart/
 │   │   └── Cart.jsx
 │   ├── Checkout/
@@ -140,6 +141,11 @@ addis-eats-react/
 │   │   ├── Home.jsx
 │   │   ├── Offers.jsx
 │   │   └── Story.jsx
+│   ├── Layout/
+│   │   ├── Layout.jsx            # shell + header + bottom tab bar
+│   │   ├── Footer.jsx
+│   │   ├── AccountMenu.jsx
+│   │   └── ScrollToHash.jsx      # scroll-to-top / scroll-to-hash
 │   ├── Menu/
 │   │   ├── CategoryBar.jsx
 │   │   ├── DishCard.jsx          # memoized leaf + rating badge
@@ -163,17 +169,12 @@ addis-eats-react/
 │   │   ├── PageSkeleton.jsx      # Suspense fallback
 │   │   ├── RatingModal.jsx       # rate-a-dish modal
 │   │   ├── Spinner.jsx
-│   │   └── StarRating.jsx        # reusable star component
-│   ├── AccountMenu.jsx
+│   │   ├── StarRating.jsx        # reusable star component
+│   │   └── ErrorBoundary.jsx     # class component
 │   ├── App.css
 │   ├── App.jsx                   # lazy routes + error boundaries + loadMenu()
-│   ├── ErrorBoundary.jsx         # class component
-│   ├── Footer.jsx
 │   ├── index.css
-│   ├── Layout.jsx
-│   ├── main.jsx                  # just <BrowserRouter> + <App />
-│   ├── RequireAuth.jsx
-│   └── ScrollToHash.jsx
+│   └── main.jsx                  # just <BrowserRouter> + <App />
 └── README.md
 ```
 

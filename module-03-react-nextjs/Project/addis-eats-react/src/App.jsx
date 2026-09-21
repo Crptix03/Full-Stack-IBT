@@ -2,12 +2,12 @@ import "./App.css";
 import { lazy, Suspense, useEffect } from "react";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 
-import Layout from "./Layout";
+import Layout from "./Layout/Layout";
 import Home from "./Home/Home";
-import ScrollToHash from "./ScrollToHash";
-import RequireAuth from "./RequireAuth";
+import ScrollToHash from "./Layout/ScrollToHash";
+import RequireAuth from "./admin/RequireAuth";
 import RequireAdmin from "./admin/RequireAdmin";
-import ErrorBoundary from "./ErrorBoundary";
+import ErrorBoundary from "./ui/ErrorBoundary";
 import PageSkeleton from "./ui/PageSkeleton";
 import { useMenuStore } from "./stores/useMenuStore";
 const ReviewManager = lazy(() => import("./admin/ReviewManager"));
