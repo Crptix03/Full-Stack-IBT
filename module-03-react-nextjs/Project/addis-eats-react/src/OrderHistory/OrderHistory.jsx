@@ -6,6 +6,7 @@ import { useCartStore } from "../stores/useCartStore";
 import { useReviewStore } from "../stores/useReviewStore";
 import RatingModal from "../ui/RatingModal";
 import StarRating from "../ui/StarRating";
+import EmptyState from "../ui/EmptyState";
 
 const STEPS = [
   { key: "pending", label: "Placed", icon: "✓" },
@@ -73,37 +74,25 @@ export default function OrderHistory() {
   // --- Empty states ---
   if (!currentUser) {
     return (
-      <section className="placeholder-page">
-        <div className="title-band">
-          <h1 className="serif">
-            Order <em>Tracking</em>
-          </h1>
-          <div className="rule" />
-          <p className="placeholder-message">
-            Please{" "}
-            <Link to="/signin" style={{ color: "var(--color-primary)" }}>
-              sign in
-            </Link>{" "}
-            to see your order history.
-          </p>
-        </div>
-      </section>
+      <EmptyState
+        icon="signin"
+        title="Sign In to Track Orders"
+        message="Please sign in to view your order history and track deliveries in real time."
+        actionLabel="Sign In"
+        actionTo="/signin"
+      />
     );
   }
 
   if (myOrders.length === 0) {
     return (
-      <section className="placeholder-page">
-        <div className="title-band">
-          <h1 className="serif">
-            Order <em>Tracking</em>
-          </h1>
-          <div className="rule" />
-          <p className="placeholder-message">
-            No orders yet. Once you place an order, you can track it here in real-time.
-          </p>
-        </div>
-      </section>
+      <EmptyState
+        icon="orders"
+        title="No Orders Yet"
+        message="Once you place your first order, you'll be able to track it here in real time."
+        actionLabel="Browse the Menu"
+        actionTo="/menu"
+      />
     );
   }
 

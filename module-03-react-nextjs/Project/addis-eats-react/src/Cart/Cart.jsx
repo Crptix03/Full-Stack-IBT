@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useCartStore, selectCartTotal } from "../stores/useCartStore";
+import EmptyState from "../ui/EmptyState";
 
 export default function Cart() {
   const items = useCartStore((s) => s.items);
@@ -10,21 +11,13 @@ export default function Cart() {
 
   if (items.length === 0) {
     return (
-      <section className="placeholder-page">
-        <div className="title-band">
-          <h1 className="serif">
-            Your <em>Cart</em>
-          </h1>
-          <div className="rule" />
-          <p className="placeholder-message">
-            Your cart is currently empty. Explore our{" "}
-            <Link to="/menu" style={{ color: "var(--color-primary)" }}>
-              menu
-            </Link>{" "}
-            to add dishes.
-          </p>
-        </div>
-      </section>
+      <EmptyState
+        icon="cart"
+        title="Your Cart is Empty"
+        message="Browse our menu and add a few of our signature dishes to get started."
+        actionLabel="Explore the Menu"
+        actionTo="/menu"
+      />
     );
   }
 

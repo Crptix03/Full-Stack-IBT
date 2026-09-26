@@ -1,5 +1,6 @@
 import { useFavoritesStore } from "../stores/useFavoritesStore";
 import { useReviewStore } from "../stores/useReviewStore";
+import { useToastStore } from "../stores/useToastStore";
 import StarRating from "../ui/StarRating";
 import Modal from "../ui/Modal";
 
@@ -7,8 +8,11 @@ export default function DishModal({ dish, onClose, onAdd }) {
   const favorites = useFavoritesStore((s) => s.favorites);
   const toggleFavorite = useFavoritesStore((s) => s.toggleFavorite);
 
-  //  Subscribe to ratings array — re-renders when any rating changes
+  // ✅ Subscribe to ratings — re-renders when any rating changes
   const ratings = useReviewStore((s) => s.ratings);
+
+  // ✅ Toast feedback
+  const addToast = useToastStore((s) => s.addToast);
 
   if (!dish) return null;
 
@@ -31,6 +35,26 @@ export default function DishModal({ dish, onClose, onAdd }) {
     : 0;
 
   const savedAmount = hasDiscount ? dish.originalPrice - dish.price : 0;
+
+  const handleFavoriteToggle = () => {
+    toggleFavorite(dish.id);
+
+    // ✅ Toast — check old state before toggling
+    if (favorited) {
+      addToast({ message: "Removed from Favorites", type: "info" });
+    } else {
+      addToast({
+        message: `${dish.name} added to Favorites ♥`,
+        type: "success",
+      });
+    }
+  };
+
+  const handleAddToOrder = () => {
+    onAdd(dish);
+    addToast({ message: `${dish.name} added to Cart`, type: "success" });
+    onClose();
+  };
 
   return (
     <Modal onClose={onClose} labelledBy="dish-modal-title">
@@ -92,7 +116,7 @@ export default function DishModal({ dish, onClose, onAdd }) {
 
           <p className="dish-modal-desc">{dish.description}</p>
 
-          {/* Average rating — shown only if the dish has at least one rating */}
+          {/* ✅ Average rating — shown only if the dish has at least one rating */}
           {dishRatings.length > 0 && (
             <div className="dish-modal-rating">
               <StarRating value={averageRating} size={18} />
@@ -124,7 +148,7 @@ export default function DishModal({ dish, onClose, onAdd }) {
           <div className="dish-modal-actions">
             <button
               className={`dish-modal-fav ${favorited ? "active" : ""}`}
-              onClick={() => toggleFavorite(dish.id)}
+              onClick={handleFavoriteToggle}
               aria-label={favorited ? "Remove from favorites" : "Add to favorites"}
             >
               <svg
@@ -141,10 +165,7 @@ export default function DishModal({ dish, onClose, onAdd }) {
 
             <button
               className="dish-modal-add"
-              onClick={() => {
-                onAdd(dish);
-                onClose();
-              }}
+              onClick={handleAddToOrder}
             >
               + Add to Order · {dish.price} Birr
               {hasDiscount && (

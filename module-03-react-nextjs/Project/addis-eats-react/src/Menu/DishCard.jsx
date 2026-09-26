@@ -2,6 +2,7 @@ import { memo } from "react";
 import Button from "../ui/Button";
 import { useFavoritesStore } from "../stores/useFavoritesStore";
 import { useReviewStore } from "../stores/useReviewStore";
+import { useToastStore } from "../stores/useToastStore";
 import StarRating from "../ui/StarRating";
 
 function DishCard({ dish, onAdd, onOpen }) {
@@ -9,8 +10,11 @@ function DishCard({ dish, onAdd, onOpen }) {
   const toggleFavorite = useFavoritesStore((s) => s.toggleFavorite);
   const favorited = favorites.includes(dish.id);
 
-  // Subscribe to ratings — re-renders when any rating changes
+  // ✅ Subscribe to ratings — re-renders when any rating changes
   const ratings = useReviewStore((s) => s.ratings);
+
+  // ✅ Toast feedback
+  const addToast = useToastStore((s) => s.addToast);
 
   // 🎬 Demo-only crash — visit /menu?crash=1 to trigger the error boundary.
   if (
@@ -40,6 +44,22 @@ function DishCard({ dish, onAdd, onOpen }) {
   const handleFavoriteClick = (e) => {
     e.stopPropagation();
     toggleFavorite(dish.id);
+
+    // ✅ Toast feedback — check the OLD state before toggling
+    if (favorited) {
+      addToast({ message: "Removed from Favorites", type: "info" });
+    } else {
+      addToast({
+        message: `${dish.name} added to Favorites ♥`,
+        type: "success",
+      });
+    }
+  };
+
+  const handleAddClick = (e) => {
+    e.stopPropagation();
+    onAdd(dish);
+    addToast({ message: `${dish.name} added to Cart`, type: "success" });
   };
 
   return (
@@ -67,7 +87,7 @@ function DishCard({ dish, onAdd, onOpen }) {
           </span>
         )}
 
-        {/*  Average rating badge — bottom-left, only when ratings exist */}
+        {/* ✅ Average rating badge — bottom-left, only when ratings exist */}
         {averageRating !== null && (
           <div className="dish-card-rating">
             <StarRating value={averageRating} size={12} />
@@ -113,14 +133,7 @@ function DishCard({ dish, onAdd, onOpen }) {
             </span>
           </div>
 
-          <Button
-            onClick={(e) => {
-              e.stopPropagation();
-              onAdd(dish);
-            }}
-          >
-            + Add to Order
-          </Button>
+          <Button onClick={handleAddClick}>+ Add to Order</Button>
         </div>
       </div>
     </div>
