@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Providers from "../lib/providers";
+import Providers from "../lib/context";
 import "./globals.css";
 
 export const metadata = {

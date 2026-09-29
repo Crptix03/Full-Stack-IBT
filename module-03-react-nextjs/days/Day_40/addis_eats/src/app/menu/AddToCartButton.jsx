@@ -1,6 +1,6 @@
 "use client";
 
-import { useCart } from "@/lib/providers";
+import { useCart } from "@/lib/context";
 import { useState } from "react";
 
 export default function AddToCartButton({ dish }) {

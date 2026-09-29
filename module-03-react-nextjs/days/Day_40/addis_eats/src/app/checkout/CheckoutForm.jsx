@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { useCart } from "@/lib/providers";
+import { useCart } from "@/lib/context";
 import { placeOrder } from "@/app/actions";
 import Link from "next/link";
 

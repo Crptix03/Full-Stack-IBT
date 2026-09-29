@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCart } from "@/lib/providers";
+import { useCart } from "@/lib/context";
 
 export default function CartPage() {
   const { items, addToCart, removeFromCart } = useCart();
