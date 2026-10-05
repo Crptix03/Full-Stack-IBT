@@ -6,8 +6,6 @@ import { signOut } from "./actions";
 import { getSession } from "@/lib/session";
 import "./globals.css";
 
-// ── Font Optimization (Day 43) ────────────────────────
-// next/font self-hosts the font and eliminates layout shift (CLS).
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
