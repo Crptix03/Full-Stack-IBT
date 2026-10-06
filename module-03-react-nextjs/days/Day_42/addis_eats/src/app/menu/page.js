@@ -1,4 +1,4 @@
-import DishCard from "./DishCard";
+import DishList from "./DishList";
 import SearchBox from "./SearchBox";
 import Pagination from "./Pagination";
 import { getDishes } from "@/lib/dishes";
@@ -34,15 +34,7 @@ export default async function MenuPage({ searchParams }) {
 
       <SearchBox initialValue={q} />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {dishes.map((dish, index) => (
-          <DishCard 
-            key={dish.id} 
-            dish={dish} 
-            isFirst={index === 0} 
-          />
-        ))}
-      </div>
+      <DishList dishes={dishes} />
 
       <Pagination
         current={safePage}

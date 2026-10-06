@@ -1,16 +1,8 @@
 import Link from "next/link";
-import { Inter } from "next/font/google";
-import Script from "next/script";
 import Providers from "../lib/context";
 import { signOut } from "./actions";
 import { getSession } from "@/lib/session";
 import "./globals.css";
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
 
 export const metadata = {
   title: "Addis Eats",
@@ -18,20 +10,11 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  // ── Auth Check (Day 42) ─────────────────────────────
   const session = await getSession();
 
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en">
       <body className="min-h-screen flex flex-col bg-neutral-950 text-neutral-100">
-        
-        {/* ── Third-Party Script (Day 43) ─────────────── */}
-        {/* Loaded lazily so it does NOT block initial render */}
-        <Script
-          src="https://example.com/analytics.js"
-          strategy="lazyOnload"
-        />
-
         <Providers>
           <header className="flex justify-between items-center px-8 py-4 border-b border-neutral-800">
             <Link
@@ -51,7 +34,6 @@ export default async function RootLayout({ children }) {
                 Checkout
               </Link>
 
-              {/* ── Conditional Auth UI (Day 42) ──────── */}
               {session ? (
                 <form action={signOut}>
                   <button
