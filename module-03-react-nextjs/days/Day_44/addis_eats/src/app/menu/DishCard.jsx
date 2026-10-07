@@ -1,13 +1,14 @@
 // Day_42/addis_eats/src/app/menu/DishCard.jsx
 import Link from "next/link";
 import { toSlug } from "./slug";
+import Image from "next/image";
 
 export default function DishCard({ dish }) {
   return (
     <div className="border border-neutral-800 rounded-lg overflow-hidden bg-neutral-900">
       <Link href={`/menu/${toSlug(dish.name)}`} className="block">
         <div className="relative w-full h-48">
-          <img
+          <Image
             src={dish.image}
             alt={dish.name}
             className="w-full h-full object-cover"
