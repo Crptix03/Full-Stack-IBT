@@ -40,10 +40,6 @@ export default async function MenuPage({ searchParams }) {
   const safePage = Math.min(currentPage, totalPages);
   const start = (safePage - 1) * PAGE_SIZE;
   const dishes = filtered.slice(start, start + PAGE_SIZE);
-
-  // Only prioritise (preload) the first image on the default view — no search,
-  // no category filter, page 1. This keeps LCP fast without triggering the
-  // "preloaded but not used" warning when the user filters or searches.
   const isDefaultView = !q.trim() && category === "all" && safePage === 1;
 
   return (
