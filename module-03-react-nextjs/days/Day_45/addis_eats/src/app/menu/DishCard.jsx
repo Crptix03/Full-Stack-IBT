@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { toSlug } from "./slug";
 
-export default function DishCard({ dish, isFirst = false }) {
+export default function DishCard({ dish, priority = false }) {
   return (
     <div className="border border-neutral-800 rounded-lg overflow-hidden bg-neutral-900 hover:border-amber-400/50 transition-colors group">
       <Link href={`/menu/${toSlug(dish.name)}`} className="block">
@@ -13,8 +13,7 @@ export default function DishCard({ dish, isFirst = false }) {
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover group-hover:scale-105 transition-transform duration-300"
-            fetchPriority={isFirst ? "high" : "auto"}
-            loading={isFirst ? "eager" : "lazy"}
+            priority={priority}
           />
 
           {dish.tag && (

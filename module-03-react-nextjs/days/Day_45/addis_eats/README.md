@@ -14,7 +14,7 @@ A full-stack restaurant ordering app built with Next.js 16, React 19, and Tailwi
 - Staff-only kitchen dashboard with role check in every action
 - Live order status polled every 5 seconds via SWR
 - Debounced menu search (300 ms) and category filtering
-- Optimised images via next/image (WebP, responsive sizes, priority on hero)
+- Optimised images via next/image (AVIF + WebP fallback, responsive sizes, priority on hero)
 - Self-hosted fonts via next/font
 - Dynamic metadata per page and per dish
 - JSON-LD structured data on every dish detail page
@@ -145,5 +145,5 @@ Use customer and alex to verify order ownership isolation.
 - In-memory data. Orders and users reset on every server restart. A real deployment would use a database (Postgres, SQLite, etc.).
 - Plaintext passwords. Demo only. Production requires bcrypt or argon2.
 - No account creation. Accounts are pre-seeded. Adding sign-up is out of scope for this project.
-- LCP on dish detail is 2.7 s, slightly over the 2.5 s budget. See PERF.md section 6 for the honest analysis and the future AVIF fix.
+- LCP on dish detail is 2.1 s, inside the 2.5 s budget. See PERF.md for the full breakdown.
 - Light-theme contrast on a few muted text elements is borderline (Lighthouse Accessibility 94 on /menu). Not a functional issue.

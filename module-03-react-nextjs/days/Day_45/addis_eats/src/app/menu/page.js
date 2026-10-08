@@ -41,6 +41,11 @@ export default async function MenuPage({ searchParams }) {
   const start = (safePage - 1) * PAGE_SIZE;
   const dishes = filtered.slice(start, start + PAGE_SIZE);
 
+  // Only prioritise (preload) the first image on the default view — no search,
+  // no category filter, page 1. This keeps LCP fast without triggering the
+  // "preloaded but not used" warning when the user filters or searches.
+  const isDefaultView = !q.trim() && category === "all" && safePage === 1;
+
   return (
     <div>
       <h1 className="font-serif text-3xl text-amber-400 mb-6">Our Menu</h1>
@@ -54,7 +59,11 @@ export default async function MenuPage({ searchParams }) {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {dishes.map((dish, index) => (
-            <DishCard key={dish.id} dish={dish} isFirst={index === 0} />
+            <DishCard
+              key={dish.id}
+              dish={dish}
+              priority={isDefaultView && index === 0}
+            />
           ))}
         </div>
       )}

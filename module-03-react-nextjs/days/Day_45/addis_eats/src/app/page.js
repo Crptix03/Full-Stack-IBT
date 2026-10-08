@@ -74,8 +74,8 @@ export default async function HomePage() {
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  fetchPriority={index === 0 ? "high" : "auto"}
-                  loading={index === 0 ? "eager" : "lazy"}
+                  fetchPriority="auto"
+                  loading="lazy"
                 />
                 {dish.tag && (
                   <span
