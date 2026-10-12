@@ -6,14 +6,18 @@ export default function DishCard({ dish, priority = false }) {
   return (
     <div className="border border-neutral-800 rounded-lg overflow-hidden bg-neutral-900 hover:border-amber-400/50 transition-colors group">
       <Link href={`/menu/${toSlug(dish.name)}`} className="block">
+        {/* Explicit width/height lets the browser pick the right srcset candidate
+            without waiting for a layout pass, helping LCP on the first card. */}
         <div className="relative w-full h-48 overflow-hidden">
           <Image
             src={dish.image}
             alt={dish.name}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
+            width={600}
+            height={192}
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 45vw, 300px"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             priority={priority}
+            quality={priority ? 85 : 75}
           />
 
           {dish.tag && (

@@ -28,8 +28,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
-  --font-serif: Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-jost), Arial, Helvetica, sans-serif;
+  --font-serif: var(--font-playfair), Georgia, "Times New Roman", serif;
 }
 
 /* ── Base ─────────────────────────────────────────── */
@@ -41,7 +41,7 @@ body {
 }
 
 body {
-  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  font-family: var(--font-jost), Arial, Helvetica, sans-serif;
 }
 
 /* Dark theme gets a warm radial glow at the top */

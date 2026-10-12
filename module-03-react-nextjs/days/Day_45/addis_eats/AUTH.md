@@ -1,33 +1,33 @@
 # AUTH.md — Authentication, Authorization, and Attack Verification
 
-Every route, every action, its layers, and **what each layer actually proves**.
+Every route, every action, its layers, and what each layer actually proves.
 Plus the three attacks called live, and the exact line that refused each one.
 
 ---
 
 ## 1. Route Protection Table
 
-| Route                | Who                | Protected By                                             | What Each Layer Proves                                                       |
-| :------------------- | :----------------- | :------------------------------------------------------- | :--------------------------------------------------------------------------- |
-| `/`                  | Everyone           | Nothing                                                  | Public. Indexable.                                                           |
-| `/menu`              | Everyone           | Nothing                                                  | Public. Indexable. Cacheable.                                                |
-| `/menu/[slug]`       | Everyone           | Nothing                                                  | Public. Indexable. JSON-LD per dish.                                         |
-| `/cart`              | Everyone           | Nothing                                                  | Client store only — never leaves the browser.                                |
-| `/checkout`          | Any signed-in user | Middleware + page                                        | A session cookie exists. The write re-checks.                                |
-| `/checkout/success`  | Any signed-in user | Middleware + page                                        | A session cookie exists.                                                     |
-| `/orders`            | **Owner only**     | Middleware + page + scoped query                         | Signed in **and** only their own rows.                                       |
-| `/orders/[id]`       | Owner or staff     | Middleware + page + scoped query                         | Signed in, and the record is theirs (or staff).                              |
-| `/api/orders/[id]`   | Owner or staff     | Route handler                                            | Same check as the page, at the API boundary.                                 |
-| `/profile`           | Any signed-in user | Middleware + page                                        | A session cookie exists.                                                     |
-| `/kitchen`           | **Staff only**     | Middleware + page + role check in every action           | Signed in **and** permitted.                                                 |
-| `/signin`            | Everyone           | Nothing                                                  | Public — it exists to grant sessions.                                        |
-| `/api/dishes`        | Everyone           | Nothing                                                  | Public API.                                                                  |
-| `/api/dishes/[id]`   | Everyone           | Nothing                                                  | Public API.                                                                  |
-| `/api/orders` (POST) | Any signed-in user | Unused in the UI — orders are created via server action. | —                                                                            |
-| `/sitemap.xml`       | Everyone           | Nothing                                                  | Lists public routes only.                                                    |
-| `/robots.txt`        | Everyone           | Nothing                                                  | Explicitly disallows `/cart`, `/checkout`, `/orders`, `/kitchen`, `/signin`. |
+| Route              | Who                | Protected By                                             | What Each Layer Proves                                             |
+| :----------------- | :----------------- | :------------------------------------------------------- | :----------------------------------------------------------------- |
+| /                  | Everyone           | Nothing                                                  | Public. Indexable.                                                 |
+| /menu              | Everyone           | Nothing                                                  | Public. Indexable. Cacheable.                                      |
+| /menu/[slug]       | Everyone           | Nothing                                                  | Public. Indexable. JSON-LD per dish.                               |
+| /cart              | Everyone           | Nothing                                                  | Client store only — never leaves the browser.                      |
+| /checkout          | Any signed-in user | Middleware + page                                        | A session cookie exists. The write re-checks.                      |
+| /checkout/success  | Any signed-in user | Middleware + page                                        | A session cookie exists.                                           |
+| /orders            | Owner only         | Middleware + page + scoped query                         | Signed in and only their own rows.                                 |
+| /orders/[id]       | Owner or staff     | Middleware + page + scoped query                         | Signed in, and the record is theirs (or staff).                    |
+| /api/orders/[id]   | Owner or staff     | Route handler                                            | Same check as the page, at the API boundary.                       |
+| /profile           | Any signed-in user | Middleware + page                                        | A session cookie exists.                                           |
+| /kitchen           | Staff only         | Middleware + page + role check in every action           | Signed in and permitted.                                           |
+| /signin            | Everyone           | Nothing                                                  | Public — it exists to grant sessions.                              |
+| /api/dishes        | Everyone           | Nothing                                                  | Public API.                                                        |
+| /api/dishes/[id]   | Everyone           | Nothing                                                  | Public API.                                                        |
+| /api/orders (POST) | Any signed-in user | Unused in the UI — orders are created via server action. | —                                                                  |
+| /sitemap.xml       | Everyone           | Nothing                                                  | Lists public routes only.                                          |
+| /robots.txt        | Everyone           | Nothing                                                  | Explicitly disallows /cart, /checkout, /orders, /kitchen, /signin. |
 
-**The fourth column is the point.** "Protected by middleware" is not an answer. Middleware only proves a cookie exists. It does not prove:
+The fourth column is the point. "Protected by middleware" is not an answer. Middleware only proves a cookie exists. It does not prove:
 
 - The cookie is valid for a real user.
 - The user owns the record they are reading.
@@ -39,7 +39,7 @@ Every one of those must be re-checked where it matters — in the page, and agai
 
 ## 2. Layered Defense per Route — Example: /orders/[id]
 
-The `/orders/[id]` route is protected by five independent layers. Each one proves something the others cannot:
+The /orders/[id] route is protected by five independent layers. Each one proves something the others cannot:
 
 - middleware — proves a cookie exists (src/middleware.js)
 - page — proves the session is valid (src/app/orders/[id]/page.js)

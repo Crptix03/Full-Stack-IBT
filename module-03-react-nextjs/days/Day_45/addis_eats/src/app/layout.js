@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Inter } from "next/font/google";
+import { Playfair_Display, Jost } from "next/font/google";
 import Script from "next/script";
 import Providers from "../lib/context";
 import { getSession } from "@/lib/session";
@@ -9,10 +9,25 @@ import UserMenu from "./UserMenu";
 import ThemeToggle from "./ThemeToggle";
 import "./globals.css";
 
-const inter = Inter({
+// Body font — only the two weights actually used, with fallback metric
+// adjustments so the FOUT swap doesn't cause a layout shift.
+const jost = Jost({
   subsets: ["latin"],
+  weight: ["400", "600"],
   display: "swap",
-  variable: "--font-inter",
+  variable: "--font-jost",
+  adjustFontFallback: true,
+});
+
+// Heading font — regular + bold only, with adjusted fallback metrics so the
+// fallback and web font render at near-identical size (reduces CLS on swap).
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+  variable: "--font-playfair",
+  adjustFontFallback: true,
+  preload: true,
 });
 
 export const metadata = {
@@ -43,7 +58,6 @@ export const metadata = {
   },
 };
 
-// Runs before hydration — sets the correct theme so there's no flash.
 const themeScript = `
 (function() {
   try {
@@ -64,8 +78,7 @@ export default async function RootLayout({ children }) {
     <html
       lang="en"
       data-theme="dark"
-      data-scroll-behavior="smooth"
-      className={inter.className}
+      className={`${jost.variable} ${playfair.variable}`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
@@ -76,6 +89,11 @@ export default async function RootLayout({ children }) {
           strategy="lazyOnload"
         />
 
+        {/*
+          CartProvider wraps only the header nav (CartBadge needs cart state)
+          and children. The footer needs nothing from context so it stays outside.
+          Keeping the provider boundary tight means less JS on the critical path.
+        */}
         <Providers>
           <header className="sticky top-0 z-50 backdrop-blur-md border-b theme-border app-header">
             <div className="flex justify-between items-center px-8 py-4 max-w-6xl mx-auto w-full">
@@ -108,14 +126,14 @@ export default async function RootLayout({ children }) {
           <main className="flex-1 px-8 py-12 max-w-6xl w-full mx-auto">
             {children}
           </main>
-
-          <footer className="px-8 py-8 border-t theme-border">
-            <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs theme-text-muted">
-              <p>© {new Date().getFullYear()} Addis Eats</p>
-              <p>Great food, delivered fresh.</p>
-            </div>
-          </footer>
         </Providers>
+
+        <footer className="px-8 py-8 border-t theme-border">
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs theme-text-muted">
+            <p>© {new Date().getFullYear()} Addis Eats</p>
+            <p>Great food, delivered fresh.</p>
+          </div>
+        </footer>
       </body>
     </html>
   );

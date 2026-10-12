@@ -1,37 +1,49 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 
-export default function SearchBox({ initialValue = "" }) {
+export default function SearchBox({ initialValue = "", currentParams = "" }) {
   const [term, setTerm] = useState(initialValue);
+  const [, startTransition] = useTransition();
   const router = useRouter();
-  const searchParams = useSearchParams();
 
-  useEffect(() => {
-    const t = setTimeout(() => {
-      const params = new URLSearchParams(searchParams);
-      if (term.trim()) {
-        params.set("q", term.trim());
-      } else {
-        params.delete("q");
-      }
-      params.delete("page");
-      router.replace(`/menu?${params.toString()}`);
+  const handleChange = (e) => {
+    const val = e.target.value;
+    setTerm(val);
+
+    const base = new URLSearchParams(currentParams);
+    if (val.trim()) {
+      base.set("q", val.trim());
+    } else {
+      base.delete("q");
+    }
+    base.delete("page");
+
+    const qs = base.toString();
+    // Debounce via a closure-captured timeout ref
+    clearTimeout(handleChange._t);
+    handleChange._t = setTimeout(() => {
+      startTransition(() => {
+        router.replace(`/menu${qs ? `?${qs}` : ""}`);
+      });
     }, 300);
-
-    return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [term]);
+  };
 
   return (
     <div className="mb-4">
+      <label htmlFor="dish-search" className="sr-only">
+        Search dishes
+      </label>
       <input
-        type="text"
+        id="dish-search"
+        name="q"
+        type="search"
         value={term}
-        onChange={(e) => setTerm(e.target.value)}
+        onChange={handleChange}
         placeholder="Search dishes…"
         className="w-full bg-neutral-900 border border-neutral-700 text-neutral-100 px-3 py-2 rounded focus:outline-none focus:border-amber-400"
+        autoComplete="off"
       />
     </div>
   );

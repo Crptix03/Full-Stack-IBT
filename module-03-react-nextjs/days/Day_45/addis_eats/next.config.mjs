@@ -2,11 +2,11 @@
 const nextConfig = {
   images: {
     // Serve AVIF first (25-35% smaller than WebP), fall back to WebP.
-    // Both are generated on-demand and cached by Next.js image optimizer.
     formats: ["image/avif", "image/webp"],
-    // Cache optimised images for 1 year so Lighthouse cold-start runs
-    // don't re-encode the LCP image from scratch.
+    // Cache optimised images for 1 year.
     minimumCacheTTL: 31536000,
+    deviceSizes: [640, 750, 828, 1080, 1200],
+    imageSizes: [16, 32, 64, 128, 256, 384, 640],
   },
 };
 

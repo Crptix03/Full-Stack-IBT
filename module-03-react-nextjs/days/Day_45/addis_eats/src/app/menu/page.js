@@ -42,11 +42,19 @@ export default async function MenuPage({ searchParams }) {
   const dishes = filtered.slice(start, start + PAGE_SIZE);
   const isDefaultView = !q.trim() && category === "all" && safePage === 1;
 
+  // Build current params string for SearchBox (so it doesn't need useSearchParams)
+  const currentParams = [
+    q ? `q=${encodeURIComponent(q)}` : "",
+    category && category !== "all" ? `category=${category}` : "",
+  ]
+    .filter(Boolean)
+    .join("&");
+
   return (
     <div>
       <h1 className="font-serif text-3xl text-amber-400 mb-6">Our Menu</h1>
 
-      <SearchBox initialValue={q} />
+      <SearchBox initialValue={q} currentParams={currentParams} />
 
       {dishes.length === 0 ? (
         <p className="text-neutral-400 py-12 text-center">

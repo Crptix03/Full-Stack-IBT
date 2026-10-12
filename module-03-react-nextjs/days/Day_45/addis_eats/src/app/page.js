@@ -67,15 +67,19 @@ export default async function HomePage() {
               href={`/menu/${toSlug(dish.name)}`}
               className="group border border-neutral-800 rounded-xl overflow-hidden bg-neutral-900/40 hover:border-amber-400/50 hover:bg-neutral-900 transition-all"
             >
+              {/* Fixed w/h avoids a layout-size calculation round-trip that
+                  'fill' requires, shaving a few ms off LCP decode time.
+                  The parent clips any overflow so it looks identical. */}
               <div className="relative w-full h-56 overflow-hidden">
                 <Image
                   src={dish.image}
                   alt={dish.name}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  fetchPriority="auto"
-                  loading="lazy"
+                  width={640}
+                  height={224}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 384px"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  priority={index === 0}
+                  quality={index === 0 ? 85 : 75}
                 />
                 {dish.tag && (
                   <span
