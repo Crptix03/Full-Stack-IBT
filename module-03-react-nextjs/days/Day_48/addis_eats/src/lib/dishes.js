@@ -1,0 +1,270 @@
+const DISHES = [
+  {
+    id: "d1",
+    name: "Crispy Sambusa",
+    category: "starters",
+    price: 100,
+    image: "/images/sambusa.webp",
+    description:
+      "Lightly spiced brown lentils, green chilies, and herbs wrapped in a crispy pastry shell.",
+    ingredients: [
+      "All-purpose flour",
+      "Warm water",
+      "Vegetable oil",
+      "Brown lentils",
+      "Green chilies",
+      "Onions",
+      "Fresh cilantro",
+      "Cumin",
+      "Coriander",
+      "Salt",
+    ],
+    tag: "Veg",
+  },
+  {
+    id: "d2",
+    name: "Steak & Fries",
+    category: "mains",
+    price: 3000,
+    image: "/images/steak.jpg",
+    description:
+      "A juicy grilled steak served with crispy golden fries and fresh herbs for a simple, hearty meal.",
+    ingredients: [
+      "Ribeye steak",
+      "Russet potatoes",
+      "Peanut oil",
+      "Butter",
+      "Fresh thyme",
+      "Garlic cloves",
+      "Shallots",
+      "Kosher salt",
+      "Cracked black pepper",
+    ],
+    tag: "Popular",
+  },
+  {
+    id: "d3",
+    name: "Big Smokey Burger",
+    category: "mains",
+    price: 750,
+    image: "/images/Big Smokey Burgers.jpg",
+    description:
+      "Tender beef cubes sautéed with onions, rosemary, jalapeños, and spiced clarified butter.",
+    ingredients: [
+      "Ground beef sirloin",
+      "Grated onion",
+      "Grill seasoning",
+      "Liquid smoke",
+      "Worcestershire sauce",
+      "Minced garlic",
+      "Chipotle in adobo",
+      "Sharp cheddar cheese",
+      "Hamburger buns",
+    ],
+    tag: null,
+  },
+  {
+    id: "d4",
+    name: "American Fried Rice",
+    category: "mains",
+    price: 180,
+    image: "/images/American Fried Rice.jpg",
+    description:
+      "Assortment of yellow split peas, misir wat, gomen, and cabbage served on warm teff injera.",
+    ingredients: [
+      "Day-old jasmine rice",
+      "Fried chicken",
+      "Ham",
+      "Hot dogs",
+      "Fried egg",
+      "Corn",
+      "Peas",
+      "Carrots",
+      "Soy sauce",
+      "Butter",
+    ],
+    tag: "Veg",
+  },
+  {
+    id: "d5",
+    name: "Pasta Campanelle",
+    category: "mains",
+    price: 800,
+    originalPrice: 1000,
+    image: "/images/Pasta Campanelle2.webp",
+    description:
+      "A flavorful pasta dish with ruffled campanelle pasta, fresh tomatoes, greens, and a creamy, savory sauce.",
+    ingredients: [
+      "Campanelle pasta",
+      "Cherry tomatoes",
+      "Fresh spinach",
+      "Roasted garlic",
+      "Heavy cream",
+      "Parmesan cheese",
+      "Fresh basil",
+      "Extra virgin olive oil",
+      "Red pepper flakes",
+    ],
+    tag: "Veg",
+  },
+  {
+    id: "d6",
+    name: "Italian Sausage Soup",
+    category: "soups",
+    price: 1800,
+    originalPrice: 2200,
+    image: "/images/Italian Sausage Soup.jpg",
+    description:
+      "A rich, savory soup made with Italian sausage, tomatoes, herbs, and flavorful spices.",
+    ingredients: [
+      "Italian sausage",
+      "Yellow onion",
+      "Carrots",
+      "Celery",
+      "Garlic",
+      "Crushed tomatoes",
+      "Chicken broth",
+      "Cannellini beans",
+      "Fresh spinach",
+      "Italian seasoning",
+    ],
+    tag: "Soup",
+  },
+  {
+    id: "d7",
+    name: "Chicken Noodle Soup",
+    category: "soups",
+    price: 1000,
+    originalPrice: 1500,
+    image: "/images/Chicken Noodle Soup.jpg",
+    description:
+      "Hearty, savory chicken noodle soup featuring tender meat, a rich broth, and soft noodles.",
+    ingredients: [
+      "Shredded chicken",
+      "Egg noodles",
+      "Yellow onion",
+      "Carrots",
+      "Celery",
+      "Garlic",
+      "Chicken broth",
+      "Fresh thyme",
+      "Bay leaves",
+      "Lemon juice",
+    ],
+    tag: "Soup",
+  },
+  {
+    id: "d8",
+    name: "Honey Baklava",
+    category: "desserts",
+    price: 100,
+    originalPrice: 150,
+    image: "/images/Baklava2.jpg",
+    description:
+      "Flaky pastry layers filled with crushed nuts and soaked in spiced honey syrup.",
+    ingredients: [
+      "Phyllo dough",
+      "Melted butter",
+      "Chopped walnuts",
+      "Pistachios",
+      "Ground cinnamon",
+      "Honey",
+      "Granulated sugar",
+      "Lemon juice",
+      "Orange blossom water",
+    ],
+    tag: null,
+  },
+  {
+    id: "d9",
+    name: "Oreo Cookies",
+    category: "desserts",
+    price: 180,
+    originalPrice: 300,
+    image: "/images/Oreo Cookies.jpg",
+    description:
+      "Creamy, chocolatey dessert layered with crushed Oreo cookies, whipped cream, and rich chocolate sauce in a stem glass.",
+    ingredients: [
+      "Oreo cookies",
+      "Heavy whipping cream",
+      "Powdered sugar",
+      "Vanilla extract",
+      "Dark chocolate",
+      "Whole milk",
+      "Butter",
+    ],
+    tag: null,
+  },
+  {
+    id: "d10",
+    name: "Sprite",
+    category: "drinks",
+    price: 70,
+    originalPrice: 100,
+    image: "/images/sprite.jpg",
+    description:
+      "A crisp, clear, lemon-lime soda with a refreshing, zesty citrus flavor.",
+    ingredients: [
+      "Carbonated water",
+      "High fructose corn syrup",
+      "Citric acid",
+      "Natural lemon-lime flavors",
+      "Sodium citrate",
+      "Sodium benzoate",
+    ],
+    tag: null,
+  },
+  {
+    id: "d11",
+    name: "Coca-Cola",
+    category: "drinks",
+    price: 70,
+    image: "/images/cocacola.jpg",
+    description:
+      "A refreshing, fizzy soft drink with a classic sweet and refreshing cola flavor.",
+    ingredients: [
+      "Carbonated water",
+      "High fructose corn syrup",
+      "Caramel color",
+      "Phosphoric acid",
+      "Natural flavors",
+      "Caffeine",
+    ],
+    tag: null,
+  },
+  {
+    id: "d12",
+    name: "Pepsi",
+    category: "drinks",
+    price: 70,
+    image: "/images/pepsi.jpg",
+    description:
+      "A classic, sweet, carbonated cola with a crisp, refreshing citrusy taste.",
+    ingredients: [
+      "Carbonated water",
+      "High fructose corn syrup",
+      "Caramel color",
+      "Sugar",
+      "Phosphoric acid",
+      "Caffeine",
+      "Citric acid",
+      "Natural flavors",
+    ],
+    tag: null,
+  },
+];
+
+export async function getDishes() {
+  return DISHES;
+}
+
+export async function findDish(id) {
+  return DISHES.find((d) => d.id === id) || null;
+}
+
+// Helper for the menu page — returns all unique categories in order.
+export function getCategories() {
+  const order = ["starters", "mains", "soups", "desserts", "drinks"];
+  const seen = new Set(DISHES.map((d) => d.category));
+  return order.filter((c) => seen.has(c));
+}
