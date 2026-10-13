@@ -56,7 +56,7 @@ export function middleware(request) {
   if (needsStaff) {
     if (!signedIn) return redirectToSignIn(request);
     if (role !== "staff") {
-      return NextResponse.redirect(new URL("/", request.url));
+      return NextResponse.redirect(new URL("/unauthorized", request.url));
     }
     return NextResponse.next();
   }

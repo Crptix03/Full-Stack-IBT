@@ -12,7 +12,7 @@ export default async function KitchenPage() {
   const session = await getSession();
 
   if (!session || session.role !== "staff") {
-    redirect("/");
+    redirect("/unauthorized");
   }
 
   const orders = getAllOrders();

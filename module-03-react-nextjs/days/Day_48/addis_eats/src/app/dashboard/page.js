@@ -21,7 +21,7 @@ export default async function DashboardPage() {
 
   // Staff-only — the same rule as /kitchen.
   if (!session || session.role !== "staff") {
-    redirect("/");
+    redirect("/unauthorized");
   }
 
   // Aggregate on the server. Only the summary crosses the client boundary.
