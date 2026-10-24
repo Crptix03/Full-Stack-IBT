@@ -11,9 +11,7 @@ export default function UserMenu({ user }) {
 
   useEffect(() => {
     function onClick(e) {
-      if (ref.current && !ref.current.contains(e.target)) {
-        setOpen(false);
-      }
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
     }
     document.addEventListener("mousedown", onClick);
     return () => document.removeEventListener("mousedown", onClick);
@@ -42,12 +40,12 @@ export default function UserMenu({ user }) {
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="menu"
         aria-expanded={open}
-        className="flex items-center gap-2 pl-1 pr-3 py-1 rounded-full border border-neutral-700 hover:border-amber-400/50 transition-colors"
+        className="flex items-center gap-2 pl-1 pr-3 py-1 rounded-full border border-neutral-200 hover:border-indigo-400 transition-colors"
       >
-        <span className="w-7 h-7 rounded-full bg-amber-400 text-neutral-900 font-bold text-[11px] flex items-center justify-center">
+        <span className="w-7 h-7 rounded-full bg-indigo-600 text-white font-bold text-[11px] flex items-center justify-center">
           {initials}
         </span>
-        <span className="text-neutral-200 text-sm capitalize">
+        <span className="text-neutral-700 text-sm capitalize">
           {user?.name?.split(" ")[0] || "User"}
         </span>
       </button>
@@ -55,17 +53,20 @@ export default function UserMenu({ user }) {
       {open && (
         <div
           role="menu"
-          className="absolute right-0 mt-2 w-48 bg-neutral-900 border border-neutral-800 rounded-lg shadow-xl py-1 z-50"
+          className="absolute right-0 mt-2 w-56 bg-white border border-neutral-200 rounded-2xl shadow-lg py-2 z-50"
         >
-          <div className="px-4 py-2 text-xs text-neutral-500 border-b border-neutral-800">
-            {user?.email}
+          <div className="px-4 py-2 border-b border-neutral-100">
+            <p className="text-sm font-semibold text-neutral-900">
+              {user?.name}
+            </p>
+            <p className="text-xs text-neutral-500">{user?.email}</p>
           </div>
 
           {isRenter(user) && (
             <Link
               href="/dashboard"
               onClick={() => setOpen(false)}
-              className="block px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800 hover:text-amber-400 transition-colors"
+              className="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50 hover:text-indigo-600 transition-colors"
             >
               My Dashboard
             </Link>
@@ -75,7 +76,7 @@ export default function UserMenu({ user }) {
             <Link
               href="/owner"
               onClick={() => setOpen(false)}
-              className="block px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800 hover:text-amber-400 transition-colors"
+              className="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50 hover:text-indigo-600 transition-colors"
             >
               Owner Dashboard
             </Link>
@@ -85,18 +86,18 @@ export default function UserMenu({ user }) {
             <Link
               href="/admin"
               onClick={() => setOpen(false)}
-              className="block px-4 py-2 text-sm text-amber-400 hover:bg-neutral-800 transition-colors"
+              className="block px-4 py-2 text-sm text-indigo-600 hover:bg-neutral-50 transition-colors font-medium"
             >
               Admin Panel
             </Link>
           )}
 
-          <div className="border-t border-neutral-800 my-1" />
+          <div className="border-t border-neutral-100 my-1" />
 
           <button
             type="button"
             onClick={handleSignOut}
-            className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-neutral-800 transition-colors"
+            className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-neutral-50 transition-colors"
           >
             Sign Out
           </button>

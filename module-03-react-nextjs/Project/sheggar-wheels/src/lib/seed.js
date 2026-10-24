@@ -1,6 +1,5 @@
 // Seed data — the entire demo dataset.
-// This runs once on first load (when storage is empty).
-// After that, all reads come from localStorage.
+// Images use the actual filenames in /public/cars/.
 
 import { writeStorage, readStorage, KEYS } from "./storage";
 
@@ -50,8 +49,6 @@ export const SEED_USERS = [
 ];
 
 // ── Cars ─────────────────────────────────────────────
-// 12 cars. 9 approved, 2 pending, 1 rejected.
-// Photos use a local placeholder — replace later.
 export const SEED_CARS = [
   {
     id: "car-1",
@@ -63,10 +60,10 @@ export const SEED_CARS = [
     seats: 5,
     city: "Addis Ababa",
     neighbourhood: "Bole",
-    latitude: 8.9950,
+    latitude: 8.995,
     longitude: 38.7896,
     pricePerDay: 2500,
-    photos: ["/cars/toyota-corolla.jpg"],
+    photos: ["/cars/toyota corolla.jpg"],
     description:
       "Well-maintained Corolla. Perfect for city driving and airport runs. Air conditioning, Bluetooth, and a full tank on pickup.",
     status: "approved",
@@ -86,7 +83,7 @@ export const SEED_CARS = [
     latitude: 9.0186,
     longitude: 38.7643,
     pricePerDay: 4200,
-    photos: ["/cars/toyota-rav4.jpg"],
+    photos: ["/cars/toyota rava-4.jpg"],
     description:
       "Spacious SUV, ideal for weekend trips to Bishoftu or the Rift Valley. Roof rack, AWD, and a comfortable interior.",
     status: "approved",
@@ -106,7 +103,7 @@ export const SEED_CARS = [
     latitude: 9.035,
     longitude: 38.752,
     pricePerDay: 1800,
-    photos: ["/cars/suzuki-swift.jpg"],
+    photos: ["/cars/suzuki swift.jpg"],
     description:
       "Compact, fuel-efficient hatchback. Great for navigating Addis traffic. Manual transmission, easy to drive.",
     status: "approved",
@@ -126,7 +123,7 @@ export const SEED_CARS = [
     latitude: 9.022,
     longitude: 38.8022,
     pricePerDay: 3800,
-    photos: ["/cars/hyundai-tucson.jpg"],
+    photos: ["/cars/hyundai tucson.jpg"],
     description:
       "New Tucson, still under warranty. Modern interior, backup camera, and Apple CarPlay. Perfect for business trips.",
     status: "approved",
@@ -146,7 +143,7 @@ export const SEED_CARS = [
     latitude: 9.019,
     longitude: 38.829,
     pricePerDay: 4500,
-    photos: ["/cars/nissan-xtrail.jpg"],
+    photos: ["/cars/nissan x-trail.jpg"],
     description:
       "7-seater family SUV. Ideal for groups and family trips. Third row folds flat for extra luggage space.",
     status: "approved",
@@ -164,9 +161,9 @@ export const SEED_CARS = [
     city: "Addis Ababa",
     neighbourhood: "Old Airport",
     latitude: 9.001,
-    longitude: 38.740,
+    longitude: 38.74,
     pricePerDay: 1500,
-    photos: ["/cars/kia-picanto.jpg"],
+    photos: ["/cars/kia picanto.jpg"],
     description:
       "Cheapest option on the platform. Small, fuel-efficient, easy to park. Best for solo city trips.",
     status: "approved",
@@ -186,7 +183,7 @@ export const SEED_CARS = [
     latitude: 8.975,
     longitude: 38.758,
     pricePerDay: 6500,
-    photos: ["/cars/toyota-land-cruiser.jpg"],
+    photos: ["/cars/toyota land cruiser.jpg"],
     description:
       "The ultimate road-trip vehicle. Rugged, spacious, and comfortable for long journeys outside Addis.",
     status: "approved",
@@ -206,7 +203,8 @@ export const SEED_CARS = [
     latitude: 9.017,
     longitude: 38.812,
     pricePerDay: 2200,
-    photos: ["/cars/vw-polo.jpg"],
+    photos: ["/cars/volkswagen polo.jpg"],
+    photoPosition: "center 80%", 
     description:
       "Reliable European hatchback. Good fuel economy, stable at highway speeds. Comfortable for 4 adults.",
     status: "approved",
@@ -223,10 +221,11 @@ export const SEED_CARS = [
     seats: 5,
     city: "Addis Ababa",
     neighbourhood: "Summit",
-    latitude: 9.040,
+    latitude: 9.04,
     longitude: 38.842,
     pricePerDay: 3500,
-    photos: ["/cars/mazda-cx5.jpg"],
+    photos: ["/cars/mazda cx-5.jpg"],
+    photoPosition: "center 80%",
     description:
       "Premium compact SUV. Leather seats, Bose sound, and a smooth ride. Great for special occasions.",
     status: "approved",
@@ -246,7 +245,7 @@ export const SEED_CARS = [
     latitude: 9.054,
     longitude: 38.883,
     pricePerDay: 1200,
-    photos: ["/cars/toyota-vitz.jpg"],
+    photos: ["/cars/toyota vitz.jpg"],
     description:
       "Very affordable, very reliable. The Vitz is a favourite for city driving. Automatic, low fuel consumption.",
     status: "pending",
@@ -266,7 +265,7 @@ export const SEED_CARS = [
     latitude: 8.983,
     longitude: 38.732,
     pricePerDay: 4000,
-    photos: ["/cars/honda-crv.jpg"],
+    photos: ["/cars/honda cr-v.jpg"],
     description:
       "Comfortable mid-size SUV. Reliable Honda engine, plenty of cargo space. Good for both city and country.",
     status: "pending",
@@ -283,10 +282,10 @@ export const SEED_CARS = [
     seats: 5,
     city: "Addis Ababa",
     neighbourhood: "Bole",
-    latitude: 8.9950,
+    latitude: 8.995,
     longitude: 38.7896,
     pricePerDay: 1600,
-    photos: ["/cars/ford-focus.jpg"],
+    photos: ["/cars/ford focus.jpg"],
     description:
       "Older model but runs well. Budget-friendly, good for daily commuting.",
     status: "rejected",
@@ -296,7 +295,6 @@ export const SEED_CARS = [
 ];
 
 // ── Bookings ─────────────────────────────────────────
-// Mixed statuses to show every state in the dashboards.
 export const SEED_BOOKINGS = [
   {
     id: "bk-1",
@@ -431,12 +429,9 @@ export const SEED_REVIEWS = [
 ];
 
 // ── Initialisation ───────────────────────────────────
-// Seeds data ONLY if the storage keys are empty.
-// Never overwrites existing user data.
 export function initializeDemoData() {
   const hasUsers = readStorage(KEYS.USERS, null);
   if (hasUsers && Array.isArray(hasUsers) && hasUsers.length > 0) {
-    // Data already exists — do nothing.
     return { seeded: false };
   }
 
@@ -448,8 +443,6 @@ export function initializeDemoData() {
   return { seeded: true };
 }
 
-// Hard reset — wipes and re-seeds.
-// Only for the "Reset demo data" button in the admin dashboard.
 export function resetDemoData() {
   writeStorage(KEYS.USERS, SEED_USERS);
   writeStorage(KEYS.CARS, SEED_CARS);

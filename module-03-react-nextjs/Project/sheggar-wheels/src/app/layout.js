@@ -1,25 +1,16 @@
-import { Jost, Playfair_Display } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import SeedInitializer from "./SeedInitializer";
 
-
-const jost = Jost({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
   display: "swap",
-  variable: "--font-jost",
-});
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  display: "swap",
-  variable: "--font-playfair",
+  variable: "--font-inter",
 });
 
 export const metadata = {
   title: {
-    default: "Sheggar Wheels — Peer-to-Peer Car Rental",
+    default: "Sheggar Wheels — Peer-to-Peer Car Rental in Addis",
     template: "%s | Sheggar Wheels",
   },
   description:
@@ -28,12 +19,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html
-      lang="en"
-      className={`${jost.variable} ${playfair.variable}`}
-      suppressHydrationWarning
-    >
-      <body className="min-h-screen flex flex-col bg-neutral-950 text-neutral-100">
+    <html lang="en" className={inter.variable}>
+      <body className="min-h-screen flex flex-col bg-white text-neutral-900">
         <SeedInitializer />
         {children}
       </body>
