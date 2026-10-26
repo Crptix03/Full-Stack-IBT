@@ -1,32 +1,12 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { getCurrentSession } from "@/lib/session";
-import { isOwner, isAdmin, isRenter } from "@/lib/auth";
-import UserMenu from "./UserMenu";
 import { Car } from "lucide-react";
+import { getSession } from "@/lib/session";
+import { findUserById } from "@/lib/users";
+import UserMenu from "@/components/UserMenu";
 
-export default function PublicNav() {
-  const [user, setUser] = useState(null);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    setUser(getCurrentSession());
-  }, []);
-
-  if (!mounted) {
-    return (
-      <header className="border-b border-neutral-200 bg-white sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-          <span className="font-bold text-lg text-indigo-600">
-            Sheggar Wheels
-          </span>
-        </div>
-      </header>
-    );
-  }
+export default async function PublicNav() {
+  const session = await getSession();
+  const user = session ? findUserById(session.userId) : null;
 
   return (
     <header className="border-b border-neutral-200 bg-white sticky top-0 z-50">
@@ -47,34 +27,8 @@ export default function PublicNav() {
             Browse Cars
           </Link>
 
-          {user && isRenter(user) && (
-            <Link
-              href="/dashboard"
-              className="text-neutral-700 hover:text-indigo-600 transition-colors font-medium"
-            >
-              Dashboard
-            </Link>
-          )}
-
-          {user && isOwner(user) && (
-            <Link
-              href="/owner"
-              className="text-neutral-700 hover:text-indigo-600 transition-colors font-medium"
-            >
-              My Cars
-            </Link>
-          )}
-
-          {user && isAdmin(user) && (
-            <Link
-              href="/admin"
-              className="text-indigo-600 hover:text-indigo-700 transition-colors font-medium"
-            >
-              Admin
-            </Link>
-          )}
-
           {user ? (
+            /* Avatar dropdown — replaces the old "Name | Sign Out" */
             <UserMenu user={user} />
           ) : (
             <Link

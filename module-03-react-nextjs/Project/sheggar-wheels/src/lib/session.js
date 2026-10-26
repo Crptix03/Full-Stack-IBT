@@ -1,41 +1,50 @@
-// Demo session — stored in sessionStorage.
-// Only the user ID is stored; the full user record is looked up
-// from localStorage on every read.
+import { cookies } from "next/headers";
 
-import {
-  readSession,
-  writeSession,
-  removeSession,
-  readStorage,
-  KEYS,
-} from "./storage";
+const COOKIE_NAME = "session";
 
-const SESSION_KEY = KEYS.SESSION;
+// ── Create a session ──────────────────────────────────
+// Sets an HttpOnly cookie with the user's id and role.
+export async function createSession(userId, role) {
+  const cookieStore = await cookies();
 
-export function signInAsDemo(userId) {
-  writeSession(SESSION_KEY, {
-    userId,
-    signedInAt: new Date().toISOString(),
+  cookieStore.set(COOKIE_NAME, userId, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 7, // 7 days
+  });
+
+  cookieStore.set("role", role, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 7,
   });
 }
 
-export function signOut() {
-  removeSession(SESSION_KEY);
+// ── Read a session ────────────────────────────────────
+// Returns { userId, role } or null.
+export async function getSession() {
+  const cookieStore = await cookies();
+  const userId = cookieStore.get(COOKIE_NAME)?.value;
+  const role = cookieStore.get("role")?.value;
+
+  if (!userId) return null;
+
+  return { userId, role: role || "customer" };
 }
 
-export function getCurrentSession() {
-  const stored = readSession(SESSION_KEY, null);
-  if (!stored?.userId) return null;
-
-  const users = readStorage(KEYS.USERS, []);
-  const user = users.find((u) => u.id === stored.userId);
-  if (!user) return null;
-
-  return user;
+// ── Destroy a session ─────────────────────────────────
+export async function destroySession() {
+  const cookieStore = await cookies();
+  cookieStore.delete(COOKIE_NAME);
+  cookieStore.delete("role");
 }
 
-// Safe return path — never redirect to an external URL.
-// Accepts "/cars/abc", rejects "https://evil.com", "//evil.com", etc.
+// ── Safe return path ──────────────────────────────────
+// Keeps the safe redirect logic we had before.
 export function safeReturnPath(value, fallback = "/") {
   if (typeof value !== "string") return fallback;
   if (!value.startsWith("/")) return fallback;

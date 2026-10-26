@@ -1,8 +1,9 @@
 import Link from "next/link";
+import Image from "next/image";
 import { etb } from "@/lib/format";
 import { Settings, Users, Fuel, MapPin } from "lucide-react";
 
-export default function CarCard({ car }) {
+export default function CarCard({ car, priority = false }) {
   return (
     <Link
       href={`/cars/${car.id}`}
@@ -10,18 +11,14 @@ export default function CarCard({ car }) {
     >
       {/* Photo */}
       <div className="relative w-full h-48 bg-neutral-100 overflow-hidden">
-        <img
+        <Image
           src={car.photos[0]}
           alt={`${car.make} ${car.model}`}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover group-hover:scale-105 transition-transform duration-300"
           style={{ objectPosition: car.photoPosition || "center" }}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.style.display = "none";
-            e.target.parentElement.classList.add("bg-indigo-50");
-            e.target.parentElement.innerHTML =
-              `<div class="absolute inset-0 flex items-center justify-center text-indigo-600 font-bold text-2xl">${car.make} ${car.model}</div>`;
-          }}
+          priority={priority}
         />
         <span className="absolute top-3 left-3 text-xs font-semibold px-2.5 py-1 rounded-full bg-white/95 text-neutral-700 flex items-center gap-1 z-10">
           <MapPin className="w-3 h-3 text-indigo-600" />

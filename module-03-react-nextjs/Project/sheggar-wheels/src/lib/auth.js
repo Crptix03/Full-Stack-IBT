@@ -1,6 +1,8 @@
-// Role and guard helpers — all client-side.
+// Role helpers — server-safe, no localStorage, no session reads.
+// Import getSession() from session.js separately when you need the current user.
 
-import { getCurrentSession } from "./session";
+import { db } from "./db";
+import { newId } from "./id";
 
 export function hasRole(user, role) {
   if (!user || !Array.isArray(user.roles)) return false;
@@ -23,11 +25,39 @@ export function isActive(user) {
   return user?.status === "active";
 }
 
-// Combined check — the current user must have this role AND be active.
-export function canAccess(role) {
-  const user = getCurrentSession();
-  if (!user) return { allowed: false, reason: "not_signed_in" };
-  if (!isActive(user)) return { allowed: false, reason: "suspended" };
-  if (!hasRole(user, role)) return { allowed: false, reason: "wrong_role" };
-  return { allowed: true, user };
+// Find a user by id from the server-side db.
+export function findUserById(id) {
+  return db.users.find((u) => u.id === id) || null;
+}
+
+// Create a new renter account and persist it to the server-side db.
+// Called from the signup Server Action.
+// Returns { success, user } or { error }.
+export function createRenterAccount({ name, email, phone, password }) {
+  if (!name || !email) {
+    return { error: "Name and email are required." };
+  }
+  if (!password || password.length < 6) {
+    return { error: "Password must be at least 6 characters." };
+  }
+
+  const emailLower = email.toLowerCase();
+  if (db.users.some((u) => u.email.toLowerCase() === emailLower)) {
+    return { error: "An account with that email already exists." };
+  }
+
+  const user = {
+    id: newId("u-renter"),
+    name,
+    email: emailLower,
+    phone: phone || "",
+    // ⚠️ Plaintext — demo only. Production would use bcrypt.
+    password,
+    roles: ["renter"],
+    status: "active",
+    createdAt: new Date().toISOString(),
+  };
+
+  db.users.push(user);
+  return { success: true, user };
 }

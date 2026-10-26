@@ -1,87 +1,97 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect, use } from "react";
-import { readStorage, KEYS } from "@/lib/storage";
-import { signInAsDemo, safeReturnPath } from "@/lib/session";
-import { isActive } from "@/lib/auth";
-import { Mail } from "lucide-react";
+import { useActionState, use } from "react";
+import Link from "next/link";
+import { signIn } from "@/app/actions";
 
 export default function SignInPage({ searchParams }) {
-  const router = useRouter();
-  const params = use(searchParams);
-  const next = safeReturnPath(params.next, "/");
+  const [state, formAction, isPending] = useActionState(signIn, null);
 
-  const [users, setUsers] = useState([]);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    const all = readStorage(KEYS.USERS, []);
-    setUsers(all.filter(isActive));
-  }, []);
-
-  const handleSignIn = (userId) => {
-    signInAsDemo(userId);
-    router.push(next);
-    router.refresh();
-  };
-
-  if (!mounted) {
-    return (
-      <div className="py-20 text-center text-neutral-500">Loading…</div>
-    );
-  }
+  // Unwrap searchParams in Next 15/16
+  const resolvedSearchParams = use(searchParams);
+  const next = resolvedSearchParams.next || "/";
 
   return (
     <div className="max-w-md mx-auto px-4 py-16">
-      <h1 className="text-3xl md:text-4xl font-black text-neutral-900 mb-2 text-center">
-        Demo Sign In
-      </h1>
-      <p className="text-neutral-600 text-sm text-center mb-10">
-        This is a demo. Pick an account to explore different roles.
-      </p>
+      <div className="bg-white border border-neutral-200 rounded-2xl p-8">
+        <h1 className="text-2xl font-black mb-1">Sign In</h1>
+        <p className="text-sm text-neutral-500 mb-6">
+          Use a demo account to explore the platform.
+        </p>
 
-      <div className="space-y-3">
-        {users.map((user) => (
+        <form action={formAction} className="space-y-4">
+          <input type="hidden" name="next" value={next} />
+
+          <div>
+            <label className="block text-xs font-semibold text-neutral-600 mb-1">
+              Username
+            </label>
+            <input
+              name="username"
+              type="text"
+              required
+              placeholder="Enter your username"
+              className="w-full px-4 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-neutral-600 mb-1">
+              Password
+            </label>
+            <input
+              name="password"
+              type="password"
+              required
+              placeholder="••••••••"
+              className="w-full px-4 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500"
+            />
+          </div>
+
+          {state?.error && (
+            <p className="text-red-600 text-sm">{state.error}</p>
+          )}
+
           <button
-            key={user.id}
-            type="button"
-            onClick={() => handleSignIn(user.id)}
-            className="w-full text-left p-5 bg-white border border-neutral-200 rounded-2xl hover:border-indigo-400 hover:shadow-md transition-all group"
+            type="submit"
+            disabled={isPending}
+            className="w-full py-3 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 disabled:opacity-50 transition-colors"
           >
-            <div className="flex justify-between items-start mb-2 gap-3">
-              <p className="text-neutral-900 font-semibold text-lg group-hover:text-indigo-600 transition-colors">
-                {user.name}
-              </p>
-              <div className="flex gap-1 shrink-0">
-                {user.roles.map((r) => (
-                  <span
-                    key={r}
-                    className={`text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full font-semibold ${
-                      r === "admin"
-                        ? "bg-indigo-100 text-indigo-700"
-                        : r === "owner"
-                        ? "bg-orange-100 text-orange-700"
-                        : "bg-neutral-100 text-neutral-600"
-                    }`}
-                  >
-                    {r}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <p className="text-xs text-neutral-500 flex items-center gap-1">
-              <Mail className="w-3 h-3" />
-              {user.email}
-            </p>
+            {isPending ? "Signing in..." : "Sign In"}
           </button>
-        ))}
-      </div>
+        </form>
 
-      <p className="mt-10 text-xs text-neutral-400 text-center">
-        No passwords. No real accounts. This is a UI demonstration.
-      </p>
+        <div className="mt-8 pt-6 border-t border-neutral-200">
+          <h2 className="text-sm font-semibold text-neutral-700 mb-3">
+            Demo Accounts
+          </h2>
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between bg-neutral-50 p-2 rounded-lg">
+              <span className="font-medium text-neutral-700">dawit</span>
+              <code className="text-neutral-500">dawit2026 (owner)</code>
+            </div>
+            <div className="flex justify-between bg-neutral-50 p-2 rounded-lg">
+              <span className="font-medium text-neutral-700">hanna</span>
+              <code className="text-neutral-500">hanna2026 (owner)</code>
+            </div>
+            <div className="flex justify-between bg-neutral-50 p-2 rounded-lg">
+              <span className="font-medium text-neutral-700">yohannes</span>
+              <code className="text-neutral-500">yohannes2026 (renter)</code>
+            </div>
+            <div className="flex justify-between bg-neutral-50 p-2 rounded-lg">
+              <span className="font-medium text-neutral-700">admin</span>
+              <code className="text-neutral-500">admin2026 (admin)</code>
+            </div>
+          </div>
+        </div>
+
+        <p className="mt-6 text-sm text-neutral-600 text-center">
+          Don&apos;t have an account?{" "}
+          <Link href="/signup" className="text-indigo-600 hover:underline font-semibold">
+            Sign up as a renter
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

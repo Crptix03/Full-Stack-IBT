@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import SeedInitializer from "./SeedInitializer";
+
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,7 +21,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.variable}>
       <body className="min-h-screen flex flex-col bg-white text-neutral-900">
-        <SeedInitializer />
         {children}
       </body>
     </html>
