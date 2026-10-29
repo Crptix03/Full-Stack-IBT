@@ -9,7 +9,7 @@ export const metadata = { title: "Admin Overview" };
 
 export default async function AdminDashboard() {
   const session = await getSession();
-  if (!session || session.role !== "admin") redirect("/");
+  if (!session || session.role !== "admin") redirect("/unauthorized");
 
   const users = db.users;
   const cars = db.cars;

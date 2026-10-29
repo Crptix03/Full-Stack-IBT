@@ -12,9 +12,20 @@ These were scoped out to keep the project focused and completable.
 
 All payments are mocked. The checkout page simulates a TeleBirr payment and always succeeds. No real money is involved. A production version would integrate a real payment gateway (Chapa, Stripe, or a direct TeleBirr API).
 
-### No photo upload
+### Photo upload (local — Vercel Blob needed for production)
 
-Owners can list cars but cannot upload photos. New car listings use a placeholder image (`/cars/placeholder.jpg`). The `photos` array on the car entity is there — the upload UI is not. A production version would use Cloudinary, Vercel Blob, or S3 for image storage.
+Photo upload is implemented for local development. Owners can drag-and-drop or click to upload a JPEG, PNG, or WebP image (max 5 MB) when adding or editing a car. The file is saved to `public/cars/` via the `/api/upload` Route Handler.
+
+This works locally because Next.js dev server has a writable filesystem. **On Vercel, `public/` is read-only** — uploaded files would be lost on every deploy. The production fix is to replace the `writeFile` call in `/api/upload/route.js` with Vercel Blob:
+
+```js
+// Replace writeFile with:
+import { put } from "@vercel/blob";
+const blob = await put(filename, buffer, { access: "public" });
+return NextResponse.json({ path: blob.url });
+```
+
+Requires: `npm install @vercel/blob` and a `BLOB_READ_WRITE_TOKEN` environment variable from the Vercel dashboard.
 
 ### No email or SMS notifications
 
@@ -151,10 +162,12 @@ Replace the single `role` cookie with a JWT that encodes the full `roles` array,
 | Database | `globalThis.__db` (resets on restart) | Neon + Prisma |
 | Passwords | Plaintext | bcrypt hash |
 | Payments | Mocked | Chapa / Stripe |
-| Photo upload | Not implemented | Vercel Blob |
+| Photo upload | Local `public/cars/` (works in dev) | Vercel Blob |
 | Notifications | None | Resend (email) |
 | Real-time status | None | SWR polling |
-| Dispute filing UI | Not implemented | Form + `openDispute` action |
-| Roles in session | First role only | JWT with full roles array |
-| Image optimization | `unoptimized` on hero | Fix all image paths, remove flag |
+| Dispute filing UI | ✅ Implemented | — |
+| Roles in session | Highest-privilege role stored | JWT with full roles array |
+| Image optimization | AVIF + WebP via next/image | Already production-ready |
 | Pagination | None on dashboards | Server-side cursor pagination |
+| Unauthorized page | ✅ Implemented at `/unauthorized` | — |
+| Profile page | ✅ Implemented at `/profile` | — |

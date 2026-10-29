@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useActionState } from "react";
 import { updateCarAction } from "@/app/actions";
+import PhotoUpload from "@/components/PhotoUpload";
 import { Loader2 } from "lucide-react";
 
 const NEIGHBOURHOODS = ["Bole","Kazanchis","Megenagna","Piassa","CMC","Old Airport","Saris","Gerji","Summit","Ayat","Lafto"];
@@ -13,6 +14,14 @@ export default function EditCarForm({ car }) {
   return (
     <form action={formAction} className="space-y-4">
       <input type="hidden" name="carId" value={car.id} />
+
+      {/* Photo upload — pre-filled with existing photo */}
+      <div>
+        <label className="block text-xs font-semibold text-neutral-600 mb-2">
+          Car Photo
+        </label>
+        <PhotoUpload name="photo" defaultValue={car.photos[0]} />
+      </div>
 
       <div className="grid grid-cols-2 gap-4">
         <Field label="Make" name="make" defaultValue={car.make} required />

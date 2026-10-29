@@ -143,7 +143,7 @@ src/
 
 - Data resets on every server restart — this is by design for a demo
 - Passwords stored in plaintext — demo only, never production
-- No photo upload — new car listings use a placeholder image
+- Photo upload saves to `public/cars/` locally — needs Vercel Blob for production
 - No real payment processing — checkout is mocked
 - No email or SMS notifications
 

@@ -8,7 +8,7 @@ export const metadata = { title: "Admin — Disputes" };
 
 export default async function AdminDisputesPage() {
   const session = await getSession();
-  if (!session || session.role !== "admin") redirect("/");
+  if (!session || session.role !== "admin") redirect("/unauthorized");
 
   if (!db.disputes) db.disputes = [];
   const disputes = [...db.disputes].sort(

@@ -10,7 +10,7 @@ export const metadata = { title: "Admin — All Bookings" };
 
 export default async function AdminBookingsPage() {
   const session = await getSession();
-  if (!session || session.role !== "admin") redirect("/");
+  if (!session || session.role !== "admin") redirect("/unauthorized");
 
   const bookings = [...db.bookings].sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)

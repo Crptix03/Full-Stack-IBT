@@ -16,7 +16,7 @@ export default async function OwnerDashboard() {
   if (!session) redirect("/signin?next=/owner");
 
   const user = findUserById(session.userId);
-  if (!user?.roles?.includes("owner")) redirect("/");
+  if (!user?.roles?.includes("owner")) redirect("/unauthorized");
 
   const myCars = db.cars.filter((c) => c.ownerId === session.userId);
   const myBookings = db.bookings

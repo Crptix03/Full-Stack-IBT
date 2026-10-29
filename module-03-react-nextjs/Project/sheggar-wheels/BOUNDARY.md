@@ -18,6 +18,9 @@ These files run only on the server. They can read from `db.*`, call `getSession(
 | `src/app/(public)/cars/page.js` | Car listing — filter, sort, paginate on the server |
 | `src/app/(public)/cars/[id]/page.js` | Car detail — reads car, owner, reviews, booked dates |
 | `src/app/(public)/cars/[id]/map/page.js` | Map page shell — reads car lat/lng |
+| `src/app/(public)/profile/page.js` | Profile — reads user, booking stats, car count |
+| `src/app/(public)/signin/page.js` (shell) | Wraps the sign-in form — layout only |
+| `src/app/unauthorized/page.js` | Static error page — no data, no session |
 | `src/app/(public)/layout.js` | Public layout — wraps nav + main + footer |
 | `src/app/(renter)/layout.js` | Renter layout — tab nav, no auth guard (proxy handles it) |
 | `src/app/(renter)/dashboard/page.js` | Renter dashboard — reads bookings scoped to session |
@@ -65,6 +68,9 @@ These files run in the browser. They are always leaves — they are never the pa
 | `src/components/AdminUserActions.jsx` | `useTransition` for button state | `suspendUserAction`, `activateUserAction` |
 | `src/components/AdminDisputeActions.jsx` | Resolution notes textarea, `useTransition` | `resolveDisputeAction` |
 | `src/components/CarMapClient.jsx` | Wraps Leaflet map via `dynamic(..., { ssr: false })` | — |
+| `src/components/UserMenu.jsx` | Avatar dropdown — `useState` for open/close, `useEffect` for outside-click | `signOut` |
+| `src/components/PhotoUpload.jsx` | Drag-and-drop file picker — `useState` for preview, POSTs to `/api/upload` | — |
+| `src/components/DisputeForm.jsx` | Dispute form — `useState` for open/close + description text | `openDisputeAction` |
 
 ---
 

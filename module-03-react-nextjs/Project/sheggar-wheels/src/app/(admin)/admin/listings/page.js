@@ -9,7 +9,7 @@ export const metadata = { title: "Admin — Listings" };
 
 export default async function AdminListingsPage() {
   const session = await getSession();
-  if (!session || session.role !== "admin") redirect("/");
+  if (!session || session.role !== "admin") redirect("/unauthorized");
 
   const allCars = db.cars.sort((a, b) => {
     const order = { pending: 0, approved: 1, rejected: 2 };

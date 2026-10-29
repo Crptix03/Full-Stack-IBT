@@ -29,12 +29,12 @@ export async function proxy(request) {
     return NextResponse.redirect(url);
   }
 
-  // Wrong role — redirect home
+  // Wrong role — redirect to the unauthorized page
   if (rule.role === "admin" && role !== "admin") {
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/unauthorized", request.url));
   }
   if (rule.role === "owner" && role !== "owner" && role !== "admin") {
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/unauthorized", request.url));
   }
   // renter: any signed-in user can access renter routes
 

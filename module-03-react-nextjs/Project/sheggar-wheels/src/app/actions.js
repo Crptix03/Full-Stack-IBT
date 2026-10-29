@@ -199,6 +199,7 @@ export async function addCarAction(prevState, formData) {
   const neighbourhood = (formData.get("neighbourhood") || "").trim();
   const pricePerDay = parseInt(formData.get("pricePerDay") || "0", 10);
   const description = (formData.get("description") || "").trim();
+  const photo = (formData.get("photo") || "").trim();
 
   if (!make || !model || !year || !neighbourhood || !pricePerDay) {
     return { error: "Please fill in all required fields." };
@@ -211,7 +212,7 @@ export async function addCarAction(prevState, formData) {
     city: "Addis Ababa",
     neighbourhood,
     pricePerDay,
-    photos: ["/cars/placeholder.jpg"],
+    photos: photo ? [photo] : ["/cars/placeholder.jpg"],
     description,
     status: "pending",
     unavailableDates: [],
@@ -232,6 +233,8 @@ export async function updateCarAction(prevState, formData) {
   if (idx === -1) return { error: "Car not found" };
   if (db.cars[idx].ownerId !== session.userId) return { error: "Not yours" };
 
+  const newPhoto = (formData.get("photo") || "").trim();
+
   db.cars[idx] = {
     ...db.cars[idx],
     make: (formData.get("make") || db.cars[idx].make).trim(),
@@ -242,6 +245,7 @@ export async function updateCarAction(prevState, formData) {
     neighbourhood: (formData.get("neighbourhood") || db.cars[idx].neighbourhood).trim(),
     pricePerDay: parseInt(formData.get("pricePerDay") || db.cars[idx].pricePerDay, 10),
     description: (formData.get("description") || db.cars[idx].description).trim(),
+    photos: newPhoto ? [newPhoto] : db.cars[idx].photos,
   };
 
   revalidatePath("/owner/cars");

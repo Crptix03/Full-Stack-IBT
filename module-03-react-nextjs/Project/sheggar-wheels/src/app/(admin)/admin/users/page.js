@@ -8,7 +8,7 @@ export const metadata = { title: "Admin — Users" };
 
 export default async function AdminUsersPage() {
   const session = await getSession();
-  if (!session || session.role !== "admin") redirect("/");
+  if (!session || session.role !== "admin") redirect("/unauthorized");
 
   const users = [...db.users].sort((a, b) => a.name.localeCompare(b.name));
 

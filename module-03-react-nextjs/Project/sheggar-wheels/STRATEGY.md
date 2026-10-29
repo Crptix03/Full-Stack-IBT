@@ -21,6 +21,8 @@ Every route in Sheggar Wheels is either a Server Component (rendered on the serv
 | `/cars/[id]/map` | SC + Client island | Server + Client | Page shell is a Server Component. The Leaflet map is loaded client-side via `dynamic(..., { ssr: false })` because Leaflet requires the DOM. |
 | `/signin` | Client | Client | Uses `useActionState` to wire the `signIn` Server Action and show pending state. The actual auth runs server-side. |
 | `/signup` | Client | Client | Same pattern as `/signin` — uses `useActionState` + `signUp` Server Action. |
+| `/profile` | Dynamic SC | Server | Reads user, booking stats, and car count from `db.*` using `getSession()`. No interactivity needed. |
+| `/unauthorized` | Static SC | Server | Static page — no data, no session needed. Rendered once at build time. |
 | `/checkout` | SC + Client island | Server + Client | Server Component reads the car from `db` and passes it as a prop. `CheckoutForm` (client) handles date selection and triggers the `placeBooking` Server Action. |
 | `/dashboard` | Dynamic SC | Server | `getSession()` reads the httpOnly cookie. Booking history read from `db.bookings`. No client JS needed. |
 | `/bookings` | Dynamic SC | Server | Filter tabs are plain `<Link>` elements with `?filter=` query params. No client state. |

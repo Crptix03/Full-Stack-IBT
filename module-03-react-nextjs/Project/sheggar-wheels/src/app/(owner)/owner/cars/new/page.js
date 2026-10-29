@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useActionState } from "react";
 import { addCarAction } from "@/app/actions";
+import PhotoUpload from "@/components/PhotoUpload";
 import { ArrowLeft, Loader2 } from "lucide-react";
 
 const NEIGHBOURHOODS = ["Bole","Kazanchis","Megenagna","Piassa","CMC","Old Airport","Saris","Gerji","Summit","Ayat","Lafto"];
@@ -23,6 +24,14 @@ export default function NewCarPage() {
         <p className="text-sm text-neutral-500 mb-6">New cars are pending until an admin approves them.</p>
 
         <form action={formAction} className="space-y-4">
+          {/* Photo upload */}
+          <div>
+            <label className="block text-xs font-semibold text-neutral-600 mb-2">
+              Car Photo
+            </label>
+            <PhotoUpload name="photo" />
+          </div>
+
           <div className="grid grid-cols-2 gap-4">
             <Field label="Make" name="make" placeholder="Toyota" required />
             <Field label="Model" name="model" placeholder="Corolla" required />

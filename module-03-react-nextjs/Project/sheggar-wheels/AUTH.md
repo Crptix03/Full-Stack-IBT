@@ -58,6 +58,8 @@ A user can have multiple roles (e.g. `["renter", "owner"]`). The `role` cookie s
 | `/cars/[id]` | Nothing | Public. `notFound()` if not approved. |
 | `/signin` | Nothing | Public — exists to grant sessions. |
 | `/signup` | Nothing | Public — creates renter accounts. |
+| `/unauthorized` | Nothing | Public — anyone can land here. |
+| `/profile` | Proxy + Server Component | Cookie exists. `getSession()` re-checks. |
 | `/checkout` | Proxy + Server Component | Cookie exists AND car is approved AND renter ≠ owner. |
 | `/dashboard` | Proxy + Server Component | Cookie exists. `getSession()` re-checks. |
 | `/bookings` | Proxy + Server Component | Cookie exists. Queries scoped to `session.userId`. |
@@ -89,9 +91,9 @@ export async function proxy(request) {
   const userId = cookieStore.get("session")?.value;
   const role   = cookieStore.get("role")?.value;
 
-  if (!userId) { /* redirect to /signin */ }
-  if (rule.role === "admin" && role !== "admin") { /* redirect to / */ }
-  if (rule.role === "owner" && role !== "owner" && role !== "admin") { /* redirect to / */ }
+  if (!userId) { /* redirect to /signin?next=<path> */ }
+  if (rule.role === "admin" && role !== "admin") { /* redirect to /unauthorized */ }
+  if (rule.role === "owner" && role !== "owner" && role !== "admin") { /* redirect to /unauthorized */ }
 
   return NextResponse.next();
 }

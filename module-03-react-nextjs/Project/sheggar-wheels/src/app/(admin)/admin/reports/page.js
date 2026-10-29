@@ -8,7 +8,7 @@ export const metadata = { title: "Admin — Reports" };
 
 export default async function AdminReportsPage() {
   const session = await getSession();
-  if (!session || session.role !== "admin") redirect("/");
+  if (!session || session.role !== "admin") redirect("/unauthorized");
 
   const bookings = db.bookings;
   const completed = bookings.filter((b) => ["completed", "reviewed"].includes(b.status));
