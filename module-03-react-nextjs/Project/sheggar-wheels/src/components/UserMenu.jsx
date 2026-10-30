@@ -9,7 +9,6 @@ export default function UserMenu({ user }) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
 
-  // Close on outside click
   useEffect(() => {
     function handleClick(e) {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -31,7 +30,6 @@ export default function UserMenu({ user }) {
 
   return (
     <div className="relative" ref={menuRef}>
-      {/* Trigger button */}
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -39,27 +37,30 @@ export default function UserMenu({ user }) {
         aria-expanded={open}
         aria-haspopup="true"
       >
-        {/* Avatar */}
         <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center shrink-0">
           <span className="text-xs font-bold text-white">{initials}</span>
+
         </div>
+
         <span className="text-sm font-medium text-neutral-700">{firstName}</span>
+
         <ChevronDown
           className={`w-3.5 h-3.5 text-neutral-400 transition-transform ${open ? "rotate-180" : ""}`}
         />
       </button>
 
-      {/* Dropdown */}
+
       {open && (
         <div className="absolute right-0 top-full mt-2 w-52 bg-white border border-neutral-200 rounded-2xl shadow-lg overflow-hidden z-50">
 
-          {/* User info header */}
           <div className="px-4 py-3 border-b border-neutral-100">
             <p className="text-sm font-semibold text-neutral-900 truncate">{user.name}</p>
+
             <p className="text-xs text-neutral-500 truncate">{user.email}</p>
+
           </div>
 
-          {/* Links */}
+
           <ul className="py-1">
             <MenuItem
               href="/profile"
@@ -91,7 +92,7 @@ export default function UserMenu({ user }) {
             )}
           </ul>
 
-          {/* Sign out */}
+
           <div className="border-t border-neutral-100 py-1">
             <form action={signOut}>
               <button
@@ -101,11 +102,16 @@ export default function UserMenu({ user }) {
                 <LogOut className="w-4 h-4" />
                 Sign Out
               </button>
+
             </form>
+
           </div>
+
         </div>
+
       )}
     </div>
+
   );
 }
 
@@ -118,8 +124,11 @@ function MenuItem({ href, icon, label, onClick }) {
         className="flex items-center gap-3 px-4 py-2.5 text-sm text-neutral-700 hover:bg-neutral-50 transition-colors"
       >
         <span className="text-neutral-400">{icon}</span>
+
         {label}
       </Link>
+
     </li>
+
   );
 }

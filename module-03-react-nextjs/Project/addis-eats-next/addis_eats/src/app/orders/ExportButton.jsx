@@ -3,11 +3,6 @@
 import { useState } from "react";
 import { toCsv, downloadCsv } from "@/lib/csv";
 
-// Builds the CSV in the browser — no server round trip.
-// The orders are already on the page, so this is instant.
-//
-// Each row is flattened into a shape designed for a spreadsheet:
-// one row per order, columns for the fields a person would want.
 
 export default function ExportButton({ orders, filename = "orders.csv" }) {
   const [busy, setBusy] = useState(false);
@@ -29,12 +24,8 @@ export default function ExportButton({ orders, filename = "orders.csv" }) {
       const csv = toCsv(rows);
       downloadCsv(csv, filename);
     } catch (err) {
-      // Silent by design — download rarely fails, and an alert is
-      // worse than a failed click.
       console.error("CSV export failed:", err);
     } finally {
-      // Give the browser a moment to trigger the download before
-      // re-enabling the button.
       setTimeout(() => setBusy(false), 300);
     }
   };
@@ -53,6 +44,7 @@ export default function ExportButton({ orders, filename = "orders.csv" }) {
       <DownloadIcon />
       {busy ? "Exporting…" : "Export CSV"}
     </button>
+
   );
 }
 
@@ -73,5 +65,6 @@ function DownloadIcon() {
       <polyline points="7 10 12 15 17 10" />
       <line x1="12" y1="15" x2="12" y2="3" />
     </svg>
+
   );
 }

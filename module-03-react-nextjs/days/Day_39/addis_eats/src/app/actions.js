@@ -6,7 +6,6 @@ import { redirect } from "next/navigation";
 import { orders, addOrder } from "@/lib/orders";
 import { orderSchema } from "@/lib/schema";
 
-// ── Place an order ──────────────────────────────────
 export async function placeOrder(prevState, formData) {
   const raw = {
     customerName: formData.get("customerName"),
@@ -26,7 +25,6 @@ export async function placeOrder(prevState, formData) {
   redirect(`/checkout/success?id=${order.id}`);
 }
 
-// ── Cancel an order ─────────────────────────────────
 export async function cancelOrder(orderId) {
   const cookieStore = await cookies();
   const session = cookieStore.get("session")?.value;

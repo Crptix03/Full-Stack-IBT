@@ -1,10 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // State Management
   let cart = JSON.parse(localStorage.getItem("royale_cart")) || [];
   let orderHistory = JSON.parse(localStorage.getItem("royale_history")) || [];
   let favorites = JSON.parse(localStorage.getItem("royale_favorites")) || [];
 
-  // DOM Elements
   const menuGridContainer = document.getElementById("menuGridContainer");
   const menuSearchInput = document.getElementById("menuSearchInput");
   const globalSearchInput = document.getElementById("globalSearchInput");
@@ -17,7 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const cartSubtotalEl = document.getElementById("cartSubtotal");
   const cartTotalEl = document.getElementById("cartTotal");
   
-  // CUSTOMER INPUTS
   const customerNameInput = document.getElementById("customerName");
   const customerPhoneInput = document.getElementById("customerPhone");
   const deliveryAddressInput = document.getElementById("deliveryAddress");
@@ -41,9 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalItemsSummary = document.getElementById("modalItemsSummary");
   const toastContainer = document.getElementById("toastContainer");
 
-  // ==========================================
-  // SKELETON LOADING (MENU GRID)
-  // ==========================================
   function renderMenuSkeleton(count = 6) {
     if (!menuGridContainer) return;
     menuGridContainer.innerHTML = Array.from({ length: count })
@@ -65,9 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
       .join("");
   }
 
-  // ==========================================
-  // IMAGE PRELOADING (used to detect real "slow internet")
-  // ==========================================
   function preloadImages(urls) {
     const uniqueUrls = [...new Set(urls)];
     const promises = uniqueUrls.map(
@@ -75,16 +66,13 @@ document.addEventListener("DOMContentLoaded", () => {
         new Promise((resolve) => {
           const img = new Image();
           img.onload = resolve;
-          img.onerror = resolve; // don't hang the whole batch on one bad image
+          img.onerror = resolve;
           img.src = src;
         })
     );
     return Promise.all(promises);
   }
 
-  // ==========================================
-  // MENU RENDER & FILTERING
-  // ==========================================
   function renderMenu(currentCategory) {
     if (!menuGridContainer) return;
     
@@ -155,9 +143,6 @@ document.addEventListener("DOMContentLoaded", () => {
     attachFavoriteListeners();
   }
 
-  // ==========================================
-  // FAVORITE BUTTON LOGIC
-  // ==========================================
   function attachFavoriteListeners() {
     document.querySelectorAll(".favorite-btn").forEach(btn => {
       btn.addEventListener("click", (e) => {
@@ -184,9 +169,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ==========================================
-  // TAB BUTTON LOGIC
-  // ==========================================
   const menuTabs = document.querySelectorAll(".menu-tab");
   let activeCategory = "all";
 
@@ -199,9 +181,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // ==========================================
-  // SEARCH LOGIC
-  // ==========================================
   if (menuSearchInput) {
     menuSearchInput.addEventListener("input", () => renderMenu(activeCategory));
   }
@@ -215,9 +194,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ==========================================
-  // CART MANAGEMENT
-  // ==========================================
   function updateCartUI() {
     localStorage.setItem("royale_cart", JSON.stringify(cart));
 
@@ -318,9 +294,6 @@ document.addEventListener("DOMContentLoaded", () => {
     toggleCart(true);
   };
 
-  // ==========================================
-  // EVENT DELEGATION FOR ADD BUTTONS
-  // ==========================================
   document.addEventListener("click", (e) => {
     const btn = e.target.closest(".add-btn");
     if (btn) {
@@ -331,9 +304,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // ==========================================
-  // DELIVERY / PICKUP TOGGLE LOGIC
-  // ==========================================
   function toggleAddressField() {
     const selectedType = document.querySelector('input[name="deliveryType"]:checked');
 
@@ -352,9 +322,6 @@ document.addEventListener("DOMContentLoaded", () => {
     radio.addEventListener("change", toggleAddressField);
   });
 
-  // ==========================================
-  // DRAWER CONTROLS
-  // ==========================================
   function toggleCart(open) {
     if (!cartDrawer || !cartOverlay) return;
     cartDrawer.classList.toggle("open", open);
@@ -376,9 +343,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (historyCloseBtn) historyCloseBtn.addEventListener("click", () => toggleHistory(false));
   if (historyOverlay) historyOverlay.addEventListener("click", () => toggleHistory(false));
 
-  // ==========================================
-  // CHECKOUT & ORDER HISTORY (STRICT 13-CHAR PHONE VALIDATION)
-  // ==========================================
   if (checkoutBtn) {
     checkoutBtn.addEventListener("click", () => {
       if (cart.length === 0) {
@@ -386,7 +350,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // 1. Get & Validate Name
       const name = customerNameInput ? customerNameInput.value.trim() : "";
       if (!name) {
         showToast("Please enter your full name");
@@ -394,7 +357,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // 2. Get & Validate Phone (Strict 13 characters: +251 + 9 digits)
       let phone = customerPhoneInput ? customerPhoneInput.value.trim() : "";
       
       if (!phone) {
@@ -403,17 +365,16 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Remove any existing dashes to get clean input
       let rawPhone = phone.replace(/-/g, "");
 
       
       if (/^\+2519\d{8}$/.test(rawPhone)) {
-        phone = rawPhone.slice(0, 4) + "-" + rawPhone.slice(4, 6) + "-" + rawPhone.slice(6, 9) + "-" + rawPhone.slice(9); // +251-91-234-5678
+        phone = rawPhone.slice(0, 4) + "-" + rawPhone.slice(4, 6) + "-" + rawPhone.slice(6, 9) + "-" + rawPhone.slice(9);
         customerPhoneInput.value = phone;
       }
 
       else if (/^9\d{8}$/.test(rawPhone)) {
-        phone = "+251-" + rawPhone.slice(0, 2) + "-" + rawPhone.slice(2, 5) + "-" + rawPhone.slice(5); // +251-91-234-5678
+        phone = "+251-" + rawPhone.slice(0, 2) + "-" + rawPhone.slice(2, 5) + "-" + rawPhone.slice(5);
         customerPhoneInput.value = phone;
       }
 
@@ -423,7 +384,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // 3. Determine Delivery or Pickup
       const selectedType = document.querySelector('input[name="deliveryType"]:checked');
       const isDelivery = selectedType ? selectedType.value === "delivery" : true;
 
@@ -439,7 +399,6 @@ document.addEventListener("DOMContentLoaded", () => {
         address = "Pickup at Royale Bistro";
       }
 
-      // 4. Generate Order
       const orderId = `#RB-${Math.floor(1000 + Math.random() * 9000)}`;
       const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
       const deliveryFee = isDelivery ? 100 : 0;
@@ -465,7 +424,6 @@ document.addEventListener("DOMContentLoaded", () => {
       orderHistory.unshift(newOrder);
       localStorage.setItem("royale_history", JSON.stringify(orderHistory));
 
-      // 5. Update Confirmation Modal
       const modalCustomerName = document.getElementById("modalCustomerName");
       const modalCustomerPhone = document.getElementById("modalCustomerPhone");
       
@@ -485,12 +443,10 @@ document.addEventListener("DOMContentLoaded", () => {
           .join("");
       }
 
-      // 6. Reset Everything
       cart = [];
       updateCartUI();
       toggleCart(false);
       
-      // Clear inputs
       if (customerNameInput) customerNameInput.value = "";
       if (customerPhoneInput) customerPhoneInput.value = "";
       if (deliveryAddressInput) deliveryAddressInput.value = "";
@@ -548,9 +504,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2500);
   }
 
-  // ==========================================
-  // THEME TOGGLE LOGIC
-  // ==========================================
   const themeToggle = document.getElementById("themeToggle");
   const themeIcon = document.getElementById("themeIcon");
 
@@ -577,9 +530,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
   }
 
-  // ==========================================
-  // MOBILE MENU TOGGLE LOGIC
-  // ==========================================
   const menuToggle = document.getElementById("menuToggle");
   const navMenu = document.getElementById("navMenu");
 
@@ -588,7 +538,6 @@ document.addEventListener("DOMContentLoaded", () => {
       navMenu.classList.toggle("open");
     });
 
-    // Close the mobile menu when a link is clicked
     document.querySelectorAll("#navMenu a").forEach(link => {
       link.addEventListener("click", () => {
         navMenu.classList.remove("open");
@@ -596,9 +545,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ==========================================
-  // INITIAL LOAD EXECUTION (skeleton only shows on genuinely slow loads)
-  // ==========================================
   (function initMenu() {
     let activeMenu = JSON.parse(localStorage.getItem("royale_menu"));
     if (!activeMenu || activeMenu.length === 0) {
@@ -608,7 +554,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const imageUrls = activeMenu.map((item) => item.img);
 
     let imagesReady = false;
-    const SKELETON_THRESHOLD_MS = 300; // fast connections never see the skeleton
+    const SKELETON_THRESHOLD_MS = 300;
 
     const skeletonTimer = setTimeout(() => {
       if (!imagesReady) {

@@ -43,7 +43,6 @@ export default function LiveStatus({ order }) {
           setConnection("closed");
         }
       } catch {
-        // Malformed message — ignore.
       }
     };
 
@@ -75,6 +74,7 @@ export default function LiveStatus({ order }) {
         />
       </div>
 
+
       <div className="flex flex-col gap-6">
         <StatusHeader
           status={status}
@@ -90,9 +90,12 @@ export default function LiveStatus({ order }) {
           <div className="pt-2">
             <CancelOrderButton orderId={order.id} />
           </div>
+
         )}
       </div>
+
     </div>
+
   );
 }
 
@@ -116,17 +119,22 @@ function StatusHeader({ status, connection, updatedAt }) {
         <span className={`text-xs font-bold px-3 py-1 rounded ${statusStyle}`}>
           {status.toUpperCase().replace("_", " ")}
         </span>
+
         <ConnectionIndicator state={connection} />
       </div>
+
 
       <h2 className="font-serif text-2xl text-neutral-100 mb-1">
         {statusLabel(status)}
       </h2>
 
+
       <p className="text-xs text-neutral-500">
         Updated {relative(updatedAt)} · {when.format(new Date(updatedAt))}
       </p>
+
     </div>
+
   );
 }
 
@@ -148,8 +156,10 @@ function ConnectionIndicator({ state }) {
         )}
         <span className={`relative inline-flex rounded-full h-2 w-2 ${config.dot}`} />
       </span>
+
       {config.label}
     </span>
+
   );
 }
 
@@ -159,8 +169,11 @@ function AddressBlock({ address }) {
       <h3 className="text-xs uppercase tracking-wider text-neutral-500 mb-2">
         Delivery address
       </h3>
+
       <p className="text-neutral-100">{address || "Not provided"}</p>
+
     </div>
+
   );
 }
 
@@ -171,26 +184,35 @@ function SummaryBlock({ order }) {
         Order summary
       </h3>
 
+
       <ul className="space-y-2 mb-4">
         {order.items?.map((item) => (
           <li key={item.id} className="flex justify-between text-sm text-neutral-400">
             <span>
               {item.qty}× {item.name}
             </span>
+
             <span className="tabular-nums">
               {etb.format(item.price * item.qty)}
             </span>
+
           </li>
+
         ))}
       </ul>
 
+
       <div className="flex justify-between items-baseline pt-3 border-t border-neutral-800">
         <span className="text-neutral-400 text-sm">Total</span>
+
         <span className="font-serif text-xl text-amber-400">
           {etb.format(order.total ?? 0)}
         </span>
+
       </div>
+
     </div>
+
   );
 }
 
@@ -211,4 +233,5 @@ function CourierNote({ status }) {
   if (!message) return null;
 
   return <div className="text-xs text-neutral-500 italic">{message}</div>;
+
 }

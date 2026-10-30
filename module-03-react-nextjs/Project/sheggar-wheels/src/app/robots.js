@@ -6,7 +6,6 @@ export default function robots() {
       {
         userAgent: "*",
         allow: ["/", "/cars", "/cars/"],
-        // Private routes — should never be indexed
         disallow: [
           "/dashboard",
           "/bookings",

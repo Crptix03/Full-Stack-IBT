@@ -6,7 +6,6 @@ export default function ThemeToggle() {
   const [theme, setTheme] = useState("dark");
   const [mounted, setMounted] = useState(false);
 
-  // On mount, read the current theme from <html>
   useEffect(() => {
     setMounted(true);
     const current =
@@ -23,8 +22,6 @@ export default function ThemeToggle() {
     } catch {}
   };
 
-  // Prevent flash of wrong icon on SSR — placeholder matches the
-  // final button's size so no layout shift occurs.
   if (!mounted) {
     return (
       <button
@@ -44,5 +41,6 @@ export default function ThemeToggle() {
     >
       {theme === "dark" ? "☀️" : "🌙"}
     </button>
+
   );
 }

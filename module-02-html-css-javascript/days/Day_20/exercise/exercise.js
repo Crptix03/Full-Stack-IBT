@@ -1,4 +1,3 @@
-// 1. USD -> ETB rate
 async function getRate() {
     const response = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
     if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
@@ -18,7 +17,6 @@ document.querySelector("#btn1").addEventListener("click", async () => {
     }
 });
 
-// 2. .then chain rewritten as async/await
 async function loadPosts() {
     const out = document.querySelector("#out2");
     out.innerHTML = "";
@@ -39,7 +37,6 @@ async function loadPosts() {
 
 document.querySelector("#btn2").addEventListener("click", loadPosts);
 
-// 3. Wrong URL vs real 404
 document.querySelector("#btn3a").addEventListener("click", async () => {
     const out = document.querySelector("#out3");
     out.textContent = "Fetching bad URL...";
@@ -68,7 +65,6 @@ document.querySelector("#btn3b").addEventListener("click", async () => {
 });
 
 
-// 4. Promise.all for first 2 items in parallel
 async function loadDetails() {
     const out = document.querySelector("#out4");
     out.innerHTML = "";
@@ -100,7 +96,6 @@ async function loadDetails() {
 
 document.querySelector("#btn4").addEventListener("click", loadDetails);
 
-// 5. Loading / data / error states
 async function loadWithStates() {
     const out = document.querySelector("#out5");
     out.textContent = "Loading...";

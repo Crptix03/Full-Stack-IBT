@@ -23,11 +23,7 @@ function Checkout() {
     area: useRef(null),
   };
 
-  // Derived on every render — never stored separately, so it's always in sync
-  // with the current form values.
   const clientErrors = validate(form);
-  // Server errors (from a failed submit) are merged in until the person edits
-  // that field again, at which point client validation takes back over.
   const errors = { ...clientErrors, ...serverFieldErrors };
 
   const isFormValid = Object.keys(clientErrors).length === 0;
@@ -35,8 +31,6 @@ function Checkout() {
   function handleChange(e) {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
-    // Once the person edits a field the server complained about, drop that
-    // server error so client-side validation governs it again.
     if (serverFieldErrors[name]) {
       setServerFieldErrors(prev => {
         const next = { ...prev };
@@ -62,9 +56,6 @@ function Checkout() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    // Mark every field touched so all client-side errors become visible,
-    // even ones the person never blurred away from (e.g. submitting with
-    // the very first field still empty).
     setTouched({ name: true, phone: true, area: true, notes: true });
 
     if (!isFormValid) {
@@ -87,8 +78,6 @@ function Checkout() {
         setServerFieldErrors(err.fieldErrors);
         focusFirstBadField(err.fieldErrors);
       }
-      // Every value in `form` is intentionally left untouched here —
-      // nothing is cleared on failure.
     } finally {
       setSubmitting(false);
     }
@@ -97,6 +86,7 @@ function Checkout() {
   return (
     <form className="checkout-form" onSubmit={handleSubmit} noValidate>
       <h2>Delivery details</h2>
+
 
       <Field
         name="name"
@@ -151,12 +141,15 @@ function Checkout() {
         <p role="alert" className="submit-error">
           {submitError}
         </p>
+
       )}
 
       <button type="submit" disabled={submitting}>
         {submitting ? "Placing order..." : `Place order — ${total} ETB`}
       </button>
+
     </form>
+
   );
 }
 

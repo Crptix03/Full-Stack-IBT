@@ -67,8 +67,6 @@ const themeScript = `
 })();
 `;
 
-// Resolve a display user from the session. Demo accounts come from
-// users.js; Google users carry their info in the session directly.
 function resolveUser(session) {
   if (!session) return null;
 
@@ -116,29 +114,35 @@ export default async function RootLayout({ children }) {
                 Addis Eats
               </Link>
 
+
               <nav className="flex gap-2 sm:gap-5 text-sm items-center">
-                {/* Mobile-only: hamburger + theme toggle */}
                 <div className="flex sm:hidden gap-1 items-center">
                   <MobileMenu user={user} />
                   <ThemeToggle />
                 </div>
 
-                {/* Desktop-only: full text nav */}
+
                 <div className="hidden sm:flex gap-5 items-center">
                   <NavLink href="/menu">Menu</NavLink>
+
                   <NavLink href="/cart">
                     Cart
                     <CartBadge />
                   </NavLink>
+
                   {session && <NavLink href="/orders">Orders</NavLink>}
+
                   {user?.role === "staff" && (
                     <NavLink href="/dashboard">Dashboard</NavLink>
+
                   )}
                   <NavLink href="/checkout">Checkout</NavLink>
+
 
                   <span className="shrink-0">
                     <ThemeToggle />
                   </span>
+
 
                   {user ? (
                     <span className="shrink-0">
@@ -147,27 +151,41 @@ export default async function RootLayout({ children }) {
                         role={user.role}
                       />
                     </span>
+
                   ) : (
                     <NavLink href="/signin">Sign In</NavLink>
+
                   )}
                 </div>
+
               </nav>
+
             </div>
+
           </header>
+
 
           <main className="flex-1 px-4 sm:px-8 py-8 sm:py-12 max-w-6xl w-full mx-auto">
             {children}
           </main>
 
+
           <footer className="px-4 sm:px-8 py-8 border-t theme-border">
             <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs theme-text-muted">
               <p>© {new Date().getFullYear()} Addis Eats</p>
+
               <p>Great food, delivered fresh.</p>
+
             </div>
+
           </footer>
+
         </Providers>
+
       </body>
+
     </html>
+
   );
 }
 
@@ -179,5 +197,6 @@ function NavLink({ href, children }) {
     >
       {children}
     </Link>
+
   );
 }

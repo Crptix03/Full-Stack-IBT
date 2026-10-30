@@ -21,7 +21,6 @@ export default function SearchBox({ initialValue = "", currentParams = "" }) {
     base.delete("page");
 
     const qs = base.toString();
-    // Debounce via a closure-captured timeout ref
     clearTimeout(handleChange._t);
     handleChange._t = setTimeout(() => {
       startTransition(() => {
@@ -35,6 +34,7 @@ export default function SearchBox({ initialValue = "", currentParams = "" }) {
       <label htmlFor="dish-search" className="sr-only">
         Search dishes
       </label>
+
       <input
         id="dish-search"
         name="q"
@@ -46,5 +46,6 @@ export default function SearchBox({ initialValue = "", currentParams = "" }) {
         autoComplete="off"
       />
     </div>
+
   );
 }

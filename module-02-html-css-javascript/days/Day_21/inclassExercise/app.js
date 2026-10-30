@@ -5,7 +5,6 @@ const phoneInput = document.getElementById("phone");
 const errorEl = document.getElementById("error");
 const countEl = document.getElementById("count");
 
-// Ethiopian mobile numbers: 09xxxxxxxx / 07xxxxxxxx or +2519xxxxxxxx / +2517xxxxxxxx
 const ETHIO_PHONE_REGEX = /^(?:\+251|0)[97]\d{8}$/;
 
 function loadSignups() {

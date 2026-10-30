@@ -3,9 +3,6 @@
 import { useTransition, useState } from "react";
 import { cancelOrder } from "@/app/actions";
 
-// Two-click cancel with inline confirmation.
-// compact = small text button for table rows.
-// non-compact = full-width button for the track page.
 export default function CancelOrderButton({ orderId, compact = false }) {
   const [confirming, setConfirming] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -17,8 +14,6 @@ export default function CancelOrderButton({ orderId, compact = false }) {
         alert(result.error);
         setConfirming(false);
       }
-      // On success the server action revalidates the page,
-      // so the status will update or the row will refresh.
     });
   };
 
@@ -27,6 +22,7 @@ export default function CancelOrderButton({ orderId, compact = false }) {
       <span className={`text-xs text-neutral-500 ${compact ? "" : "py-2"}`}>
         Cancelling…
       </span>
+
     );
   }
 
@@ -44,6 +40,7 @@ export default function CancelOrderButton({ orderId, compact = false }) {
         >
           Confirm cancel
         </button>
+
         <button
           type="button"
           onClick={() => setConfirming(false)}
@@ -51,7 +48,9 @@ export default function CancelOrderButton({ orderId, compact = false }) {
         >
           Keep
         </button>
+
       </span>
+
     );
   }
 
@@ -64,6 +63,7 @@ export default function CancelOrderButton({ orderId, compact = false }) {
       >
         Cancel
       </button>
+
     );
   }
 
@@ -75,5 +75,6 @@ export default function CancelOrderButton({ orderId, compact = false }) {
     >
       Cancel this order
     </button>
+
   );
 }

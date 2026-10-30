@@ -6,8 +6,6 @@ export default function DishCard({ dish, priority = false }) {
   return (
     <div className="border border-neutral-800 rounded-lg overflow-hidden bg-neutral-900 hover:border-amber-400/50 transition-colors group">
       <Link href={`/menu/${toSlug(dish.name)}`} className="block">
-        {/* Explicit width/height lets the browser pick the right srcset candidate
-            without waiting for a layout pass, helping LCP on the first card. */}
         <div className="relative w-full h-48 overflow-hidden">
           <Image
             src={dish.image}
@@ -32,32 +30,42 @@ export default function DishCard({ dish, priority = false }) {
             >
               {dish.tag}
             </span>
+
           )}
         </div>
+
 
         <div className="p-4">
           <h3 className="font-serif font-medium text-lg text-neutral-100 mb-1 group-hover:text-amber-400 transition-colors">
             {dish.name}
           </h3>
 
+
           {dish.description && (
             <p className="text-neutral-400 text-xs mb-3 line-clamp-2">
               {dish.description}
             </p>
+
           )}
 
           <div className="flex items-baseline gap-2">
             <span className="text-amber-400 font-semibold">
               {dish.price} Birr
             </span>
+
             {dish.originalPrice && (
               <span className="text-neutral-500 text-xs line-through">
                 {dish.originalPrice} Birr
               </span>
+
             )}
           </div>
+
         </div>
+
       </Link>
+
     </div>
+
   );
 }

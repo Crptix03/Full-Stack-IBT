@@ -34,16 +34,22 @@ export default async function BookingDetailPage({ params }) {
           <ArrowLeft className="w-4 h-4" />
           My Bookings
         </Link>
+
       </div>
+
 
       <div className="bg-white border border-neutral-200 rounded-2xl p-8">
         <div className="flex items-start justify-between gap-4 mb-6">
           <div>
             <h1 className="text-2xl font-black text-neutral-900 mb-1">Booking Details</h1>
+
             <p className="text-xs text-neutral-500">ID: {booking.id}</p>
+
           </div>
+
           <BookingStatusPill status={booking.status} />
         </div>
+
 
         {car && (
           <div className="flex gap-4 p-4 bg-neutral-50 rounded-xl mb-6">
@@ -57,61 +63,81 @@ export default async function BookingDetailPage({ params }) {
                 style={{ objectPosition: car.photoPosition || "center" }}
               />
             </div>
+
             <div>
               <p className="font-bold">{car.make} {car.model}</p>
+
               <p className="text-xs text-neutral-500">{car.year} · {car.neighbourhood}</p>
+
               <p className="text-sm font-semibold text-indigo-600 mt-1">{etb.format(booking.total)}</p>
+
             </div>
+
           </div>
+
         )}
 
         <div className="space-y-3 text-sm mb-6">
           <Row icon={<Calendar className="w-4 h-4 text-indigo-600" />} label="Dates">
             {formatDate(booking.startDate)} – {formatDate(booking.endDate)} ({booking.days} day{booking.days > 1 ? "s" : ""})
           </Row>
+
           <Row icon={<User className="w-4 h-4 text-indigo-600" />} label="Owner">
             {owner?.name || "—"}
           </Row>
+
           {owner?.phone && (
             <Row icon={<Phone className="w-4 h-4 text-indigo-600" />} label="Contact">
               {owner.phone}
             </Row>
+
           )}
           {car && (
             <Row icon={<MapPin className="w-4 h-4 text-indigo-600" />} label="Location">
               {car.neighbourhood}, {car.city}
             </Row>
+
           )}
         </div>
+
 
         <div className="pt-4 border-t border-neutral-200 space-y-1 text-sm mb-6">
           <div className="flex justify-between text-neutral-600">
             <span>{etb.format(booking.pricePerDay)} × {booking.days} day{booking.days > 1 ? "s" : ""}</span>
+
             <span>{etb.format(booking.subtotal)}</span>
+
           </div>
+
           <div className="flex justify-between text-neutral-600">
             <span>Platform fee (5%)</span>
+
             <span>{etb.format(booking.fee)}</span>
+
           </div>
+
           <div className="flex justify-between font-bold text-neutral-900 pt-2 border-t border-neutral-200">
             <span>Total</span>
+
             <span>{etb.format(booking.total)}</span>
+
           </div>
+
         </div>
 
-        {/* Client component handles cancel + review actions */}
+
         <BookingActions
           booking={booking}
           existingReview={existingReview}
         />
 
-        {/* Dispute form — only for confirmed or in_progress bookings that
-            haven't already been disputed */}
         {["confirmed", "in_progress"].includes(booking.status) && (
           <DisputeForm bookingId={booking.id} />
         )}
       </div>
+
     </div>
+
   );
 }
 
@@ -119,10 +145,15 @@ function Row({ icon, label, children }) {
   return (
     <div className="flex items-start gap-3">
       <div className="mt-0.5">{icon}</div>
+
       <div>
         <p className="text-xs text-neutral-500 uppercase tracking-wider mb-0.5">{label}</p>
+
         <p className="text-neutral-900">{children}</p>
+
       </div>
+
     </div>
+
   );
 }

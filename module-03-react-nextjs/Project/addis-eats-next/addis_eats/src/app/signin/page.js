@@ -13,8 +13,6 @@ export default function SignInPage({ searchParams }) {
 
   const handleGoogleSignIn = () => {
     startGoogleTransition(async () => {
-      // Triggers the real Google OAuth flow.
-      // The callbackUrl is where NextAuth sends the user after success.
       await nextAuthSignIn("google", { callbackUrl: next });
     });
   };
@@ -23,7 +21,7 @@ export default function SignInPage({ searchParams }) {
     <div className="max-w-md mx-auto mt-12 p-6 bg-neutral-900 border border-neutral-800 rounded-lg">
       <h1 className="font-serif text-2xl text-amber-400 mb-6">Sign In</h1>
 
-      {/* ── Continue with Google ───────────────────────── */}
+
       <button
         type="button"
         onClick={handleGoogleSignIn}
@@ -34,13 +32,15 @@ export default function SignInPage({ searchParams }) {
         {isGoogleLoading ? "Redirecting to Google…" : "Continue with Google"}
       </button>
 
+
       <div className="flex items-center gap-3 my-5">
         <div className="flex-1 h-px bg-neutral-800" />
         <span className="text-xs text-neutral-500">or</span>
+
         <div className="flex-1 h-px bg-neutral-800" />
       </div>
 
-      {/* ── Username / password form (demo accounts) ───── */}
+
       <form action={formAction} className="space-y-4">
         <input type="hidden" name="next" value={next} />
 
@@ -51,6 +51,7 @@ export default function SignInPage({ searchParams }) {
           >
             Username
           </label>
+
           <input
             id="username"
             name="username"
@@ -61,6 +62,7 @@ export default function SignInPage({ searchParams }) {
           />
         </div>
 
+
         <div>
           <label
             className="block text-sm text-neutral-400 mb-1"
@@ -68,6 +70,7 @@ export default function SignInPage({ searchParams }) {
           >
             Password
           </label>
+
           <input
             id="password"
             name="password"
@@ -78,8 +81,10 @@ export default function SignInPage({ searchParams }) {
           />
         </div>
 
+
         {state?.error && (
           <p className="text-red-400 text-sm">{state.error}</p>
+
         )}
 
         <button
@@ -89,21 +94,26 @@ export default function SignInPage({ searchParams }) {
         >
           {isPending ? "Signing in..." : "Sign In"}
         </button>
+
       </form>
 
-      {/* ── Demo Accounts ──────────────────────────────── */}
+
       <div className="mt-8 pt-6 border-t border-neutral-800">
         <h2 className="text-sm font-semibold text-neutral-300 mb-3">
           Demo Accounts
         </h2>
+
         <div className="space-y-2 text-sm">
           <DemoRow username="chef" role="Staff" password="kitchen2026" />
           <DemoRow username="Abebe" role="Customer A" password="demo2026" />
           <DemoRow username="Bekele" role="Customer B" password="Bekele2026" />
           <DemoRow username="Sara" role="Customer C" password="sara2026" />
         </div>
+
       </div>
+
     </div>
+
   );
 }
 
@@ -112,14 +122,18 @@ function DemoRow({ username, role, password }) {
     <div className="flex justify-between items-center bg-neutral-950/50 p-2 rounded">
       <div>
         <span className="text-amber-400 font-medium">{username}</span>
+
         <span className="text-neutral-500 ml-2">({role})</span>
+
       </div>
+
       <code className="text-neutral-400">{password}</code>
+
     </div>
+
   );
 }
 
-// The official Google "G" logo — four-colour version.
 function GoogleIcon() {
   return (
     <svg
@@ -146,5 +160,6 @@ function GoogleIcon() {
         d="M9 3.5795c1.3214 0 2.5077.4541 3.4405 1.346l2.5813-2.5814C13.4632.8918 11.4259 0 9 0 5.4818 0 2.4382 2.0168.9574 4.9582L3.964 7.29C4.6718 5.1627 6.6559 3.5795 9 3.5795z"
       />
     </svg>
+
   );
 }

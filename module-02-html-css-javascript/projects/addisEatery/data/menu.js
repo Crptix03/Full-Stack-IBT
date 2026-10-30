@@ -1,4 +1,3 @@
-  // SEED DATA FOR Royale Bistro MENU 
 const menuData = [
   {
     id: "item-1",

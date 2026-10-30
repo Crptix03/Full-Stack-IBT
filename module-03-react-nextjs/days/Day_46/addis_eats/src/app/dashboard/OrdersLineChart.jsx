@@ -19,11 +19,11 @@ export default function OrdersLineChart({ data }) {
       >
         No order data to display.
       </div>
+
     );
   }
 
   return (
-    // Fixed height — prevents CLS and gives ResponsiveContainer a real size.
     <div className="w-full h-[280px] mb-6">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
@@ -46,7 +46,6 @@ export default function OrdersLineChart({ data }) {
             tickLine={false}
             width={40}
             allowDecimals={false}
-            // Line charts may start above zero — they show change, not length.
             domain={[0, "auto"]}
           />
 
@@ -72,7 +71,10 @@ export default function OrdersLineChart({ data }) {
             name="Orders"
           />
         </LineChart>
+
       </ResponsiveContainer>
+
     </div>
+
   );
 }

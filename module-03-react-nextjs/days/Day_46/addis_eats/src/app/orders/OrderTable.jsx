@@ -1,8 +1,5 @@
 import Link from "next/link";
 
-// Real <table> markup. No client JS. Sorting comes from the URL.
-// Columns: Order | Date | Items | Total | Status
-// The "sortedBy" and "sortDir" props come from searchParams.
 
 export default function OrderTable({ orders, sortedBy, sortDir }) {
   if (!orders || orders.length === 0) {
@@ -15,6 +12,7 @@ export default function OrderTable({ orders, sortedBy, sortDir }) {
         <caption className="sr-only">
           Your orders, sorted by {sortedBy} {sortDir === "desc" ? "descending" : "ascending"}
         </caption>
+
 
         <thead>
           <tr className="border-b border-neutral-800 bg-neutral-900/40">
@@ -54,11 +52,14 @@ export default function OrderTable({ orders, sortedBy, sortDir }) {
               align="left"
             />
             <th scope="col" className="py-3 px-4 text-right text-xs uppercase tracking-wider text-neutral-500 font-medium">
-              {/* Detail column — not sortable */}
               <span className="sr-only">Actions</span>
+
             </th>
+
           </tr>
+
         </thead>
+
 
         <tbody>
           {orders.map((order) => (
@@ -69,6 +70,7 @@ export default function OrderTable({ orders, sortedBy, sortDir }) {
               <td className="py-3 px-4 text-neutral-100 font-medium">
                 #{order.id.slice(-6)}
               </td>
+
               <td className="py-3 px-4 text-neutral-400">
                 {order.createdAt
                   ? new Date(order.createdAt).toLocaleDateString("en-US", {
@@ -78,15 +80,19 @@ export default function OrderTable({ orders, sortedBy, sortDir }) {
                     })
                   : "—"}
               </td>
+
               <td className="py-3 px-4 text-right text-neutral-300 tabular-nums">
                 {order.items?.length || 0}
               </td>
+
               <td className="py-3 px-4 text-right text-amber-400 font-medium tabular-nums">
                 {(order.total ?? 0).toLocaleString()}
               </td>
+
               <td className="py-3 px-4">
                 <StatusPill status={order.status} />
               </td>
+
               <td className="py-3 px-4 text-right">
                 <Link
                   href={`/orders/${order.id}`}
@@ -94,23 +100,26 @@ export default function OrderTable({ orders, sortedBy, sortDir }) {
                 >
                   View →
                 </Link>
+
               </td>
+
             </tr>
+
           ))}
         </tbody>
+
       </table>
+
     </div>
+
   );
 }
 
-// A column header that is a link. Clicking toggles sort direction
-// if it's already the sorted column, otherwise it becomes the new sort.
 function SortableHeader({ column, label, current, dir, align }) {
   const isActive = current === column;
   const nextDir = isActive && dir === "asc" ? "desc" : "asc";
   const href = `/orders?sort=${column}&dir=${nextDir}`;
 
-  // aria-sort tells screen readers the current sort state.
   const ariaSort = isActive
     ? dir === "asc"
       ? "ascending"
@@ -134,9 +143,12 @@ function SortableHeader({ column, label, current, dir, align }) {
         {label}
         {isActive && (
           <span aria-hidden="true">{dir === "asc" ? "↑" : "↓"}</span>
+
         )}
       </Link>
+
     </th>
+
   );
 }
 
@@ -156,5 +168,6 @@ function StatusPill({ status }) {
     <span className={`text-xs font-bold px-2 py-1 rounded ${style}`}>
       {status?.toUpperCase()}
     </span>
+
   );
 }

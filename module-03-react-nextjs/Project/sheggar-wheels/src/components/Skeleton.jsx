@@ -1,4 +1,3 @@
-// Reusable skeleton building blocks used by loading.js files.
 
 export function SkeletonBox({ className = "" }) {
   return (
@@ -22,7 +21,9 @@ export function SkeletonCard() {
         <SkeletonText className="w-1/2" />
         <SkeletonBox className="w-full h-10 mt-2" />
       </div>
+
     </div>
+
   );
 }
 
@@ -33,6 +34,7 @@ export function SkeletonStatCard() {
       <SkeletonText className="w-1/2 mb-2" />
       <SkeletonBox className="w-16 h-8" />
     </div>
+
   );
 }
 
@@ -45,8 +47,10 @@ export function SkeletonListItem() {
         <SkeletonText className="w-1/3" />
         <SkeletonText className="w-1/4" />
       </div>
+
       <SkeletonBox className="w-20 h-6 shrink-0" />
     </div>
+
   );
 }
 
@@ -56,5 +60,6 @@ export function SkeletonPageHeader({ wide = false }) {
       <SkeletonBox className="w-48 h-9 mb-2" />
       <SkeletonText className="w-64" />
     </div>
+
   );
 }

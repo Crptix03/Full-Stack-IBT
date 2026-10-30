@@ -21,7 +21,6 @@ import { db } from "@/lib/db";
 import { newId } from "@/lib/id";
 import { toCarSlug } from "@/lib/slug";
 
-// ── Auth ─────────────────────────────────────────────
 
 export async function signIn(prevState, formData) {
   const username = (formData.get("username") || "").trim();
@@ -42,8 +41,6 @@ export async function signIn(prevState, formData) {
     return { error: "This account has been suspended." };
   }
 
-  // Store the highest-privilege role so the proxy grants correct access.
-  // Priority: admin > owner > renter
   const roleToStore = user.roles.includes("admin")
     ? "admin"
     : user.roles.includes("owner")
@@ -71,12 +68,10 @@ export async function signUp(prevState, formData) {
   const result = createRenterAccount({ name, email, phone, password });
   if (result.error) return { error: result.error };
 
-  // Auto sign-in after registration
   await createSession(result.user.id, "renter");
   redirect("/dashboard");
 }
 
-// ── Booking: Renter ──────────────────────────────────
 
 export async function placeBooking(prevState, formData) {
   const session = await getSession();
@@ -124,7 +119,6 @@ export async function submitReviewAction(bookingId, rating, comment) {
   return { success: true };
 }
 
-// ── Booking: Owner ───────────────────────────────────
 
 export async function confirmBookingAction(bookingId) {
   const session = await getSession();
@@ -183,7 +177,6 @@ export async function replyToReviewAction(reviewId, reply) {
   return { success: true };
 }
 
-// ── Cars: Owner ──────────────────────────────────────
 
 export async function addCarAction(prevState, formData) {
   const session = await getSession();
@@ -267,7 +260,6 @@ export async function deleteCarAction(carId) {
   return { success: true };
 }
 
-// ── Admin ────────────────────────────────────────────
 
 export async function approveCarAction(carId) {
   const session = await getSession();

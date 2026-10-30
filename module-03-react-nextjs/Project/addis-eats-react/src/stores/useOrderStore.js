@@ -1,4 +1,3 @@
-// src/stores/useOrderStore.js
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -7,7 +6,6 @@ export const useOrderStore = create(
     (set) => ({
       orders: [],
 
-      //  Build the full order ONCE, dispatch it, and return the SAME object
       placeOrder: (payload) => {
         const now = new Date().toISOString();
         const newOrder = {
@@ -45,7 +43,6 @@ export const useOrderStore = create(
           orders: state.orders.filter((o) => o.id !== id),
         })),
 
-      // Used by the cross-tab sync listener (see below)
       _syncFromStorage: (freshOrders) => set({ orders: freshOrders }),
     }),
     {
@@ -55,10 +52,6 @@ export const useOrderStore = create(
   )
 );
 
-// ── Cross-tab sync ────────────────────────────────────────
-// Zustand's persist writes to localStorage on every change,
-// but it doesn't listen for changes from OTHER tabs.
-// This listener picks up those changes and updates the store.
 if (typeof window !== "undefined") {
   window.addEventListener("storage", (e) => {
     if (e.key !== "royale-bistro-orders" || !e.newValue) return;
@@ -69,7 +62,6 @@ if (typeof window !== "undefined") {
         useOrderStore.getState()._syncFromStorage(freshOrders);
       }
     } catch {
-      // Ignore parse errors
     }
   });
 }

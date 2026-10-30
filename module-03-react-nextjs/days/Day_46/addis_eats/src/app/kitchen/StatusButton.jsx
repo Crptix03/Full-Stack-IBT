@@ -6,7 +6,6 @@ import { updateOrderStatusAction } from "@/app/actions";
 export default function StatusButton({ orderId, currentStatus }) {
   const [isPending, startTransition] = useTransition();
 
-  // Determine the next status based on current
   const next = (() => {
     switch (currentStatus) {
       case "pending":
@@ -23,6 +22,7 @@ export default function StatusButton({ orderId, currentStatus }) {
       <p className="text-xs text-neutral-500 italic">
         No further action available.
       </p>
+
     );
   }
 
@@ -44,5 +44,6 @@ export default function StatusButton({ orderId, currentStatus }) {
     >
       {isPending ? "Updating…" : next.label}
     </button>
+
   );
 }

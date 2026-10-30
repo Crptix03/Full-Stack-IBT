@@ -7,7 +7,6 @@ import { orderSchema } from "@/lib/schema";
 import { findUserByUsername, findUserById } from "@/lib/users";
 import { createSession, destroySession, getSession } from "@/lib/session";
 
-// ── Sign In ──────────────────────────────────────────
 export async function signIn(prevState, formData) {
   const username = (formData.get("username") || "").trim();
   const password = formData.get("password") || "";
@@ -26,24 +25,18 @@ export async function signIn(prevState, formData) {
 
   await createSession(user.id, user.role);
 
-  // ── Safe redirect ────────────────────────────────────
-  // Only allow relative paths that start with a single slash.
-  // Prevents open redirect attacks like ?next=https://evil.com
   const safeNext = next.startsWith("/") && !next.startsWith("//") ? next : "/";
 
   redirect(safeNext);
 }
 
-// ── Sign Out ─────────────────────────────────────────
 export async function signOut() {
   await destroySession();
   revalidatePath("/");
   redirect("/");
 }
 
-// ── Place an order ───────────────────────────────────
 export async function placeOrder(prevState, formData) {
-  // Layer 3: re-check the session inside the write
   const session = await getSession();
   if (!session) {
     return { error: "You must be signed in to place an order." };
@@ -77,9 +70,7 @@ export async function placeOrder(prevState, formData) {
   redirect(`/checkout/success?id=${order.id}`);
 }
 
-// ── Cancel an order ──────────────────────────────────
 export async function cancelOrder(orderId) {
-  // Layer 3: re-check session
   const session = await getSession();
   if (!session) {
     return { error: "You must be signed in to cancel an order." };
@@ -90,7 +81,6 @@ export async function cancelOrder(orderId) {
     return { error: "Order not found." };
   }
 
-  // Ownership check — only the owner or staff can cancel
   const isOwner = order.customerId === session.userId;
   const isStaff = session.role === "staff";
 

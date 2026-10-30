@@ -1,9 +1,4 @@
-// Coordinates for Addis Ababa neighbourhoods and the restaurant.
-// Also: a helper to interpolate the courier's position along the
-// route from restaurant → delivery, based on the order status.
 
-// [lat, lng] — Leaflet order, NOT GeoJSON.
-// Getting this backwards puts Bole in the Indian Ocean.
 const AREA_COORDS = {
   Bole: [8.995, 38.7896],
   Kazanchis: [9.0186, 38.7643],
@@ -19,11 +14,8 @@ const AREA_COORDS = {
   Other: [9.0054, 38.7636],
 };
 
-// The restaurant — every courier starts here.
-// Bole, Addis Ababa (near the airport).
 export const RESTAURANT = [9.0054, 38.7636];
 
-// Turn a freeform address string into [lat, lng].
 export function coordsForAddress(address) {
   if (!address) return RESTAURANT;
   const lower = address.toLowerCase();
@@ -33,26 +25,15 @@ export function coordsForAddress(address) {
   return AREA_COORDS.Other;
 }
 
-// Linear interpolation between two [lat, lng] points.
 function lerp(a, b, t) {
   return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
 }
 
-// Where is the courier right now, based on the order status?
-//
-//   pending     → at the restaurant (food not started)
-//   preparing   → at the restaurant (food being made)
-//   on_the_way  → 60% of the way to the customer
-//   delivered   → at the customer
-//   cancelled   → back at the restaurant
-//
-// The key change: `preparing` no longer moves the courier. Only
-// `on_the_way` puts it in transit.
 export function courierPosition(status, deliveryCoords) {
   const t = {
     pending: 0,
-    preparing: 0,      // <- stays at restaurant
-    on_the_way: 0.6,   // <- in transit
+    preparing: 0,
+    on_the_way: 0.6,
     delivered: 1,
     cancelled: 0,
   }[status];
@@ -61,7 +42,6 @@ export function courierPosition(status, deliveryCoords) {
   return lerp(RESTAURANT, deliveryCoords, progress);
 }
 
-// Human-friendly label for each status.
 export function statusLabel(status) {
   return {
     pending: "Order received",

@@ -27,16 +27,12 @@ export const metadata = {
     siteName: "Sheggar Wheels",
     locale: "en_US",
     type: "website",
-    // images intentionally omitted — the root opengraph-image.jsx is the
-    // fallback; car pages set their own image in generateMetadata.
   },
   twitter: {
     card: "summary_large_image",
     title: "Sheggar Wheels — Peer-to-Peer Car Rental in Addis",
     description:
       "Rent a car from a trusted local owner in Addis Ababa. No dealerships, no hidden fees.",
-    // images intentionally omitted — the root fallback applies;
-    // car pages override it in generateMetadata.
   },
   robots: {
     index: true,
@@ -50,6 +46,8 @@ export default function RootLayout({ children }) {
       <body className="min-h-screen flex flex-col bg-white text-neutral-900">
         {children}
       </body>
+
     </html>
+
   );
 }

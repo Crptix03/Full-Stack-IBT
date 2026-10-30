@@ -1,6 +1,3 @@
-// Booking lifecycle — server-side, reads/writes globalThis.__db directly.
-// All exported functions are called from Server Actions in actions.js.
-// Never import this file into a "use client" component.
 
 import { db } from "./db";
 import { newId } from "./id";
@@ -20,7 +17,6 @@ export function canTransition(booking, newStatus) {
   return allowed ? allowed.includes(newStatus) : false;
 }
 
-// Check if a car is available for a date range (server-side).
 export function isCarAvailable(carId, startDate, endDate, excludeBookingId = null) {
   const car = db.cars.find((c) => c.id === carId);
   if (!car) return false;
@@ -43,7 +39,6 @@ export function isCarAvailable(carId, startDate, endDate, excludeBookingId = nul
   return true;
 }
 
-// Create a new booking. Called from the checkout Server Action.
 export function createBooking({ carId, startDate, endDate, renterId }) {
   const car = db.cars.find((c) => c.id === carId);
   if (!car) return { error: "Car not found" };
@@ -74,7 +69,7 @@ export function createBooking({ carId, startDate, endDate, renterId }) {
     subtotal,
     fee,
     total,
-    paymentStatus: "paid", // Mock payment — always succeeds
+    paymentStatus: "paid",
     status: "requested",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -84,7 +79,6 @@ export function createBooking({ carId, startDate, endDate, renterId }) {
   return { success: true, booking };
 }
 
-// Internal status transition helper.
 function transition(bookingId, newStatus, actorId) {
   const idx = db.bookings.findIndex((b) => b.id === bookingId);
   if (idx === -1) return { error: "Booking not found" };

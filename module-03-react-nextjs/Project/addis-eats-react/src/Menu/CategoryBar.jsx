@@ -21,7 +21,6 @@ export default function CategoryBar({ categories, active, onSelect }) {
 
   const allCategories = ["all", ...categories, "favorites"];
 
-  // Detect overflow
   useEffect(() => {
     const el = barRef.current;
     if (!el) return;
@@ -33,14 +32,12 @@ export default function CategoryBar({ categories, active, onSelect }) {
     return () => window.removeEventListener("resize", checkOverflow);
   }, [categories]);
 
-  // Sync dot to active prop
   useEffect(() => {
     const idx = allCategories.indexOf(active);
     if (idx >= 0) setActiveIndex(idx);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
 
-  // Auto-scroll active pill into view
   useEffect(() => {
     const el = barRef.current;
     if (!el) return;
@@ -54,7 +51,6 @@ export default function CategoryBar({ categories, active, onSelect }) {
         block: "nearest",
         inline: "center",
       });
-      // Release the tap flag after the smooth scroll settles
       setTimeout(() => {
         justTappedRef.current = false;
       }, 500);
@@ -66,7 +62,6 @@ export default function CategoryBar({ categories, active, onSelect }) {
     const el = barRef.current;
     if (!el) return;
 
-    // If we're mid-smooth-scroll from a tap, don't override the dot
     if (justTappedRef.current) return;
 
     const buttons = el.querySelectorAll(".cat-btn");
@@ -75,7 +70,6 @@ export default function CategoryBar({ categories, active, onSelect }) {
     const maxScroll = el.scrollWidth - el.clientWidth;
     const center = el.scrollLeft + el.clientWidth / 2;
 
-    // Find nearest pill by center
     let bestIndex = 0;
     let bestDelta = Infinity;
 
@@ -88,8 +82,6 @@ export default function CategoryBar({ categories, active, onSelect }) {
       }
     });
 
-    // Only clamp to the extremes if the scroll is truly at the edge
-    // AND the nearest pill isn't already correct
     if (el.scrollLeft <= 1) {
       setActiveIndex(0);
       return;
@@ -114,8 +106,10 @@ export default function CategoryBar({ categories, active, onSelect }) {
           >
             {CATEGORY_LABELS[cat] || cat}
           </button>
+
         ))}
       </div>
+
 
       {overflow && (
         <div className="category-dots" aria-hidden="true">
@@ -126,7 +120,9 @@ export default function CategoryBar({ categories, active, onSelect }) {
             />
           ))}
         </div>
+
       )}
     </div>
+
   );
 }

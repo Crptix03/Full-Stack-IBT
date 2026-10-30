@@ -12,7 +12,6 @@ import PageSkeleton from "./ui/PageSkeleton";
 import { useMenuStore } from "./stores/useMenuStore";
 const ReviewManager = lazy(() => import("./admin/ReviewManager"));
 
-// ── Lazy-loaded routes (split out of the main bundle) ──
 const Menu = lazy(() => import("./Menu/Menu"));
 const Favorites = lazy(() => import("./Menu/Favorites"));
 const Cart = lazy(() => import("./Cart/Cart"));
@@ -35,11 +34,11 @@ function CustomerLayout() {
       <ScrollToHash />
       <Outlet />
     </Layout>
+
   );
 }
 
 export default function App() {
-  //  Load the menu once at app startup
   useEffect(() => {
     useMenuStore.getState().loadMenu();
   }, []);
@@ -47,7 +46,6 @@ export default function App() {
   return (
     <ErrorBoundary>
       <Routes>
-        {/* ── Customer side ── */}
         <Route element={<CustomerLayout />}>
           <Route
             path="/"
@@ -55,6 +53,7 @@ export default function App() {
               <ErrorBoundary>
                 <Home />
               </ErrorBoundary>
+
             }
           />
           <Route
@@ -64,7 +63,9 @@ export default function App() {
                 <Suspense fallback={<PageSkeleton />}>
                   <Menu />
                 </Suspense>
+
               </ErrorBoundary>
+
             }
           />
           <Route
@@ -74,7 +75,9 @@ export default function App() {
                 <Suspense fallback={<PageSkeleton />}>
                   <Favorites />
                 </Suspense>
+
               </ErrorBoundary>
+
             }
           />
           <Route
@@ -84,7 +87,9 @@ export default function App() {
                 <Suspense fallback={<PageSkeleton />}>
                   <Cart />
                 </Suspense>
+
               </ErrorBoundary>
+
             }
           />
           <Route
@@ -95,8 +100,11 @@ export default function App() {
                   <Suspense fallback={<PageSkeleton />}>
                     <Checkout />
                   </Suspense>
+
                 </ErrorBoundary>
+
               </RequireAuth>
+
             }
           />
           <Route
@@ -106,7 +114,9 @@ export default function App() {
                 <Suspense fallback={<PageSkeleton />}>
                   <OrderConfirmation />
                 </Suspense>
+
               </RequireAuth>
+
             }
           />
           <Route
@@ -116,7 +126,9 @@ export default function App() {
                 <Suspense fallback={<PageSkeleton />}>
                   <Profile />
                 </Suspense>
+
               </RequireAuth>
+
             }
           />
           <Route
@@ -125,6 +137,7 @@ export default function App() {
               <Suspense fallback={<PageSkeleton />}>
                 <OrderHistory />
               </Suspense>
+
             }
           />
           <Route
@@ -133,6 +146,7 @@ export default function App() {
               <Suspense fallback={<PageSkeleton />}>
                 <SignIn />
               </Suspense>
+
             }
           />
           <Route
@@ -141,11 +155,12 @@ export default function App() {
               <Suspense fallback={<PageSkeleton />}>
                 <SignUp />
               </Suspense>
+
             }
           />
         </Route>
 
-        {/* ── Admin side ── */}
+
         <Route
           path="/admin"
           element={
@@ -153,7 +168,9 @@ export default function App() {
               <Suspense fallback={<PageSkeleton />}>
                 <AdminLayout />
               </Suspense>
+
             </RequireAdmin>
+
           }
         >
           <Route index element={<Suspense fallback={<PageSkeleton />}><Dashboard /></Suspense>} />
@@ -168,8 +185,11 @@ export default function App() {
           <Route path="*" element={<Navigate to="/admin" replace />} />
         </Route>
 
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+
     </ErrorBoundary>
+
   );
 }

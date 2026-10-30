@@ -1,4 +1,3 @@
-// src/stores/useCartStore.js
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -42,7 +41,6 @@ export const useCartStore = create(
   )
 );
 
-// Selectors — computed on the fly, only re-render the component when the result changes
 export const selectCartCount = (state) =>
   state.items.reduce((sum, i) => sum + i.qty, 0);
 

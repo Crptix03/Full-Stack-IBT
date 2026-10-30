@@ -13,7 +13,6 @@ import { orderSchema } from "@/lib/schema";
 import { findUserByUsername, findUserById } from "@/lib/users";
 import { createSession, destroySession, getSession } from "@/lib/session";
 
-// ── Sign In ──────────────────────────────────────────
 export async function signIn(prevState, formData) {
   const username = (formData.get("username") || "").trim();
   const password = formData.get("password") || "";
@@ -25,7 +24,6 @@ export async function signIn(prevState, formData) {
 
   const user = findUserByUsername(username);
 
-  // Plaintext comparison — demo only
   if (!user || user.password !== password) {
     return { error: "Incorrect username or password." };
   }
@@ -38,14 +36,12 @@ export async function signIn(prevState, formData) {
   redirect(safeNext);
 }
 
-// ── Sign Out ─────────────────────────────────────────
 export async function signOut() {
   await destroySession();
   revalidatePath("/");
   redirect("/");
 }
 
-// ── Place an order ───────────────────────────────────
 export async function placeOrder(prevState, formData) {
   const session = await getSession();
   if (!session) {
@@ -87,7 +83,6 @@ export async function placeOrder(prevState, formData) {
   redirect(`/checkout/success?id=${order.id}`);
 }
 
-// ── Cancel an order ──────────────────────────────────
 export async function cancelOrder(orderId) {
   const session = await getSession();
   if (!session) {
@@ -111,7 +106,6 @@ export async function cancelOrder(orderId) {
   return { success: true };
 }
 
-// ── Update order status (staff only) ─────────────────
 export async function updateOrderStatusAction(orderId, newStatus) {
   const session = await getSession();
   if (!session) {
@@ -140,7 +134,6 @@ export async function updateOrderStatusAction(orderId, newStatus) {
   return { success: true, status: newStatus };
 }
 
-// ── Seed demo orders (staff only) ────────────────────
 export async function seedOrdersAction() {
   const session = await getSession();
   if (!session || session.role !== "staff") {
@@ -156,7 +149,6 @@ export async function seedOrdersAction() {
   return { success: true, total: count };
 }
 
-// ── Clear seed orders (staff only) ───────────────────
 export async function clearSeedOrdersAction() {
   const session = await getSession();
   if (!session || session.role !== "staff") {

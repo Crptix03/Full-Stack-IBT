@@ -68,10 +68,11 @@ export default async function DishPage({ params }) {
         >
           ← Back to Menu
         </Link>
+
       </div>
 
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        {/* Image column */}
         <div className="relative w-full aspect-square lg:aspect-[4/5] rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-900">
           <Image
             src={dish.image}
@@ -94,46 +95,59 @@ export default async function DishPage({ params }) {
             >
               {dish.tag}
             </span>
+
           )}
         </div>
 
-        {/* Info column */}
+
         <div className="flex flex-col">
           <h1 className="font-serif text-4xl lg:text-5xl text-amber-400 leading-tight mb-3">
             {dish.name}
           </h1>
 
+
           <div className="flex items-baseline gap-3 mb-6">
             <span className="text-3xl font-semibold text-neutral-100">
               {dish.price} Birr
             </span>
+
             {dish.originalPrice && (
               <span className="text-neutral-500 text-lg line-through">
                 {dish.originalPrice} Birr
               </span>
+
             )}
           </div>
+
 
           <p className="text-neutral-300 leading-relaxed mb-8">
             {dish.description}
           </p>
+
 
           {dish.ingredients?.length > 0 && (
             <div className="mb-8 pb-8 border-b border-neutral-800">
               <h2 className="text-xs font-semibold text-neutral-500 uppercase tracking-widest mb-3">
                 Ingredients
               </h2>
+
               <p className="text-neutral-400 text-sm leading-relaxed">
                 {dish.ingredients.join(" · ")}
               </p>
+
             </div>
+
           )}
 
           <div className="mt-auto">
             <AddToCartButton dish={dish} />
           </div>
+
         </div>
+
       </div>
+
     </div>
+
   );
 }

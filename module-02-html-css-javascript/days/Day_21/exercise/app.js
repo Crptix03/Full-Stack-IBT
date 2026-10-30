@@ -1,4 +1,3 @@
-// 1) Generic localStorage array helpers
 function saveList(key, list) {
   try {
     localStorage.setItem(key, JSON.stringify(list));
@@ -19,7 +18,6 @@ function loadList(key) {
   }
 }
 
-// 2) Theme toggle
 const THEME_KEY = 'preferredTheme';
 const themeBtn = document.getElementById('theme-toggle');
 
@@ -54,7 +52,6 @@ themeBtn.addEventListener('click', () => {
   saveTheme(currentTheme);
 });
 
-// 3) Language toggle
 const LANG_KEY = 'preferredLang';
 const langBtn = document.getElementById('lang-toggle');
 
@@ -113,7 +110,6 @@ langBtn.addEventListener('click', () => {
   saveLang(currentLang);
 });
 
-// 4) Signup form
 const SIGNUPS_KEY = 'signups';
 const form = document.getElementById('signup-form');
 const nameInput = document.getElementById('name');

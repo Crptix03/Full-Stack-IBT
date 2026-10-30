@@ -42,7 +42,6 @@ export default async function BookingsPage({ searchParams }) {
           return b.status === filter;
         });
 
-  // CSV rows for export — based on current filter view
   const csvRows = filtered.map((b) => {
     const car = carById(b.carId);
     return {
@@ -63,16 +62,19 @@ export default async function BookingsPage({ searchParams }) {
       <div className="flex flex-wrap justify-between items-center gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-black mb-1">My Bookings</h1>
+
           <p className="text-neutral-500 text-sm">
             {allBookings.length} booking{allBookings.length === 1 ? "" : "s"} total
           </p>
+
         </div>
+
         {allBookings.length > 0 && (
           <ExportCsvButton data={csvRows} filename={csvFilename} label="Export CSV" />
         )}
       </div>
 
-      {/* Filter tabs — plain links, no JS needed */}
+
       <div className="flex flex-wrap gap-2 mb-6">
         {FILTERS.map((f) => (
           <Link
@@ -86,8 +88,10 @@ export default async function BookingsPage({ searchParams }) {
           >
             {f.label}
           </Link>
+
         ))}
       </div>
+
 
       {filtered.length === 0 ? (
         <div className="p-12 bg-white border border-neutral-200 rounded-2xl text-center">
@@ -95,12 +99,15 @@ export default async function BookingsPage({ searchParams }) {
           <p className="text-neutral-600 mb-4">
             {filter === "all" ? "You haven't booked a car yet." : "No bookings with this status."}
           </p>
+
           {filter === "all" && (
             <Link href="/cars" className="inline-block px-5 py-2.5 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition-colors">
               Browse Cars
             </Link>
+
           )}
         </div>
+
       ) : (
         <div className="bg-white border border-neutral-200 rounded-2xl overflow-hidden">
           <ul className="divide-y divide-neutral-100">
@@ -120,22 +127,32 @@ export default async function BookingsPage({ searchParams }) {
                         style={{ objectPosition: car.photoPosition || "center" }}
                       />
                     </div>
+
                     <div className="flex-1 min-w-0">
                       <p className="font-semibold text-neutral-900">{car.make} {car.model}</p>
+
                       <p className="text-sm text-neutral-500">
                         {formatDate(booking.startDate)} – {formatDate(booking.endDate)} · {booking.days} day{booking.days > 1 ? "s" : ""}
                       </p>
+
                       <p className="text-sm font-semibold text-indigo-600 mt-1">{etb.format(booking.total)}</p>
+
                     </div>
+
                     <BookingStatusPill status={booking.status} />
                     <ArrowRight className="w-4 h-4 text-neutral-400 shrink-0" />
                   </Link>
+
                 </li>
+
               );
             })}
           </ul>
+
         </div>
+
       )}
     </div>
+
   );
 }

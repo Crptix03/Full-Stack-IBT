@@ -1,5 +1,3 @@
-// Role helpers — server-safe, no localStorage, no session reads.
-// Import getSession() from session.js separately when you need the current user.
 
 import { db } from "./db";
 import { newId } from "./id";
@@ -25,14 +23,10 @@ export function isActive(user) {
   return user?.status === "active";
 }
 
-// Find a user by id from the server-side db.
 export function findUserById(id) {
   return db.users.find((u) => u.id === id) || null;
 }
 
-// Create a new renter account and persist it to the server-side db.
-// Called from the signup Server Action.
-// Returns { success, user } or { error }.
 export function createRenterAccount({ name, email, phone, password }) {
   if (!name || !email) {
     return { error: "Name and email are required." };

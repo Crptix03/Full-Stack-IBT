@@ -1,10 +1,6 @@
 import Link from "next/link";
 import CancelOrderButton from "./CancelOrderButton";
 
-// Two presentations:
-//  • Mobile (<640px)  → a card per order
-//  • Desktop (≥640px) → a real <table> with sortable headers
-// Same data, chosen by viewport. No JS — CSS controls which renders.
 
 export default function OrderTable({ orders, sortedBy, sortDir }) {
   if (!orders || orders.length === 0) {
@@ -13,7 +9,6 @@ export default function OrderTable({ orders, sortedBy, sortDir }) {
 
   return (
     <>
-      {/* ── Mobile: cards ──────────────────────────── */}
       <ul className="sm:hidden space-y-3">
         {orders.map((order) => {
           const canCancel =
@@ -23,15 +18,15 @@ export default function OrderTable({ orders, sortedBy, sortDir }) {
               key={order.id}
               className="p-4 bg-neutral-900/40 border border-neutral-800 rounded-lg"
             >
-              {/* Row 1: order id + status pill */}
               <div className="flex justify-between items-center gap-3 mb-2">
                 <p className="text-neutral-100 font-medium">
                   #{order.id.slice(-6)}
                 </p>
+
                 <StatusPill status={order.status} />
               </div>
 
-              {/* Row 2: date + items */}
+
               <div className="flex justify-between items-baseline text-xs text-neutral-500 mb-3">
                 <span>
                   {order.createdAt
@@ -42,18 +37,20 @@ export default function OrderTable({ orders, sortedBy, sortDir }) {
                       })
                     : "—"}
                 </span>
+
                 <span>
                   {order.items?.length || 0} item
                   {order.items?.length === 1 ? "" : "s"}
                 </span>
+
               </div>
 
-              {/* Row 3: total */}
+
               <p className="text-amber-400 font-semibold tabular-nums mb-3">
                 {(order.total ?? 0).toLocaleString()} Birr
               </p>
 
-              {/* Row 4: actions */}
+
               <div className="flex justify-end gap-3 pt-3 border-t border-neutral-800">
                 {canCancel && (
                   <CancelOrderButton orderId={order.id} compact />
@@ -64,19 +61,23 @@ export default function OrderTable({ orders, sortedBy, sortDir }) {
                 >
                   Track →
                 </Link>
+
               </div>
+
             </li>
+
           );
         })}
       </ul>
 
-      {/* ── Desktop: table ─────────────────────────── */}
+
       <div className="hidden sm:block overflow-x-auto border border-neutral-800 rounded-xl">
         <table className="w-full text-sm">
           <caption className="sr-only">
             Your orders, sorted by {sortedBy}{" "}
             {sortDir === "desc" ? "descending" : "ascending"}
           </caption>
+
 
           <thead>
             <tr className="border-b border-neutral-800 bg-neutral-900/40">
@@ -90,9 +91,13 @@ export default function OrderTable({ orders, sortedBy, sortDir }) {
                 className="px-4 py-1 text-right text-xs uppercase tracking-wider text-neutral-500 font-medium"
               >
                 <span className="sr-only">Actions</span>
+
               </th>
+
             </tr>
+
           </thead>
+
 
           <tbody>
             {orders.map((order) => {
@@ -107,6 +112,7 @@ export default function OrderTable({ orders, sortedBy, sortDir }) {
                   <td className="py-3 px-4 text-neutral-100 font-medium">
                     #{order.id.slice(-6)}
                   </td>
+
                   <td className="py-3 px-4 text-neutral-400">
                     {order.createdAt
                       ? new Date(order.createdAt).toLocaleDateString("en-US", {
@@ -116,15 +122,19 @@ export default function OrderTable({ orders, sortedBy, sortDir }) {
                         })
                       : "—"}
                   </td>
+
                   <td className="py-3 px-4 text-right text-neutral-300 tabular-nums">
                     {order.items?.length || 0}
                   </td>
+
                   <td className="py-3 px-4 text-right text-amber-400 font-medium tabular-nums">
                     {(order.total ?? 0).toLocaleString()}
                   </td>
+
                   <td className="py-3 px-4">
                     <StatusPill status={order.status} />
                   </td>
+
                   <td className="py-3 px-4 text-right">
                     <div className="flex items-center justify-end gap-2">
                       {canCancel && (
@@ -136,15 +146,23 @@ export default function OrderTable({ orders, sortedBy, sortDir }) {
                       >
                         Track →
                       </Link>
+
                     </div>
+
                   </td>
+
                 </tr>
+
               );
             })}
           </tbody>
+
         </table>
+
       </div>
+
     </>
+
   );
 }
 
@@ -176,9 +194,12 @@ function SortableHeader({ column, label, current, dir, align }) {
         {label}
         {isActive && (
           <span aria-hidden="true">{dir === "asc" ? "↑" : "↓"}</span>
+
         )}
       </Link>
+
     </th>
+
   );
 }
 
@@ -200,5 +221,6 @@ function StatusPill({ status }) {
     <span className={`text-xs font-bold px-2 py-1 rounded ${style}`}>
       {status?.toUpperCase().replace("_", " ")}
     </span>
+
   );
 }

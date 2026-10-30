@@ -1,8 +1,4 @@
-// Local photo upload route.
-// Saves the uploaded file to public/cars/ and returns the public path.
-//
 // ⚠️ LOCAL ONLY — public/ is writable in dev but read-only on Vercel.
-// When deploying, replace this with Vercel Blob (see FUTURE.md).
 
 import { NextResponse } from "next/server";
 import { writeFile, mkdir } from "fs/promises";
@@ -10,10 +6,9 @@ import { join, extname } from "path";
 import { cookies } from "next/headers";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
-const MAX_SIZE = 5 * 1024 * 1024; // 5 MB
+const MAX_SIZE = 5 * 1024 * 1024;
 
 export async function POST(request) {
-  // Must be signed in
   const cookieStore = await cookies();
   const userId = cookieStore.get("session")?.value;
   if (!userId) {
@@ -27,7 +22,6 @@ export async function POST(request) {
     return NextResponse.json({ error: "No file provided" }, { status: 400 });
   }
 
-  // Validate type
   if (!ALLOWED_TYPES.includes(file.type)) {
     return NextResponse.json(
       { error: "Only JPEG, PNG and WebP images are allowed" },
@@ -35,7 +29,6 @@ export async function POST(request) {
     );
   }
 
-  // Validate size
   if (file.size > MAX_SIZE) {
     return NextResponse.json(
       { error: "File must be under 5 MB" },
@@ -43,11 +36,9 @@ export async function POST(request) {
     );
   }
 
-  // Build a unique filename: {userId}-{timestamp}{ext}
   const ext = extname(file.name) || ".jpg";
   const filename = `${userId}-${Date.now()}${ext}`;
 
-  // Save to public/cars/
   const dir  = join(process.cwd(), "public", "cars");
   const path = join(dir, filename);
 

@@ -57,11 +57,9 @@ export default function PhotoUpload({ name = "photo", defaultValue = "" }) {
 
   return (
     <div>
-      {/* Hidden input that carries the saved path into the form */}
       <input type="hidden" name={name} value={path} />
 
       {preview ? (
-        /* Preview */
         <div className="relative w-full h-48 rounded-2xl overflow-hidden border border-neutral-200 bg-neutral-100">
           <Image
             src={preview}
@@ -70,7 +68,6 @@ export default function PhotoUpload({ name = "photo", defaultValue = "" }) {
             sizes="(max-width: 768px) 100vw, 600px"
             className="object-cover"
           />
-          {/* Remove button */}
           <button
             type="button"
             onClick={handleRemove}
@@ -79,7 +76,7 @@ export default function PhotoUpload({ name = "photo", defaultValue = "" }) {
           >
             <X className="w-4 h-4 text-neutral-600" />
           </button>
-          {/* Replace overlay */}
+
           <button
             type="button"
             onClick={() => inputRef.current?.click()}
@@ -88,9 +85,10 @@ export default function PhotoUpload({ name = "photo", defaultValue = "" }) {
             <Camera className="w-3.5 h-3.5" />
             Change photo
           </button>
+
         </div>
+
       ) : (
-        /* Drop zone */
         <div
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
@@ -101,26 +99,33 @@ export default function PhotoUpload({ name = "photo", defaultValue = "" }) {
             <>
               <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
               <p className="text-sm text-indigo-600 font-medium">Uploading…</p>
+
             </>
+
           ) : (
             <>
               <div className="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center">
                 <Upload className="w-6 h-6 text-indigo-600" />
               </div>
+
               <div className="text-center">
                 <p className="text-sm font-semibold text-neutral-700">
                   Click to upload or drag & drop
                 </p>
+
                 <p className="text-xs text-neutral-400 mt-1">
                   JPEG, PNG or WebP · max 5 MB
                 </p>
+
               </div>
+
             </>
+
           )}
         </div>
+
       )}
 
-      {/* Hidden file input */}
       <input
         ref={inputRef}
         type="file"
@@ -131,7 +136,9 @@ export default function PhotoUpload({ name = "photo", defaultValue = "" }) {
 
       {error && (
         <p className="text-red-600 text-xs mt-2">{error}</p>
+
       )}
     </div>
+
   );
 }

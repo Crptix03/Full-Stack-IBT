@@ -1,8 +1,4 @@
-// In-memory user store.
-//
 // ⚠️ DEMO ONLY — passwords are stored in plaintext.
-// A production app would hash with bcrypt/argon2 and use a real database.
-// This resets on every server restart.
 
 export const users = [
   {

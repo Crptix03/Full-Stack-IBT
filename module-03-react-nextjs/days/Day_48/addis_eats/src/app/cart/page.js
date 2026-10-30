@@ -15,20 +15,25 @@ export default function CartPage() {
     return (
       <div className="max-w-2xl mx-auto text-center py-20">
         <div className="text-6xl mb-6">🛒</div>
+
         <h1 className="font-serif text-4xl text-amber-400 mb-4">
           Your Cart is Empty
         </h1>
+
         <p className="text-neutral-400 mb-8 max-w-md mx-auto">
           Looks like you haven&apos;t added anything yet. Browse our menu
           and find something you&apos;ll love.
         </p>
+
         <Link
           href="/menu"
           className="inline-block px-8 py-3 bg-amber-400 text-neutral-900 font-semibold rounded-lg hover:bg-amber-300 transition-colors min-h-[44px]"
         >
           Browse the Menu
         </Link>
+
       </div>
+
     );
   }
 
@@ -38,17 +43,18 @@ export default function CartPage() {
         Your Cart
       </h1>
 
+
       <ul className="space-y-3 mb-8">
         {items.map((item) => (
           <li
             key={item.id}
             className="p-4 bg-neutral-900/40 border border-neutral-800 rounded-lg"
           >
-            {/* Row 1: name + Remove */}
             <div className="flex justify-between items-start gap-3 mb-1">
               <p className="text-neutral-100 font-medium leading-tight">
                 {item.name}
               </p>
+
               <button
                 type="button"
                 onClick={() => removeFromCart(item.id)}
@@ -57,14 +63,15 @@ export default function CartPage() {
               >
                 Remove
               </button>
+
             </div>
 
-            {/* Row 2: price per item */}
+
             <p className="text-xs text-neutral-500 mb-3">
               {item.price.toLocaleString()} Birr each
             </p>
 
-            {/* Row 3: stepper + line total */}
+
             <div className="flex justify-between items-center gap-3">
               <div className="flex items-center border border-neutral-800 rounded">
                 <button
@@ -76,12 +83,14 @@ export default function CartPage() {
                   −
                 </button>
 
+
                 <span
                   className="min-w-[32px] text-center text-sm text-neutral-100 tabular-nums"
                   aria-live="polite"
                 >
                   {item.qty}
                 </span>
+
 
                 <button
                   type="button"
@@ -91,25 +100,32 @@ export default function CartPage() {
                 >
                   +
                 </button>
+
               </div>
+
 
               <span className="text-amber-400 font-semibold tabular-nums shrink-0">
                 {(item.price * item.qty).toLocaleString()} Birr
               </span>
+
             </div>
+
           </li>
+
         ))}
       </ul>
 
-      {/* Total row */}
+
       <div className="flex justify-between items-center mb-6 pb-4 border-b border-neutral-800">
         <span className="text-neutral-400">Total</span>
+
         <span className="font-serif text-2xl text-amber-400 tabular-nums">
           {total.toLocaleString()} Birr
         </span>
+
       </div>
 
-      {/* CTAs */}
+
       <div className="flex flex-col sm:flex-row gap-3">
         <Link
           href="/menu"
@@ -117,13 +133,17 @@ export default function CartPage() {
         >
           ← Continue Shopping
         </Link>
+
         <Link
           href="/checkout"
           className="flex-1 px-6 py-3 bg-amber-400 text-neutral-900 font-semibold rounded-lg text-center hover:bg-amber-300 transition-colors min-h-[44px] inline-flex items-center justify-center"
         >
           Proceed to Checkout
         </Link>
+
       </div>
+
     </div>
+
   );
 }

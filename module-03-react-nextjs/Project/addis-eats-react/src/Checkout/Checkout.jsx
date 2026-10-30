@@ -33,44 +33,45 @@ export default function Checkout() {
   const deliveryFee = orderType === "delivery" ? 100 : 0;
   const total = cartTotal + deliveryFee;
 
-  // ── Quick-note helpers ────────────────────────────────
   const hasNote = (tag) => notes.toLowerCase().includes(tag.toLowerCase());
 
   const toggleNote = (tag) => {
     setNotes((current) => {
-      // Split on commas, trim each part
       const parts = current
         .split(",")
         .map((s) => s.trim())
         .filter(Boolean);
 
       if (parts.some((p) => p.toLowerCase() === tag.toLowerCase())) {
-        // Remove it
         return parts.filter((p) => p.toLowerCase() !== tag.toLowerCase()).join(", ");
       }
-      // Add it
       return parts.length ? `${parts.join(", ")}, ${tag}` : tag;
     });
   };
 
-  // Empty cart guard
   if (items.length === 0) {
     return (
       <section className="placeholder-page">
         <div className="title-band">
           <h1 className="serif">
             Check<em>out</em>
+
           </h1>
+
           <div className="rule" />
           <p className="placeholder-message">
             Your cart is empty.{" "}
             <Link to="/menu" style={{ color: "var(--color-primary)" }}>
               Browse the menu
             </Link>{" "}
+
             first.
           </p>
+
         </div>
+
       </section>
+
     );
   }
 
@@ -127,13 +128,15 @@ export default function Checkout() {
       <div className="title-band">
         <h1 className="serif">
           Check<em>out</em>
+
         </h1>
+
         <div className="rule" />
       </div>
 
+
       <div className="checkout-grid">
         <form className="checkout-form" onSubmit={handleSubmit} noValidate>
-          {/* Order type toggle */}
           <div className="order-type-toggle">
             <button
               type="button"
@@ -142,6 +145,7 @@ export default function Checkout() {
             >
               Delivery
             </button>
+
             <button
               type="button"
               className={orderType === "pickup" ? "active" : ""}
@@ -149,34 +153,42 @@ export default function Checkout() {
             >
               Pickup
             </button>
+
           </div>
 
-          {/* Profile incomplete banner */}
+
           {profileIncomplete && (
             <div className="profile-incomplete-notice">
               <p>
                 Your profile is missing a {!name ? "name" : "phone number"}.{" "}
                 <Link to="/profile">Update your profile</Link> to continue.
+
               </p>
+
             </div>
+
           )}
 
-          {/* Name — read-only from profile */}
           <div className="field">
             <label>Your Name</label>
+
             <div className="field-static-readonly">{name || "Not set"}</div>
+
           </div>
 
-          {/* Phone — read-only from profile */}
+
           <div className="field">
             <label>Phone Number</label>
+
             <div className="field-static-readonly">{phone || "Not set"}</div>
+
           </div>
 
-          {/* Delivery address */}
+
           {orderType === "delivery" && (
             <div className="field">
               <label>Delivery Address *</label>
+
               <input
                 type="text"
                 value={address}
@@ -185,13 +197,15 @@ export default function Checkout() {
               />
               {errors.address && (
                 <span className="field-error">{errors.address}</span>
+
               )}
             </div>
+
           )}
 
-          {/* Special Instructions with quick-pick pills */}
           <div className="field">
             <label>Special Instructions</label>
+
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
@@ -211,28 +225,37 @@ export default function Checkout() {
                   {hasNote(tag) ? "✓ " : "+ "}
                   {tag}
                 </button>
+
               ))}
             </div>
 
+
             <span className="field-hint">{notes.length}/300</span>
+
           </div>
+
 
           {errors.profile && (
             <span className="field-error">{errors.profile}</span>
+
           )}
 
-          {/* Estimated time */}
           <div className="delivery-estimate">
             {orderType === "delivery" ? (
               <span>
                 Estimated delivery: <strong>30–45 min</strong>
+
               </span>
+
             ) : (
               <span>
                 Estimated pickup ready: <strong>15–20 min</strong>
+
               </span>
+
             )}
           </div>
+
 
           <button
             type="submit"
@@ -241,43 +264,65 @@ export default function Checkout() {
           >
             Place Order
           </button>
+
         </form>
 
-        {/* Order summary sidebar */}
+
         <div className="checkout-summary">
           <h3 className="serif">Order Summary</h3>
+
           <div className="checkout-summary-items">
             {items.map((item) => (
               <div className="checkout-summary-row" key={item.id}>
                 <span>
                   {item.qty}× {item.name}
                 </span>
+
                 <span>
                   {item.price * item.qty} <sup>Birr</sup>
+
                 </span>
+
               </div>
+
             ))}
           </div>
+
           <div className="checkout-summary-row subtotal">
             <span>Subtotal</span>
+
             <span>
               {cartTotal} <sup>Birr</sup>
+
             </span>
+
           </div>
+
           <div className="checkout-summary-row">
             <span>Delivery Fee</span>
+
             <span>
               {deliveryFee} <sup>Birr</sup>
+
             </span>
+
           </div>
+
           <div className="checkout-summary-row total">
             <span>Total</span>
+
             <span className="serif">
               {total} <sup>Birr</sup>
+
             </span>
+
           </div>
+
         </div>
+
       </div>
+
     </section>
+
   );
 }

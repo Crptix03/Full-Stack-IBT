@@ -11,13 +11,13 @@ const sampleDishes = [
 const sampleCategories = ["All", "Starters", "Mains", "Desserts"];
 
 export default function MenuPage() {
-  // await new Promise((r) => setTimeout(r, 2000));
-  // throw new Error("Test error for the exercise");
   return (
     <div className="menu-page">
       <h1>Our Menu</h1>
+
       <CategoryBar categories={sampleCategories} active="All" />
       <DishList dishes={sampleDishes} />
     </div>
+
   );
 }

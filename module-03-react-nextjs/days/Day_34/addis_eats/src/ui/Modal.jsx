@@ -28,9 +28,6 @@ function Modal({ isOpen, onClose, children }) {
 
       if (e.key !== "Tab") return;
 
-      // Focus trap: keep Tab/Shift+Tab cycling within the modal only,
-      // so keyboard users can't accidentally tab out to background content
-      // that's supposed to be inert while the modal is open.
       const focusable = getFocusableElements();
       if (focusable.length === 0) return;
 
@@ -70,8 +67,11 @@ function Modal({ isOpen, onClose, children }) {
         <button className="modal-close" onClick={onClose} aria-label="Close">
           ✕
         </button>
+
       </div>
+
     </div>,
+
     document.body
   );
 }

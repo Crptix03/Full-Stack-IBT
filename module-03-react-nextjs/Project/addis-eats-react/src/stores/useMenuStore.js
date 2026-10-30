@@ -1,4 +1,3 @@
-// src/stores/useMenuStore.js
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -15,7 +14,6 @@ export const useMenuStore = create(
       error: null,
       version: CURRENT_VERSION,
 
-      // ── Data loading ──────────────────────────────────────
       loadMenu: async () => {
         set({ loading: true, error: null });
         try {
@@ -50,7 +48,6 @@ export const useMenuStore = create(
         });
       },
 
-      // ── Dish CRUD ─────────────────────────────────────────
       addDish: (dish) =>
         set((state) => ({
           dishes: [
@@ -78,7 +75,6 @@ export const useMenuStore = create(
           ),
         })),
 
-      // ── Category CRUD ─────────────────────────────────────
       addCategory: (cat) =>
         set((state) => ({
           categories: state.categories.includes(cat)
@@ -92,8 +88,7 @@ export const useMenuStore = create(
         })),
     }),
     {
-      name: "royale-menu", // matches the old localStorage key prefix
-      // Only persist data (not loading/error transient state)
+      name: "royale-menu",
       partialize: (state) => ({
         dishes: state.dishes,
         categories: state.categories,

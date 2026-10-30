@@ -11,12 +11,14 @@ export default function CheckoutPage() {
       <input name="customerName" />
       {state?.fieldErrors?.customerName && (
         <p className="text-red-500">{state.fieldErrors.customerName[0]}</p>
+
       )}
-      {/* ...other fields... */}
 
       <button disabled={isPending}>
         {isPending ? "Placing order…" : "Place order"}
       </button>
+
     </form>
+
   );
 }

@@ -14,9 +14,6 @@ import { findUserByUsername, findUserById } from "@/lib/users";
 import { createSession, destroySession, getSession } from "@/lib/session";
 import { signOut as nextAuthSignOut } from "@/auth";
 
-// ── Resolve the current user from the session ─────────
-// Demo accounts live in users.js. Google users come from the
-// session object itself.
 async function resolveUser(session) {
   if (!session) return null;
   if (session.provider === "google") {
@@ -32,7 +29,6 @@ async function resolveUser(session) {
   return { ...user, provider: "demo" };
 }
 
-// ── Sign In (demo accounts only) ──────────────────────
 export async function signIn(prevState, formData) {
   const username = (formData.get("username") || "").trim();
   const password = formData.get("password") || "";
@@ -56,14 +52,11 @@ export async function signIn(prevState, formData) {
   redirect(safeNext);
 }
 
-// ── Sign Out (handles both providers) ─────────────────
 export async function signOut() {
   const session = await getSession();
 
-  // Clear the demo cookie regardless — harmless if it wasn't set.
   await destroySession();
 
-  // If the current session was Google, sign out of NextAuth too.
   if (session?.provider === "google") {
     await nextAuthSignOut({ redirect: false });
   }
@@ -72,7 +65,6 @@ export async function signOut() {
   redirect("/");
 }
 
-// ── Place an order ────────────────────────────────────
 export async function placeOrder(prevState, formData) {
   const session = await getSession();
   if (!session) {
@@ -114,7 +106,6 @@ export async function placeOrder(prevState, formData) {
   redirect(`/checkout/success?id=${order.id}`);
 }
 
-// ── Cancel an order ───────────────────────────────────
 export async function cancelOrder(orderId) {
   const session = await getSession();
   if (!session) {
@@ -139,7 +130,6 @@ export async function cancelOrder(orderId) {
   return { success: true };
 }
 
-// ── Update order status (staff only) ─────────────────
 export async function updateOrderStatusAction(orderId, newStatus) {
   const session = await getSession();
   if (!session) {
@@ -174,7 +164,6 @@ export async function updateOrderStatusAction(orderId, newStatus) {
   return { success: true, status: newStatus };
 }
 
-// ── Seed demo orders (staff only) ────────────────────
 export async function seedOrdersAction() {
   const session = await getSession();
   if (!session || session.role !== "staff") {
@@ -190,7 +179,6 @@ export async function seedOrdersAction() {
   return { success: true, total: count };
 }
 
-// ── Clear seed orders (staff only) ───────────────────
 export async function clearSeedOrdersAction() {
   const session = await getSession();
   if (!session || session.role !== "staff") {

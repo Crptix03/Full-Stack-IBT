@@ -262,7 +262,6 @@ export async function findDish(id) {
   return DISHES.find((d) => d.id === id) || null;
 }
 
-// Helper for the menu page — returns all unique categories in order.
 export function getCategories() {
   const order = ["starters", "mains", "soups", "desserts", "drinks"];
   const seen = new Set(DISHES.map((d) => d.category));

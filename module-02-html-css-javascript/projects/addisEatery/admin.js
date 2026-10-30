@@ -1,8 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
     
-    // ==========================================
-    // SEED DATA FOR ROYALE BISTRO MENU (YOUR EXACT ITEMS)
-    // ==========================================
     const menuData = [
       {
         id: "item-1",
@@ -126,9 +123,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     ];
 
-    // ==========================================
-    // AUTHENTICATION CHECK
-    // ==========================================
     function checkAuth() {
         const isLoggedIn = sessionStorage.getItem("royale_admin_logged_in");
         const currentPath = window.location.pathname.split("/").pop();
@@ -142,11 +136,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     checkAuth();
 
-    // ==========================================
-    // THEME TOGGLE LOGIC (LIGHT/DARK)
-    // ==========================================
     const themeToggleBtn = document.getElementById("adminThemeToggle");
-    const themeLabel = document.getElementById("adminThemeLabel"); // exists on dashboard, not login
+    const themeLabel = document.getElementById("adminThemeLabel");
 
     function applyTheme(theme) {
         if (theme === "light") {
@@ -158,7 +149,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Load saved theme on page load (defaults to dark)
     const savedTheme = localStorage.getItem("royale_admin_theme") || "dark";
     applyTheme(savedTheme);
 
@@ -171,9 +161,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ==========================================
-    // LOGIN LOGIC
-    // ==========================================
     const loginForm = document.getElementById("adminLoginForm");
     if (loginForm) {
         loginForm.addEventListener("submit", (e) => {
@@ -190,9 +177,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ==========================================
-    // DASHBOARD LOGIC (ORDERS)
-    // ==========================================
     const ordersContainer = document.getElementById("adminOrdersContainer");
     const statTotal = document.getElementById("statTotal");
     const statPending = document.getElementById("statPending");
@@ -280,9 +264,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ==========================================
-    // ADMIN MENU LOGIC (ADD, EDIT, DELETE & TOGGLE)
-    // ==========================================
     const adminMenuContainer = document.getElementById("adminMenuContainer");
     
     function loadAdminMenu() {
@@ -330,7 +311,6 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         `).join("");
 
-        // Handle TOGGLE (Hide/Show)
         document.querySelectorAll(".menu-toggle-input").forEach(checkbox => {
             checkbox.addEventListener("change", (e) => {
                 const index = e.target.dataset.index;
@@ -343,7 +323,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-        // Handle DELETE
         document.querySelectorAll(".delete-menu-btn").forEach(btn => {
             btn.addEventListener("click", (e) => {
                 if(!confirm("Are you sure you want to delete this menu item?")) return;
@@ -355,7 +334,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-        // Handle EDIT
         document.querySelectorAll(".edit-menu-btn").forEach(btn => {
             btn.addEventListener("click", (e) => {
                 const index = e.target.dataset.index;
@@ -379,9 +357,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ==========================================
-            // ADD / EDIT MENU MODAL LOGIC
-    // ==========================================
     const addMenuModal = document.getElementById("addMenuModal");
     const openAddMenuBtn = document.getElementById("openAddMenuBtn");
     const closeAddMenuBtn = document.getElementById("closeAddMenuBtn");
@@ -448,9 +423,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ==========================================
-    // TAB SWITCHING LOGIC
-    // ==========================================
     const sidebarLinks = document.querySelectorAll(".sidebar-nav a");
     const ordersSection = document.getElementById("ordersSection");
     const menuSection = document.getElementById("menuSection");
@@ -479,9 +451,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // ==========================================
-    // INITIAL LOAD
-    // ==========================================
     if (window.location.pathname.includes("dashboard.html")) {
         loadAdminDashboard();
     }

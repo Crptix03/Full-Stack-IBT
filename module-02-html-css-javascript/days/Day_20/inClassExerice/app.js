@@ -1,4 +1,3 @@
-// DOM references
 const searchForm = document.getElementById('search-form');
 const searchInput = document.getElementById('search-input');
 const searchBtn = document.getElementById('search-btn');
@@ -25,7 +24,6 @@ const API_OPTIONS = {
 };
 
 
-// --- State helpers ---
 function showState(state) {
   loadingState.classList.add('hidden');
   errorState.classList.add('hidden');
@@ -41,7 +39,6 @@ function setLoadingUI(isLoading) {
   searchBtn.textContent = isLoading ? 'Searching...' : 'Search';
 }
 
-// --- Fetch + render ---
 async function searchMovies(query) {
   lastQuery = query;
   resultsGrid.innerHTML = '';

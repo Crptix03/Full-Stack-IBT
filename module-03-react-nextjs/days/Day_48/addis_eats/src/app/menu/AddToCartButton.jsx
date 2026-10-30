@@ -13,12 +13,8 @@ export default function AddToCartButton({ dish, compact = false }) {
     setTimeout(() => setAdded(false), 1500);
   };
 
-  // Compact: full-width button for cards. Full: padded button for detail page.
   const sizeClass = compact ? "w-full py-2 text-sm" : "px-6 py-3";
 
-  // Compact button sits inside a card with focus-within ring — so no
-  // own outline (avoids double ring). Full button has no parent ring,
-  // so it draws its own.
   const focusClass = compact
     ? "focus-visible:outline-none"
     : "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400";
@@ -33,12 +29,17 @@ export default function AddToCartButton({ dish, compact = false }) {
       {added ? (
         <>
           <span aria-hidden="true">✓</span> Added
+
         </>
+
       ) : (
         <>
           <span aria-hidden="true">+</span> Add to Cart
+
         </>
+
       )}
     </button>
+
   );
 }

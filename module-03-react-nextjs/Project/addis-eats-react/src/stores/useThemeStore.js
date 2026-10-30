@@ -1,4 +1,3 @@
-// src/stores/useThemeStore.js
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -15,7 +14,6 @@ export const useThemeStore = create(
     {
       name: "theme",
       onRehydrateStorage: () => (state) => {
-        // Apply the persisted theme to <html> as soon as the store rehydrates
         if (state?.theme) {
           document.documentElement.setAttribute("data-theme", state.theme);
         }
@@ -24,7 +22,6 @@ export const useThemeStore = create(
   )
 );
 
-// Subscribe to changes and apply the theme to the DOM
 useThemeStore.subscribe((state) => {
   document.documentElement.setAttribute("data-theme", state.theme);
 });

@@ -1,9 +1,3 @@
-// In-memory orders store.
-// DEMO ONLY — resets on every server restart.
-//
-// We attach to globalThis so that server actions, pages, AND API routes
-// all share the same array. Without this, Next.js dev mode can create
-// separate module instances with separate copies of `orders`.
 
 if (!globalThis.__orders) {
   globalThis.__orders = [];
@@ -29,8 +23,6 @@ const AREAS = [
   "Bulbula",
 ];
 
-// Parse a neighbourhood out of the freeform address string.
-// Matches against a known list of Addis areas; falls back to "Other".
 export function getNeighbourhood(address) {
   if (!address) return "Other";
   const lower = address.toLowerCase();
@@ -50,19 +42,16 @@ export function addOrder(order) {
   return newOrder;
 }
 
-// Scoped query: only returns orders belonging to the given user.
 export function getOrdersFor(userId) {
   return orders
     .filter((o) => o.customerId === userId)
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 }
 
-// Get a single order by id (still must be checked against session in the page).
 export function getOrderById(id) {
   return orders.find((o) => o.id === id) || null;
 }
 
-// Staff-only: all orders.
 export function getAllOrders() {
   return [...orders].sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
@@ -76,8 +65,6 @@ export function updateOrderStatus(id, status) {
   return order;
 }
 
-// ── Dashboard aggregations ──────────────────────────────
-// Revenue per neighbourhood: only counts orders that are not cancelled.
 export function getRevenueByArea() {
   const map = new Map();
   for (const order of orders) {
@@ -92,7 +79,6 @@ export function getRevenueByArea() {
   return rows.sort((a, b) => b.revenue - a.revenue);
 }
 
-// Orders per day for the last N days. Includes days with zero orders.
 export function getOrdersPerDay(days = 14) {
   const result = [];
   const today = new Date();
@@ -118,9 +104,6 @@ export function getOrdersPerDay(days = 14) {
   return result;
 }
 
-// ── Demo seeding (staff only) ───────────────────────────
-// Remove only the seeded demo orders. Real user-placed orders stay.
-// Seeded orders have IDs starting with "order-seed-".
 export function clearSeedOrders() {
   const before = orders.length;
   const kept = orders.filter((o) => !o.id.startsWith("order-seed-"));
@@ -129,10 +112,7 @@ export function clearSeedOrders() {
   return before - kept.length;
 }
 
-// Adds 12 realistic orders spread across the last 12 days.
-// Idempotent — calling it twice does not double the seed.
 export function seedDemoOrders() {
-  // If seed data already exists, remove it first so we don't duplicate.
   const alreadySeeded = orders.some((o) => o.id.startsWith("order-seed-"));
   if (alreadySeeded) {
     clearSeedOrders();

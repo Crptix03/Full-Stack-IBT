@@ -34,6 +34,7 @@ export async function GET(request, { params }) {
         <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "#1e1b4b", color: "#a5b4fc", fontSize: 48, fontFamily: "sans-serif" }}>
           Car not found
         </div>
+
       ),
       size
     );
@@ -42,8 +43,6 @@ export async function GET(request, { params }) {
   let imageDataUrl = null;
   try {
     const buffer = await loadPhoto(car.photos[0]);
-    // Keep the PNG small — Satori breaks with large base64 payloads.
-    // 800×500 is plenty for a background; objectFit: "cover" fills the rest.
     const png = await sharp(buffer)
       .resize(800, 500, { fit: "cover", position: car.photoPosition === "center 80%" ? "bottom" : "centre" })
       .png({ quality: 80 })
@@ -58,62 +57,72 @@ export async function GET(request, { params }) {
 
   return new ImageResponse(
     (
-      // Root — must be flex
       <div style={{ width: "100%", height: "100%", display: "flex", position: "relative", backgroundColor: "#1e1b4b", fontFamily: "sans-serif" }}>
 
-        {/* Background photo */}
         {imageDataUrl && (
           <img src={imageDataUrl} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
         )}
 
-        {/* Gradient + all text — single flex child of root */}
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.45) 55%, rgba(0,0,0,0.1) 100%)", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 56 }}>
 
-          {/* Top row */}
           <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
 
-            {/* Brand badge */}
             <div style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 100, padding: "8px 20px", color: "rgba(255,255,255,0.9)", fontSize: 18, fontWeight: 700 }}>
               <span>🛞</span>
+
               <span>Sheggar Wheels</span>
+
             </div>
 
-            {/* Neighbourhood badge */}
+
             <div style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(249,115,22,0.25)", border: "1px solid rgba(249,115,22,0.5)", borderRadius: 100, padding: "8px 20px", color: "#fb923c", fontSize: 18, fontWeight: 600 }}>
               <span>📍</span>
+
               <span>{car.neighbourhood}</span>
+
             </div>
+
           </div>
 
-          {/* Bottom content */}
+
           <div style={{ display: "flex", flexDirection: "column" }}>
 
-            {/* Car name */}
             <div style={{ display: "flex", color: "#ffffff", fontSize: 76, fontWeight: 900, letterSpacing: -2, lineHeight: 1, marginBottom: 16 }}>
               {car.make} {car.model}
             </div>
 
-            {/* Specs row */}
+
             <div style={{ display: "flex", flexDirection: "row", gap: 16, marginBottom: 24, color: "rgba(255,255,255,0.75)", fontSize: 24 }}>
               <span>{car.year}</span>
+
               <span>·</span>
+
               <span>{transmission}</span>
+
               <span>·</span>
+
               <span>{car.seats} seats</span>
+
             </div>
 
-            {/* Price */}
+
             <div style={{ display: "flex", flexDirection: "row", alignItems: "baseline", gap: 10 }}>
               <span style={{ color: "#f97316", fontSize: 52, fontWeight: 900 }}>
                 {etb.format(car.pricePerDay)}
               </span>
+
               <span style={{ color: "rgba(255,255,255,0.55)", fontSize: 24 }}>
                 per day
               </span>
+
             </div>
+
           </div>
+
         </div>
+
       </div>
+
     ),
     size
   );

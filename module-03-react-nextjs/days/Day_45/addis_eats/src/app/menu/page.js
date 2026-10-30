@@ -19,13 +19,11 @@ export default async function MenuPage({ searchParams }) {
 
   const all = await getDishes();
 
-  // Filter by category
   let filtered =
     category === "all"
       ? all
       : all.filter((d) => d.category === category);
 
-  // Filter by search
   if (q.trim()) {
     const term = q.toLowerCase();
     filtered = filtered.filter(
@@ -42,7 +40,6 @@ export default async function MenuPage({ searchParams }) {
   const dishes = filtered.slice(start, start + PAGE_SIZE);
   const isDefaultView = !q.trim() && category === "all" && safePage === 1;
 
-  // Build current params string for SearchBox (so it doesn't need useSearchParams)
   const currentParams = [
     q ? `q=${encodeURIComponent(q)}` : "",
     category && category !== "all" ? `category=${category}` : "",
@@ -54,12 +51,14 @@ export default async function MenuPage({ searchParams }) {
     <div>
       <h1 className="font-serif text-3xl text-amber-400 mb-6">Our Menu</h1>
 
+
       <SearchBox initialValue={q} currentParams={currentParams} />
 
       {dishes.length === 0 ? (
         <p className="text-neutral-400 py-12 text-center">
           No dishes match your search.
         </p>
+
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {dishes.map((dish, index) => (
@@ -70,6 +69,7 @@ export default async function MenuPage({ searchParams }) {
             />
           ))}
         </div>
+
       )}
 
       <Pagination
@@ -83,5 +83,6 @@ export default async function MenuPage({ searchParams }) {
           .join("&") + (q || category !== "all" ? "&" : "")}
       />
     </div>
+
   );
 }

@@ -29,6 +29,7 @@ export default async function Image({ params }) {
         >
           Dish not found
         </div>
+
       ),
       size
     );
@@ -37,8 +38,6 @@ export default async function Image({ params }) {
   const baseUrl =
     process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
-  // Fetch the image and convert to a PNG data URL.
-  // Satori (ImageResponse) does not decode WebP — sharp handles that.
   let imageDataUrl = null;
   try {
     const res = await fetch(`${baseUrl}${dish.image}`);
@@ -48,7 +47,6 @@ export default async function Image({ params }) {
       imageDataUrl = `data:image/png;base64,${png.toString("base64")}`;
     }
   } catch (err) {
-    // fall through to a solid background if the fetch fails
   }
 
   return new ImageResponse(
@@ -99,6 +97,7 @@ export default async function Image({ params }) {
           >
             {dish.name}
           </h1>
+
           <p
             style={{
               fontSize: 36,
@@ -108,8 +107,11 @@ export default async function Image({ params }) {
           >
             {dish.price} Birr — Addis Eats
           </p>
+
         </div>
+
       </div>
+
     ),
     size
   );

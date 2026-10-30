@@ -61,12 +61,12 @@ npm run start
 
 ## Demo Accounts
 
-| Username | Password | Role |
-| :--- | :--- | :--- |
-| `dawit` | `dawit2026` | Renter + Owner |
-| `hanna` | `hanna2026` | Renter + Owner |
-| `yohannes` | `yohannes2026` | Renter |
-| `admin` | `admin2026` | Admin |
+| Username   | Password       | Role           |
+| :--------- | :------------- | :------------- |
+| `dawit`    | `dawit2026`    | Renter + Owner |
+| `hanna`    | `hanna2026`    | Renter + Owner |
+| `yohannes` | `yohannes2026` | Renter         |
+| `admin`    | `admin2026`    | Admin          |
 
 Use `dawit` or `hanna` to test the owner dashboard. Use `yohannes` to test the renter flow and verify ownership isolation. Use `admin` for the admin dashboard.
 
@@ -189,31 +189,31 @@ src/
 
 ## Documentation
 
-| File | What it covers |
-| :--- | :--- |
-| `STRATEGY.md` | Rendering strategy for every route — why each page is SC or hybrid |
-| `BOUNDARY.md` | Complete Server vs Client Component split with the reasoning |
-| `AUTH.md` | Roles, route protection, session cookies, and three negative attack tests |
-| `DATA.md` | Every entity, storage key, and data flow from read to write |
-| `PERF.md` | Lighthouse measurements, what drives the numbers, and the known ceiling |
-| `FUTURE.md` | What was cut, what is limited by design, and the full production migration plan |
+| File          | What it covers                                                                  |
+| :------------ | :------------------------------------------------------------------------------ |
+| `STRATEGY.md` | Rendering strategy for every route — why each page is SC or hybrid              |
+| `BOUNDARY.md` | Complete Server vs Client Component split with the reasoning                    |
+| `AUTH.md`     | Roles, route protection, session cookies, and three negative attack tests       |
+| `DATA.md`     | Every entity, storage key, and data flow from read to write                     |
+| `PERF.md`     | Lighthouse measurements, what drives the numbers, and the known ceiling         |
+| `FUTURE.md`   | What was cut, what is limited by design, and the full production migration plan |
 
 ---
 
 ## Tech Stack
 
-| Layer | Choice |
-| :--- | :--- |
-| Framework | Next.js 16 (App Router) |
-| UI | React 19 |
-| Styling | Tailwind CSS v4 |
-| Fonts | Inter via `next/font/google` |
-| Maps | Leaflet + react-leaflet (client-side only) |
-| Icons | lucide-react |
-| Images | next/image (AVIF + WebP, 1-year cache) |
-| OG Images | `next/og` ImageResponse + sharp (server-side) |
-| Auth | httpOnly cookies, proxy-based route protection |
-| Data | globalThis in-memory store (demo) |
+| Layer            | Choice                                         |
+| :--------------- | :--------------------------------------------- |
+| Framework        | Next.js 16 (App Router)                        |
+| UI               | React 19                                       |
+| Styling          | Tailwind CSS v4                                |
+| Fonts            | Inter via `next/font/google`                   |
+| Maps             | Leaflet + react-leaflet (client-side only)     |
+| Icons            | lucide-react                                   |
+| Images           | next/image (AVIF + WebP, 1-year cache)         |
+| OG Images        | `next/og` ImageResponse + sharp (server-side)  |
+| Auth             | httpOnly cookies, proxy-based route protection |
+| Data             | globalThis in-memory store (demo)              |
 | Image processing | sharp (WebP/AVIF → PNG for OG image rendering) |
 
 ---
@@ -222,10 +222,10 @@ src/
 
 Car detail pages use human-readable slugs generated from make + model + year:
 
-| Car | URL |
-| :--- | :--- |
-| Mazda CX-5 (2022) | `/cars/mazda-cx-5-2022` |
-| Toyota Corolla (2022) | `/cars/toyota-corolla-2022` |
+| Car                        | URL                              |
+| :------------------------- | :------------------------------- |
+| Mazda CX-5 (2022)          | `/cars/mazda-cx-5-2022`          |
+| Toyota Corolla (2022)      | `/cars/toyota-corolla-2022`      |
 | Toyota Land Cruiser (2020) | `/cars/toyota-land-cruiser-2020` |
 
 OG image for each car is available at `/cars/[slug]/opengraph-image` — works in both dev and prod.

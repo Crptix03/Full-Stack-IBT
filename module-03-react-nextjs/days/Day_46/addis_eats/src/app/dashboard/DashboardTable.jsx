@@ -1,6 +1,3 @@
-// The accessible fallback for a chart.
-// Screen readers cannot read an SVG — this gives them the same data.
-// It is also genuinely useful: copy-paste, print, and zoom all work.
 
 export default function DashboardTable({ caption, columns, rows }) {
   if (!rows || rows.length === 0) {
@@ -11,6 +8,7 @@ export default function DashboardTable({ caption, columns, rows }) {
     <div className="overflow-x-auto">
       <table className="w-full text-sm border-collapse">
         <caption className="sr-only">{caption}</caption>
+
 
         <thead>
           <tr className="border-b border-neutral-800">
@@ -24,9 +22,12 @@ export default function DashboardTable({ caption, columns, rows }) {
               >
                 {col}
               </th>
+
             ))}
           </tr>
+
         </thead>
+
 
         <tbody>
           {rows.map((row, ri) => (
@@ -45,11 +46,16 @@ export default function DashboardTable({ caption, columns, rows }) {
                 >
                   {cell}
                 </td>
+
               ))}
             </tr>
+
           ))}
         </tbody>
+
       </table>
+
     </div>
+
   );
 }

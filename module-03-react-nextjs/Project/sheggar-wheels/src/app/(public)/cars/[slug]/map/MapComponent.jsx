@@ -5,7 +5,6 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-// Fix default marker icons
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
@@ -13,7 +12,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
 
-// Helper component to force the map to center on the given coordinates
 function RecenterMap({ lat, lng }) {
   const map = useMap();
   
@@ -27,7 +25,6 @@ function RecenterMap({ lat, lng }) {
 }
 
 export default function MapComponent({ lat, lng, name }) {
-  // Default to Addis Ababa center if coords are missing
   const center = [lat || 9.0054, lng || 38.7636];
 
   return (
@@ -42,12 +39,14 @@ export default function MapComponent({ lat, lng, name }) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
       
-      {/* Force recenter when props change */}
       <RecenterMap lat={lat} lng={lng} />
 
       <Marker position={center}>
         <Popup>{name}</Popup>
+
       </Marker>
+
     </MapContainer>
+
   );
 }

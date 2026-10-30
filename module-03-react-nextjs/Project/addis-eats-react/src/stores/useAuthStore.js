@@ -1,4 +1,3 @@
-// src/stores/useAuthStore.js
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -17,7 +16,6 @@ export const useAuthStore = create(
       users: [DEFAULT_ADMIN],
       currentUser: null,
 
-      // ── Sign Up ─────────────────────────────────────────
       signUp: (username, password, fullName, phone) => {
         const trimmedUsername = username.trim();
         const trimmedPhone = phone.trim();
@@ -68,7 +66,6 @@ export const useAuthStore = create(
         return { success: true };
       },
 
-      // ── Sign In ─────────────────────────────────────────
       signIn: (username, password) => {
         const trimmed = username.trim();
         const { users } = get();
@@ -96,10 +93,8 @@ export const useAuthStore = create(
         return { success: true, isAdmin: match.isAdmin === true };
       },
 
-      // ── Sign Out ────────────────────────────────────────
       signOut: () => set({ currentUser: null }),
 
-      // ── Update Profile ──────────────────────────────────
       updateProfile: (username, fullName, phone, avatar) => {
         const trimmedUsername = username.trim();
         const trimmedPhone = phone.trim();
@@ -166,21 +161,15 @@ export const useAuthStore = create(
         users: state.users,
         currentUser: state.currentUser,
       }),
-      // Migration runs once when rehydrating from localStorage.
-      // It ensures every user has the required fields, and that
-      // the admin account always exists.
       onRehydrateStorage: () => (state) => {
         if (!state) return;
 
-        // Ensure users is an array
         const users = Array.isArray(state.users) ? state.users : [];
 
-        // Ensure admin exists
         if (!users.some((u) => u.isAdmin)) {
           users.unshift({ ...DEFAULT_ADMIN });
         }
 
-        // Backfill missing fields on every user
         const migratedUsers = users.map((u) => ({
           ...u,
           isAdmin: u.isAdmin === true,
@@ -188,7 +177,6 @@ export const useAuthStore = create(
           phone: u.phone || "",
         }));
 
-        // Re-sync currentUser with the migrated users array
         let migratedCurrentUser = null;
         if (state.currentUser) {
           const fresh = migratedUsers.find(
@@ -205,7 +193,6 @@ export const useAuthStore = create(
             : null;
         }
 
-        // Push migrated data back into the store
         useAuthStore.setState({
           users: migratedUsers,
           currentUser: migratedCurrentUser,

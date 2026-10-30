@@ -1,4 +1,3 @@
-// Review helpers — server-side, reads/writes globalThis.__db directly.
 
 import { db } from "./db";
 

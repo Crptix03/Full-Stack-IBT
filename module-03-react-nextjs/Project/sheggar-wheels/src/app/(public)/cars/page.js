@@ -10,7 +10,6 @@ export const metadata = {
 const PAGE_SIZE = 9;
 
 export default async function CarsPage({ searchParams }) {
-  // Await searchParams (Next.js 15+)
   const params = await searchParams;
 
   const q = (params.q || "").trim().toLowerCase();
@@ -21,7 +20,6 @@ export default async function CarsPage({ searchParams }) {
   const sort = params.sort || "newest";
   const page = Math.max(1, parseInt(params.page, 10) || 1);
 
-  // Query the server database
   let filtered = db.cars.filter((c) => c.status === "approved");
 
   if (q) {
@@ -48,7 +46,6 @@ export default async function CarsPage({ searchParams }) {
     filtered = filtered.filter((c) => c.pricePerDay <= maxPrice);
   }
 
-  // Sort
   switch (sort) {
     case "price-asc":
       filtered.sort((a, b) => a.pricePerDay - b.pricePerDay);
@@ -66,7 +63,6 @@ export default async function CarsPage({ searchParams }) {
   const start = (safePage - 1) * PAGE_SIZE;
   const pageCars = filtered.slice(start, start + PAGE_SIZE);
 
-  // Helper to build URL with current filters
   const buildQuery = (newPage) => {
     const p = new URLSearchParams();
     if (q) p.set("q", q);
@@ -86,47 +82,68 @@ export default async function CarsPage({ searchParams }) {
         <h1 className="text-3xl md:text-4xl font-black text-neutral-900 mb-2">
           Browse Cars
         </h1>
+
         <p className="text-neutral-600 text-sm">
           {filtered.length} car{filtered.length === 1 ? "" : "s"} available.
         </p>
+
       </div>
 
-      {/* Filters */}
+
       <form method="GET" className="mb-10 p-5 bg-white border border-neutral-200 rounded-2xl grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3">
         <input type="text" name="q" defaultValue={q} placeholder="Search..." className="px-4 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-sm" />
         
         <select name="neighbourhood" defaultValue={neighbourhood} className="px-4 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-sm">
           <option value="all">All areas</option>
+
           <option value="Bole">Bole</option>
+
           <option value="Kazanchis">Kazanchis</option>
+
           <option value="Megenagna">Megenagna</option>
+
           <option value="Piassa">Piassa</option>
+
           <option value="CMC">CMC</option>
+
         </select>
+
 
         <select name="transmission" defaultValue={transmission} className="px-4 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-sm">
           <option value="all">Any transmission</option>
+
           <option value="automatic">Automatic</option>
+
           <option value="manual">Manual</option>
+
         </select>
+
 
         <select name="sort" defaultValue={sort} className="px-4 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-sm">
           <option value="newest">Newest</option>
+
           <option value="price-asc">Price: Low to High</option>
+
           <option value="price-desc">Price: High to Low</option>
+
         </select>
+
 
         <button type="submit" className="px-5 py-2.5 bg-indigo-600 text-white font-semibold rounded-xl text-sm hover:bg-indigo-700">
           Apply Filters
         </button>
+
       </form>
 
-      {/* Results */}
+
       {pageCars.length === 0 ? (
         <div className="text-center py-20 bg-white border border-neutral-200 rounded-2xl">
           <p className="text-neutral-600 mb-3">No cars match your filters.</p>
+
           <Link href="/cars" className="text-indigo-600 font-semibold hover:underline">Clear filters</Link>
+
         </div>
+
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
@@ -135,19 +152,26 @@ export default async function CarsPage({ searchParams }) {
             ))}
           </div>
 
+
           {totalPages > 1 && (
             <nav className="flex justify-center gap-2">
               {safePage > 1 && (
                 <Link href={buildQuery(safePage - 1)} className="px-4 py-2 border border-neutral-200 rounded-xl text-sm hover:border-indigo-400">← Prev</Link>
+
               )}
               <span className="px-4 py-2 text-neutral-600 text-sm">Page {safePage} of {totalPages}</span>
+
               {safePage < totalPages && (
                 <Link href={buildQuery(safePage + 1)} className="px-4 py-2 border border-neutral-200 rounded-xl text-sm hover:border-indigo-400">Next →</Link>
+
               )}
             </nav>
+
           )}
         </>
+
       )}
     </div>
+
   );
 }

@@ -10,7 +10,6 @@ const TABS = [
   { href: "/owner/earnings",  label: "Earnings" },
 ];
 
-// Middleware already blocks non-owner access.
 export default function OwnerLayout({ children }) {
   return (
     <div className="flex flex-col min-h-screen">
@@ -25,11 +24,16 @@ export default function OwnerLayout({ children }) {
             >
               {tab.label}
             </Link>
+
           ))}
         </div>
+
       </nav>
+
       <main className="flex-1 bg-neutral-50">{children}</main>
+
       <PublicFooter />
     </div>
+
   );
 }

@@ -1,5 +1,5 @@
 const state = {
-  rates: { USD: 0.0177, KES: 2.29 }, // fake defaults, replaced by live fetch
+  rates: { USD: 0.0177, KES: 2.29 },
   watchlist: [],
   currency: "USD"
 };
@@ -134,7 +134,6 @@ function save() {
       JSON.stringify({ watchlist: state.watchlist, currency: state.currency })
     );
   } catch (error) {
-    // ignore storage errors silently, non-critical
   }
 }
 
@@ -146,16 +145,14 @@ function load() {
     if (Array.isArray(saved.watchlist)) state.watchlist = saved.watchlist;
     if (typeof saved.currency === "string") state.currency = saved.currency;
   } catch (error) {
-    // ignore malformed storage, fall back to defaults
   }
 }
 
-// --- Init ---
 function init() {
-  render();      // fake rates fill dropdowns immediately
-  load();        // restore watchlist + last currency
-  render();      // re-render now that state.currency/watchlist may have changed
-  loadRates();   // fetch live rates, replaces fake data
+  render();
+  load();
+  render();
+  loadRates();
 }
 
 init();

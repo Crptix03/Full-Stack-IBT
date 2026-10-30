@@ -1,15 +1,9 @@
 import Link from "next/link";
 
-// Real links, not buttons. This gives you:
-//  - the browser back button
-//  - middle-click / open in new tab
-//  - a crawler that can follow pagination
-// The URL keeps the current sort so paging doesn't lose it.
 
 export default function Pagination({ current, total, sort, dir }) {
   if (total <= 1) return null;
 
-  // Build the base query string once.
   const base = new URLSearchParams();
   if (sort) base.set("sort", sort);
   if (dir) base.set("dir", dir);
@@ -22,7 +16,6 @@ export default function Pagination({ current, total, sort, dir }) {
     return `/orders${qs ? `?${qs}` : ""}`;
   };
 
-  // Show a small window around the current page instead of every page.
   const windowSize = 2;
   const pages = [];
   for (let p = 1; p <= total; p++) {
@@ -35,7 +28,6 @@ export default function Pagination({ current, total, sort, dir }) {
     }
   }
 
-  // Insert "…" markers where pages were skipped.
   const withDots = [];
   for (let i = 0; i < pages.length; i++) {
     withDots.push(pages[i]);
@@ -49,7 +41,6 @@ export default function Pagination({ current, total, sort, dir }) {
       aria-label="Order history pagination"
       className="flex justify-center items-center gap-2 mt-8"
     >
-      {/* Prev */}
       {current > 1 ? (
         <Link
           href={buildHref(current - 1)}
@@ -57,18 +48,20 @@ export default function Pagination({ current, total, sort, dir }) {
         >
           ← Prev
         </Link>
+
       ) : (
         <span className="px-3 py-1.5 text-xs border border-neutral-900 rounded text-neutral-700 cursor-not-allowed">
           ← Prev
         </span>
+
       )}
 
-      {/* Numbered pages */}
       {withDots.map((p, i) =>
         p === "…" ? (
           <span key={`dots-${i}`} className="px-2 text-neutral-600 text-xs">
             …
           </span>
+
         ) : p === current ? (
           <span
             key={p}
@@ -77,6 +70,7 @@ export default function Pagination({ current, total, sort, dir }) {
           >
             {p}
           </span>
+
         ) : (
           <Link
             key={p}
@@ -85,10 +79,10 @@ export default function Pagination({ current, total, sort, dir }) {
           >
             {p}
           </Link>
+
         )
       )}
 
-      {/* Next */}
       {current < total ? (
         <Link
           href={buildHref(current + 1)}
@@ -96,11 +90,14 @@ export default function Pagination({ current, total, sort, dir }) {
         >
           Next →
         </Link>
+
       ) : (
         <span className="px-3 py-1.5 text-xs border border-neutral-900 rounded text-neutral-700 cursor-not-allowed">
           Next →
         </span>
+
       )}
     </nav>
+
   );
 }

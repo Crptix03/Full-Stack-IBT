@@ -25,7 +25,6 @@ function CartProvider({ children }) {
     });
   }, []);
 
-  // Reduce quantity by 1. If it hits 0, remove the line entirely.
   const decrementFromCart = useCallback((id) => {
     setItems((prev) => {
       const existing = prev.find((i) => i.id === id);
@@ -59,9 +58,11 @@ function CartProvider({ children }) {
     >
       {children}
     </CartContext.Provider>
+
   );
 }
 
 export default function Providers({ children }) {
   return <CartProvider>{children}</CartProvider>;
+
 }

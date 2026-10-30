@@ -10,7 +10,6 @@ import {
   CartesianGrid,
 } from "recharts";
 
-// Format a number as ETB currency, no decimals.
 const etb = (value) =>
   new Intl.NumberFormat("en-ET", {
     style: "currency",
@@ -27,12 +26,11 @@ export default function RevenueChart({ data }) {
       >
         No revenue data to display.
       </div>
+
     );
   }
 
   return (
-    // Fixed-height wrapper — prevents CLS and gives ResponsiveContainer
-    // a real height to measure against.
     <div className="w-full h-[300px] mb-6">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
@@ -54,7 +52,6 @@ export default function RevenueChart({ data }) {
             tickLine={false}
             width={80}
             tickFormatter={(v) => etb(v)}
-            // Bar axes MUST start at zero — a truncated bar lies.
             domain={[0, "auto"]}
           />
 
@@ -78,7 +75,10 @@ export default function RevenueChart({ data }) {
             name="Revenue"
           />
         </BarChart>
+
       </ResponsiveContainer>
+
     </div>
+
   );
 }

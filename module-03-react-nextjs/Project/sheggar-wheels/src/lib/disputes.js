@@ -1,9 +1,7 @@
-// Dispute lifecycle — server-side, reads/writes globalThis.__db directly.
 
 import { db } from "./db";
 import { newId } from "./id";
 
-// Initialise disputes array on db if not present (older seed may not have it).
 if (!db.disputes) db.disputes = [];
 
 export function openDispute(bookingId, reason, description, actorId) {

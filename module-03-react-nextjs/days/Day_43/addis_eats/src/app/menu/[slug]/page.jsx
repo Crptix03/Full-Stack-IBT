@@ -21,9 +21,7 @@ export default async function DishPage({ params }) {
   }
 
   return (
-    // Added max-width and margin auto to center the content within the layout
     <div className="max-w-2xl mx-auto">
-      {/* Image Container - fixed height for consistency */}
       <div className="relative w-full h-80 mb-8 rounded-lg overflow-hidden border border-neutral-800">
         <Image
           src={dish.image}
@@ -35,23 +33,25 @@ export default async function DishPage({ params }) {
         />
       </div>
 
-      {/* Dish Info */}
+
       <div className="space-y-4">
         <h1 className="font-serif text-4xl text-amber-400">
           {dish.name}
         </h1>
+
         
         <p className="text-neutral-400 text-lg">
           {dish.price} Birr
         </p>
 
-        {/* Add to Cart Button */}
+
         <div className="pt-4">
           <AddToCartButton dish={dish} />
         </div>
+
       </div>
 
-      {/* Back Link */}
+
       <div className="mt-12 pt-6 border-t border-neutral-800">
         <Link 
           href="/menu" 
@@ -59,7 +59,10 @@ export default async function DishPage({ params }) {
         >
           ← Back to Menu
         </Link>
+
       </div>
+
     </div>
+
   );
 }

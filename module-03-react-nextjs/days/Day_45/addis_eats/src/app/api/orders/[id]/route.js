@@ -5,7 +5,6 @@ import { getSession } from "@/lib/session";
 export async function GET(request, { params }) {
   const { id } = await params;
 
-  // Layer 3: the API route itself checks the session.
   const session = await getSession();
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

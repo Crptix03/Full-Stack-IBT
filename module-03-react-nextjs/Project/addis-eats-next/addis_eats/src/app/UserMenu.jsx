@@ -10,7 +10,6 @@ export default function UserMenu({ username, role }) {
   const buttonRef = useRef(null);
   const menuRef = useRef(null);
 
-  // Close on click outside
   useEffect(() => {
     function onClick(e) {
       if (ref.current && !ref.current.contains(e.target)) {
@@ -21,7 +20,6 @@ export default function UserMenu({ username, role }) {
     return () => document.removeEventListener("mousedown", onClick);
   }, []);
 
-  // Close on Escape — and return focus to the toggle button
   useEffect(() => {
     if (!open) return;
 
@@ -36,7 +34,6 @@ export default function UserMenu({ username, role }) {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
-  // Move focus into the menu when it opens
   useEffect(() => {
     if (open && menuRef.current) {
       const firstLink = menuRef.current.querySelector("a, button");
@@ -59,10 +56,13 @@ export default function UserMenu({ username, role }) {
         <span className="w-7 h-7 rounded-full bg-amber-400 text-neutral-900 font-bold text-[11px] flex items-center justify-center">
           {initials}
         </span>
+
         <span className="theme-text text-sm capitalize">
           {username}
         </span>
+
       </button>
+
 
       {open && (
         <div
@@ -78,6 +78,7 @@ export default function UserMenu({ username, role }) {
           >
             Profile
           </Link>
+
           <Link
             href="/orders"
             role="menuitem"
@@ -86,6 +87,7 @@ export default function UserMenu({ username, role }) {
           >
             My Orders
           </Link>
+
 
           {role === "staff" && (
             <Link
@@ -96,6 +98,7 @@ export default function UserMenu({ username, role }) {
             >
               Kitchen
             </Link>
+
           )}
 
           <div className="border-t theme-border my-1" />
@@ -108,9 +111,13 @@ export default function UserMenu({ username, role }) {
             >
               Sign Out
             </button>
+
           </form>
+
         </div>
+
       )}
     </div>
+
   );
 }

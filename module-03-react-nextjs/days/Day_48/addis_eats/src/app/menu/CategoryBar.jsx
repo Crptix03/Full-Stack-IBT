@@ -30,7 +30,6 @@ export default function CategoryBar({ categories }) {
     } else if (slug === "favorites") {
       const favs = readFavorites();
       if (favs.length === 0) {
-        // Nothing favorited — do nothing rather than showing an empty list.
         return;
       }
       params.delete("category");
@@ -61,10 +60,10 @@ export default function CategoryBar({ categories }) {
           >
             {cat.label}
           </button>
+
         );
       })}
 
-      {/* Favorites chip — separated from categories */}
       <div className="hidden md:block md:mt-3 md:pt-3 md:border-t md:border-neutral-800" />
 
       <button
@@ -79,7 +78,9 @@ export default function CategoryBar({ categories }) {
         <HeartIcon filled={favoritesActive} />
         Favorites
       </button>
+
     </div>
+
   );
 }
 
@@ -98,5 +99,6 @@ function HeartIcon({ filled }) {
     >
       <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
     </svg>
+
   );
 }

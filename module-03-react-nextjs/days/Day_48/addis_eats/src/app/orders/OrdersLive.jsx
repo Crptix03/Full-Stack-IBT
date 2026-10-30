@@ -23,20 +23,18 @@ export default function OrdersLive({
   dir,
   page,
 }) {
-  // Do we have any order that could still change? If not, stop polling.
   const hasActive = allOrders.some(
     (o) => o.status === "pending" || o.status === "preparing"
   );
 
   const { data: fetched } = useSWR("/api/orders", fetcher, {
     fallbackData: allOrders,
-    refreshInterval: hasActive ? 10000 : 0, // 10 s while active, off otherwise
+    refreshInterval: hasActive ? 10000 : 0,
     revalidateOnFocus: true,
   });
 
   const current = fetched ?? allOrders;
 
-  // Re-sort after each poll so the client stays in sync with the URL.
   const sorted = [...current].sort(SORTERS[sort] ?? SORTERS.date);
   if (dir === "desc") sorted.reverse();
 
@@ -50,5 +48,6 @@ export default function OrdersLive({
       <OrderTable orders={pageRows} sortedBy={sort} sortDir={dir} />
       <Pagination current={safePage} total={totalPages} sort={sort} dir={dir} />
     </>
+
   );
 }

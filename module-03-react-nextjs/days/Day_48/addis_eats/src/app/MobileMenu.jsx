@@ -9,7 +9,6 @@ export default function MobileMenu({ user }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
-  // Close on click outside
   useEffect(() => {
     function onClick(e) {
       if (ref.current && !ref.current.contains(e.target)) {
@@ -20,7 +19,6 @@ export default function MobileMenu({ user }) {
     return () => document.removeEventListener("mousedown", onClick);
   }, []);
 
-  // Close on Escape
   useEffect(() => {
     if (!open) return;
     function onKey(e) {
@@ -56,15 +54,19 @@ export default function MobileMenu({ user }) {
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
             </>
+
           ) : (
             <>
               <line x1="3" y1="6" x2="21" y2="6" />
               <line x1="3" y1="12" x2="21" y2="12" />
               <line x1="3" y1="18" x2="21" y2="18" />
             </>
+
           )}
         </svg>
+
       </button>
+
 
       {open && (
         <div
@@ -74,34 +76,43 @@ export default function MobileMenu({ user }) {
           <MenuItem href="/menu" onClick={() => setOpen(false)}>
             Menu
           </MenuItem>
+
           <MenuItem href="/cart" onClick={() => setOpen(false)}>
             <span className="inline-flex items-center gap-2">
               Cart
               <CartBadge />
             </span>
+
           </MenuItem>
+
 
           {user && (
             <>
               <MenuItem href="/orders" onClick={() => setOpen(false)}>
                 My Orders
               </MenuItem>
+
               <MenuItem href="/checkout" onClick={() => setOpen(false)}>
                 Checkout
               </MenuItem>
+
               <div className="border-t theme-border my-1" />
               <MenuItem href="/profile" onClick={() => setOpen(false)}>
                 Profile ({user.username})
               </MenuItem>
+
               {user.role === "staff" && (
                 <>
                   <MenuItem href="/kitchen" onClick={() => setOpen(false)}>
                     Kitchen
                   </MenuItem>
+
                   <MenuItem href="/dashboard" onClick={() => setOpen(false)}>
                     Dashboard
                   </MenuItem>
+
                 </>
+
               )}
               <div className="border-t theme-border my-1" />
               <form action={signOut}>
@@ -112,18 +123,24 @@ export default function MobileMenu({ user }) {
                 >
                   Sign Out
                 </button>
+
               </form>
+
             </>
+
           )}
 
           {!user && (
             <MenuItem href="/signin" onClick={() => setOpen(false)}>
               Sign In
             </MenuItem>
+
           )}
         </div>
+
       )}
     </div>
+
   );
 }
 
@@ -137,5 +154,6 @@ function MenuItem({ href, onClick, children }) {
     >
       {children}
     </Link>
+
   );
 }

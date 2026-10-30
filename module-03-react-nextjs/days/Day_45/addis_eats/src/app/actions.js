@@ -7,7 +7,6 @@ import { orderSchema } from "@/lib/schema";
 import { findUserByUsername, findUserById } from "@/lib/users";
 import { createSession, destroySession, getSession } from "@/lib/session";
 
-// ── Sign In ──────────────────────────────────────────
 export async function signIn(prevState, formData) {
   const username = (formData.get("username") || "").trim();
   const password = formData.get("password") || "";
@@ -32,14 +31,12 @@ export async function signIn(prevState, formData) {
   redirect(safeNext);
 }
 
-// ── Sign Out ─────────────────────────────────────────
 export async function signOut() {
   await destroySession();
   revalidatePath("/");
   redirect("/");
 }
 
-// ── Place an order ───────────────────────────────────
 export async function placeOrder(prevState, formData) {
   const session = await getSession();
   if (!session) {
@@ -81,7 +78,6 @@ export async function placeOrder(prevState, formData) {
   redirect(`/checkout/success?id=${order.id}`);
 }
 
-// ── Cancel an order ──────────────────────────────────
 export async function cancelOrder(orderId) {
   const session = await getSession();
   if (!session) {
@@ -105,16 +101,12 @@ export async function cancelOrder(orderId) {
   return { success: true };
 }
 
-// ── Update order status (staff only) ─────────────────
 export async function updateOrderStatusAction(orderId, newStatus) {
-  // Layer 3: re-check the session AND the role inside the write
   const session = await getSession();
   if (!session) {
     return { error: "You must be signed in." };
   }
 
-  // Only staff can change status. This is the role check that must
-  // exist server-side, not just in the markup.
   if (session.role !== "staff") {
     return { error: "Only staff can update order status." };
   }
@@ -129,7 +121,6 @@ export async function updateOrderStatusAction(orderId, newStatus) {
     return { error: "Order not found." };
   }
 
-  // Refresh both the kitchen dashboard and any order pages
   revalidatePath("/kitchen");
   revalidatePath("/orders");
   revalidatePath(`/orders/${orderId}`);

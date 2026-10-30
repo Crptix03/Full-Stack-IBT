@@ -1,4 +1,3 @@
-// src/stores/useFavoritesStore.js
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -27,5 +26,4 @@ export const useFavoritesStore = create(
   )
 );
 
-// Selector for the count
 export const selectFavoritesCount = (state) => state.favorites.length;

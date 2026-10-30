@@ -5,10 +5,8 @@ import { redirect } from "next/navigation";
 export default async function KitchenPage() {
   const session = await getSession();
 
-  // Middleware should already protect this, but we double-check for safety.
-  // This is Layer 3: Server-side role check.
   if (!session || session.role !== "staff") {
-    redirect("/"); // Send non-staff to home
+    redirect("/");
   }
 
   return (
@@ -16,12 +14,15 @@ export default async function KitchenPage() {
       <h1 className="font-serif text-3xl text-amber-400 mb-6">
         Kitchen Dashboard
       </h1>
+
       <p className="text-neutral-400 mb-8">
         Welcome, Chef. Here are the current orders.
       </p>
 
+
       {orders.length === 0 ? (
         <p className="text-neutral-500">No orders yet.</p>
+
       ) : (
         <div className="space-y-4">
           {orders.map((order) => (
@@ -33,10 +34,13 @@ export default async function KitchenPage() {
                 <p className="text-neutral-100 font-semibold">
                   Order #{order.id.slice(-6)}
                 </p>
+
                 <p className="text-sm text-neutral-400">
                   {order.customerName} — {order.items.length} items
                 </p>
+
               </div>
+
               <div className="text-right">
                 <span
                   className={`text-xs font-bold px-2 py-1 rounded ${
@@ -47,11 +51,16 @@ export default async function KitchenPage() {
                 >
                   {order.status.toUpperCase()}
                 </span>
+
               </div>
+
             </div>
+
           ))}
         </div>
+
       )}
     </div>
+
   );
 }

@@ -4,7 +4,6 @@ import { createPortal } from "react-dom";
 export default function Modal({ children, onClose, labelledBy }) {
   const modalRef = useRef(null);
 
-  // Close on Escape + lock body scroll
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "Escape") onClose();
@@ -19,7 +18,6 @@ export default function Modal({ children, onClose, labelledBy }) {
     };
   }, [onClose]);
 
-  // Move focus inside on mount, restore on unmount
   useEffect(() => {
     const previouslyFocused = document.activeElement;
     modalRef.current?.focus();
@@ -51,7 +49,9 @@ export default function Modal({ children, onClose, labelledBy }) {
       >
         {children}
       </div>
+
     </div>,
+
     container
   );
 }

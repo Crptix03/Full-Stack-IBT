@@ -1,4 +1,3 @@
-// src/ui/RatingModal.jsx
 import { useState, useEffect } from "react";
 import Modal from "./Modal";
 import StarRating from "./StarRating";
@@ -13,7 +12,6 @@ export default function RatingModal({ dish, username, onClose }) {
   const [stars, setStars] = useState(existing?.stars || 0);
   const [comment, setComment] = useState(existing?.comment || "");
 
-  // Reset internal state if the modal opens for a different dish
   useEffect(() => {
     setStars(existing?.stars || 0);
     setComment(existing?.comment || "");
@@ -39,7 +37,9 @@ export default function RatingModal({ dish, username, onClose }) {
             <line x1="18" y1="6" x2="6" y2="18" />
             <line x1="6" y1="6" x2="18" y2="18" />
           </svg>
+
         </button>
+
 
         <div className="rating-modal-header">
           <img
@@ -53,9 +53,13 @@ export default function RatingModal({ dish, username, onClose }) {
           />
           <div>
             <span className="rating-modal-eyebrow">Rate this dish</span>
+
             <h2 className="serif" id="rating-modal-title">{dish.name}</h2>
+
           </div>
+
         </div>
+
 
         <form onSubmit={handleSubmit}>
           <div className="rating-modal-stars">
@@ -67,8 +71,10 @@ export default function RatingModal({ dish, username, onClose }) {
             />
           </div>
 
+
           <div className="field">
             <label>Comment (optional)</label>
+
             <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
@@ -77,7 +83,9 @@ export default function RatingModal({ dish, username, onClose }) {
               maxLength={200}
             />
             <span className="field-hint">{comment.length}/200</span>
+
           </div>
+
 
           <div className="rating-modal-actions">
             <button
@@ -87,6 +95,7 @@ export default function RatingModal({ dish, username, onClose }) {
             >
               Cancel
             </button>
+
             <button
               type="submit"
               className="cart-place-order"
@@ -94,9 +103,14 @@ export default function RatingModal({ dish, username, onClose }) {
             >
               {existing ? "Update Rating" : "Submit Rating"}
             </button>
+
           </div>
+
         </form>
+
       </div>
+
     </Modal>
+
   );
 }

@@ -1,4 +1,3 @@
-// for Numebr 1 
 const dishes = [
     {name: "tibs", price: 1500},
     {name: "dorowet", price: 2000},
@@ -10,7 +9,6 @@ const result = dishes
     .reduce((sum, p) => sum + p,0)
 console.log(result)
 
-// for number 2
 const customer = {
     name: "Abebe Melaku",
     city: "Addis Abeba",
@@ -24,7 +22,6 @@ for (const [key, value] of
     console.log(`${key}: ${value}`);
 }
 
-// for number 3
 const user = {name: "Bekele Abebe", city: "DireDewa"};
 const {name, city} = user
 console.log(name);
@@ -34,7 +31,6 @@ function greet({name}){
 }
 greet(user)
 
-// for Number 4
 const description = {name: "Abel Melaku", city: "Bole"}
 const updated = { ...description, city: "Kazanchis" };
 console.log(updated)

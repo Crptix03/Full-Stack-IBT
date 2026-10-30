@@ -1,4 +1,3 @@
-// Seed data — the entire demo dataset.
 
 
 const now = new Date();
@@ -6,7 +5,6 @@ const iso = (d) => d.toISOString().slice(0, 10);
 const dayMs = 24 * 60 * 60 * 1000;
 const daysFromNow = (n) => iso(new Date(now.getTime() + n * dayMs));
 
-// ── Users ────────────────────────────────────────────
 export const SEED_USERS = [
   {
     id: "u-admin", name: "Admin User", username: "admin", email: "admin@sheggar.et", phone: "+251911000001",
@@ -30,7 +28,6 @@ export const SEED_USERS = [
   },
 ];
 
-// ── Cars ─────────────────────────────────────────────
 export const SEED_CARS = [
   {
     id: "car-1", ownerId: "u-owner-1", make: "Toyota", model: "Corolla", year: 2022, transmission: "automatic", seats: 5,
@@ -118,7 +115,6 @@ export const SEED_CARS = [
   },
 ];
 
-// ── Bookings ─────────────────────────────────────────
 export const SEED_BOOKINGS = [
   { id: "bk-1", carId: "car-1", renterId: "u-renter-1", ownerId: "u-owner-1", startDate: daysFromNow(-8), endDate: daysFromNow(-6), days: 2, pricePerDay: 2500, subtotal: 5000, fee: 250, total: 5250, paymentStatus: "paid", status: "completed", createdAt: new Date(now.getTime() - 10 * dayMs).toISOString(), updatedAt: new Date(now.getTime() - 6 * dayMs).toISOString() },
   { id: "bk-2", carId: "car-2", renterId: "u-renter-1", ownerId: "u-owner-1", startDate: daysFromNow(7), endDate: daysFromNow(10), days: 3, pricePerDay: 4200, subtotal: 12600, fee: 630, total: 13230, paymentStatus: "paid", status: "confirmed", createdAt: new Date(now.getTime() - 2 * dayMs).toISOString(), updatedAt: new Date(now.getTime() - 2 * dayMs).toISOString() },
@@ -128,7 +124,6 @@ export const SEED_BOOKINGS = [
   { id: "bk-6", carId: "car-6", renterId: "u-renter-1", ownerId: "u-owner-2", startDate: daysFromNow(0), endDate: daysFromNow(2), days: 2, pricePerDay: 1500, subtotal: 3000, fee: 150, total: 3150, paymentStatus: "paid", status: "in_progress", createdAt: new Date(now.getTime() - 3 * dayMs).toISOString(), updatedAt: new Date(now.getTime() - 0.5 * dayMs).toISOString() },
 ];
 
-// ── Reviews ──────────────────────────────────────────
 export const SEED_REVIEWS = [
   { id: "rv-1", bookingId: "bk-3", carId: "car-4", renterId: "u-renter-1", ownerId: "u-owner-2", rating: 5, comment: "Excellent car. Very clean, smooth drive, and Hanna was extremely helpful. Would rent again.", ownerReply: "Thank you, Yohannes! Glad you enjoyed it.", createdAt: new Date(now.getTime() - 10 * dayMs).toISOString() },
   { id: "rv-2", bookingId: "bk-4", carId: "car-3", renterId: "u-renter-1", ownerId: "u-owner-1", rating: 4, comment: "Good value for money. The car was a bit older than expected but ran well.", ownerReply: null, createdAt: new Date(now.getTime() - 25 * dayMs).toISOString() },

@@ -13,9 +13,9 @@ export default async function Image({ params }) {
 
   if (!dish) {
     return new ImageResponse(<div>Not Found</div>, size);
+
   }
 
-  // Build absolute URL for the image
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
   const imageUrl = `${baseUrl}${dish.image}`;
 
@@ -30,14 +30,12 @@ export default async function Image({ params }) {
           backgroundColor: "#0a0a0a",
         }}
       >
-        {/* Dish Image Background */}
         <img
           src={imageUrl}
           alt={dish.name}
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
         />
 
-        {/* Gradient Overlay */}
         <div
           style={{
             position: "absolute",
@@ -61,6 +59,7 @@ export default async function Image({ params }) {
           >
             {dish.name}
           </h1>
+
           <p
             style={{
               fontSize: 36,
@@ -70,8 +69,11 @@ export default async function Image({ params }) {
           >
             {dish.price} Birr — Addis Eats
           </p>
+
         </div>
+
       </div>
+
     ),
     size
   );

@@ -25,7 +25,6 @@ export default async function AdminReportsPage() {
   }
   const monthly = Object.entries(byMonth).sort().reverse();
 
-  // CSV for monthly summary
   const monthlyCsv = monthly.map(([month, d]) => ({
     Month:                month,
     "Completed Bookings": d.bookings,
@@ -33,7 +32,6 @@ export default async function AdminReportsPage() {
     "Gross Volume (ETB)":  d.volume,
   }));
 
-  // CSV for full platform bookings
   const allBookingsCsv = bookings.map((b) => {
     const car    = db.cars.find((c) => c.id === b.carId);
     const renter = db.users.find((u) => u.id === b.renterId);
@@ -60,8 +58,11 @@ export default async function AdminReportsPage() {
       <div className="flex flex-wrap justify-between items-start gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-black mb-1">Reports</h1>
+
           <p className="text-neutral-500 text-sm">Platform-wide summary.</p>
+
         </div>
+
         <div className="flex gap-2 flex-wrap">
           {monthly.length > 0 && (
             <ExportCsvButton
@@ -78,9 +79,10 @@ export default async function AdminReportsPage() {
             />
           )}
         </div>
+
       </div>
 
-      {/* ── Stat cards ─────────────────────────────────── */}
+
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
         <Card label="Total bookings"  value={bookings.length} />
         <Card label="Completed"       value={completed.length} />
@@ -90,15 +92,18 @@ export default async function AdminReportsPage() {
         <Card label="Listed cars"     value={db.cars.filter((c) => c.status === "approved").length} />
       </div>
 
-      {/* ── Monthly table ───────────────────────────────── */}
+
       <div className="bg-white border border-neutral-200 rounded-2xl overflow-hidden">
         <div className="px-6 py-4 border-b border-neutral-100">
           <h2 className="font-bold text-neutral-900">Monthly Platform Fees</h2>
+
         </div>
+
         {monthly.length === 0 ? (
           <div className="px-6 py-10 text-center text-neutral-500 text-sm">
             No completed bookings yet.
           </div>
+
         ) : (
           <ul>
             {monthly.map(([month, data]) => {
@@ -111,21 +116,30 @@ export default async function AdminReportsPage() {
                   <div className="flex justify-between items-center mb-1">
                     <div>
                       <p className="text-sm font-semibold text-neutral-900">{label}</p>
+
                       <p className="text-xs text-neutral-500">
                         {data.bookings} booking{data.bookings === 1 ? "" : "s"} · {etb.format(data.volume)} volume
                       </p>
+
                     </div>
+
                     <span className="text-sm font-bold text-indigo-600">
                       {etb.format(data.revenue)}
                     </span>
+
                   </div>
+
                 </li>
+
               );
             })}
           </ul>
+
         )}
       </div>
+
     </div>
+
   );
 }
 
@@ -135,9 +149,12 @@ function Card({ label, value, highlight = false }) {
       <p className={`text-xs uppercase tracking-wider mb-1 ${highlight ? "text-indigo-200" : "text-neutral-500"}`}>
         {label}
       </p>
+
       <p className={`text-2xl font-black ${highlight ? "text-white" : "text-neutral-900"}`}>
         {value}
       </p>
+
     </div>
+
   );
 }

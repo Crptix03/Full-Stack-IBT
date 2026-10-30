@@ -1,12 +1,10 @@
 import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-// Same folder
 import Footer from "./Footer";
 import AccountMenu from "./AccountMenu";
 import ScrollToHash from "./ScrollToHash";
 
-// One level up
 import { useCartStore, selectCartCount } from "../stores/useCartStore";
 import { useThemeStore } from "../stores/useThemeStore";
 import ToastContainer from "../ui/ToastContainer";
@@ -99,7 +97,9 @@ export default function Layout() {
             aria-hidden="true"
           />
           Royale <span>Bistro</span>
+
         </NavLink>
+
 
         <nav>
           <NavLink
@@ -113,6 +113,7 @@ export default function Layout() {
             Home
           </NavLink>
 
+
           <a
             href="/#story"
             className={`nav-link ${activeSection === "story" ? "active" : ""}`}
@@ -120,6 +121,7 @@ export default function Layout() {
           >
             Our Story
           </a>
+
 
           <NavLink
             to="/menu"
@@ -130,6 +132,7 @@ export default function Layout() {
             Menu
           </NavLink>
 
+
           <NavLink
             to="/order-history"
             className={({ isActive }) =>
@@ -138,7 +141,9 @@ export default function Layout() {
           >
             Order History
           </NavLink>
+
         </nav>
+
 
         <div className="header-actions">
           <button
@@ -156,6 +161,7 @@ export default function Layout() {
               >
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
               </svg>
+
             ) : (
               <svg
                 viewBox="0 0 24 24"
@@ -167,8 +173,10 @@ export default function Layout() {
                 <circle cx="12" cy="12" r="4.5" />
                 <path d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
               </svg>
+
             )}
           </button>
+
 
           <AccountMenu />
 
@@ -182,14 +190,20 @@ export default function Layout() {
               <circle cx="9.5" cy="20.5" r="1" />
               <circle cx="17.5" cy="20.5" r="1" />
             </svg>
+
             <span>{cartCount}</span>
+
           </NavLink>
+
         </div>
+
       </header>
+
 
       <main>
         <Outlet />
       </main>
+
 
       <Footer />
 
@@ -204,8 +218,11 @@ export default function Layout() {
           <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.6">
             <path d="M3 11l9-8 9 8M5 10v10h14V10" />
           </svg>
+
           <span>Home</span>
+
         </NavLink>
+
 
         <NavLink
           to="/menu"
@@ -216,8 +233,11 @@ export default function Layout() {
           <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.6">
             <path d="M4 19h16M4 5h16M4 12h16" />
           </svg>
+
           <span>Menu</span>
+
         </NavLink>
+
 
         <NavLink
           to="/cart"
@@ -230,8 +250,11 @@ export default function Layout() {
             <circle cx="9.5" cy="20.5" r="1" />
             <circle cx="17.5" cy="20.5" r="1" />
           </svg>
+
           <span>Cart{cartCount > 0 ? ` (${cartCount})` : ""}</span>
+
         </NavLink>
+
 
         <NavLink
           to="/order-history"
@@ -243,12 +266,16 @@ export default function Layout() {
             <circle cx="12" cy="12" r="9" />
             <path d="M12 7v5l3 2" />
           </svg>
+
           <span>History</span>
+
         </NavLink>
+
       </nav>
 
-      {/* ✅ Global toast container */}
+
       <ToastContainer />
     </div>
+
   );
 }

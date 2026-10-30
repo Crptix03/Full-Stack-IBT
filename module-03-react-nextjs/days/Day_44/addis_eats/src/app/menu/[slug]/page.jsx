@@ -5,7 +5,6 @@ import { getDishes } from "@/lib/dishes";
 import { toSlug } from "../slug";
 import AddToCartButton from "../AddToCartButton";
 
-// ── Day 44: Dynamic Metadata ──────────────────────────
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const dishes = await getDishes();
@@ -45,7 +44,6 @@ export default async function DishPage({ params }) {
 
   if (!dish) notFound();
 
-  // ── Day 44: JSON-LD Structured Data ─────────────────
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
   const jsonLd = {
@@ -65,7 +63,6 @@ export default async function DishPage({ params }) {
 
   return (
     <div className="max-w-3xl mx-auto">
-      {/* Injects JSON-LD into the page source */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -82,19 +79,27 @@ export default async function DishPage({ params }) {
         />
       </div>
 
+
       <div className="space-y-4">
         <h1 className="font-serif text-4xl text-amber-400">{dish.name}</h1>
+
         <p className="text-neutral-400 text-lg">{dish.price} Birr</p>
+
         <div className="pt-4">
           <AddToCartButton dish={dish} />
         </div>
+
       </div>
+
 
       <div className="mt-12 pt-6 border-t border-neutral-800">
         <Link href="/menu" className="text-amber-400 text-sm hover:underline">
           ← Back to Menu
         </Link>
+
       </div>
+
     </div>
+
   );
 }

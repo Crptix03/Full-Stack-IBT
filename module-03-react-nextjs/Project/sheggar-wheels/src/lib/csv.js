@@ -1,5 +1,3 @@
-// CSV export helpers — RFC 4180 escaping.
-// Used by /bookings to export the renter's history.
 
 function escapeCell(value) {
   if (value === null || value === undefined) return "";

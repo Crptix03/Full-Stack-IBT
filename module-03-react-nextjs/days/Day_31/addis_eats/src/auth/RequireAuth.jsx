@@ -7,8 +7,6 @@ function RequireAuth({ children }) {
   const location = useLocation();
 
   if (!isAuthenticated) {
-    // Redirect to sign-in, remembering where the person was trying to go
-    // so we can send them back there after they sign in.
     return <Navigate to="/signin" state={{ from: location }} replace />;
   }
 

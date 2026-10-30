@@ -14,14 +14,16 @@ export default function MenuLayout({ children }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 md:gap-8 max-w-5xl">
       <aside className="md:border-r md:border-neutral-800 md:pr-6 border-b md:border-b-0 border-neutral-800 pb-3 md:pb-0">
-        {/* Suspense boundary prevents useSearchParams in CategoryBar from
-            blocking the server render of the main content column. */}
         <Suspense fallback={<CategoryBarSkeleton categories={categories} />}>
           <CategoryBar categories={categories} />
         </Suspense>
+
       </aside>
+
       <div className="min-w-0">{children}</div>
+
     </div>
+
   );
 }
 
@@ -35,7 +37,9 @@ function CategoryBarSkeleton({ categories }) {
         >
           {cat.label}
         </div>
+
       ))}
     </div>
+
   );
 }

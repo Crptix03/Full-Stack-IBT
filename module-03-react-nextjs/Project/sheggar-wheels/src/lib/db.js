@@ -1,6 +1,4 @@
-// Server-side in-memory database.
 // ⚠️ DEMO ONLY — this resets every time the server restarts.
-// In a real app, this would be a PostgreSQL or MongoDB database.
 
 import { SEED_USERS, SEED_CARS, SEED_BOOKINGS, SEED_REVIEWS } from "./seed";
 
@@ -15,8 +13,6 @@ if (!globalThis.__db) {
 
 export const db = globalThis.__db;
 
-// ── Generic Helpers (Optional) ───────────────────────
-// You can use these directly in Server Components or API Routes.
 
 export function getCars() {
   return db.cars;

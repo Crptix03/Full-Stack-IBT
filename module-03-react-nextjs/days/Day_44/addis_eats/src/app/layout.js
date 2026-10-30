@@ -12,7 +12,6 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-// ── Day 44: SEO Metadata ─────────────────────────────
 export const metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
@@ -53,7 +52,6 @@ export default async function RootLayout({ children }) {
         />
 
         <Providers>
-          {/* ── Header ────────────────────────────── */}
           <header className="flex justify-between items-center px-8 py-4 border-b border-neutral-800">
             <Link
               href="/"
@@ -61,6 +59,7 @@ export default async function RootLayout({ children }) {
             >
               Addis Eats
             </Link>
+
             <nav className="flex gap-6 text-sm items-center">
               <Link
                 href="/menu"
@@ -68,18 +67,21 @@ export default async function RootLayout({ children }) {
               >
                 Menu
               </Link>
+
               <Link
                 href="/cart"
                 className="hover:text-amber-400 transition-colors"
               >
                 Cart
               </Link>
+
               <Link
                 href="/checkout"
                 className="hover:text-amber-400 transition-colors"
               >
                 Checkout
               </Link>
+
 
               {session ? (
                 <form action={signOut}>
@@ -89,7 +91,9 @@ export default async function RootLayout({ children }) {
                   >
                     Sign Out
                   </button>
+
                 </form>
+
               ) : (
                 <Link
                   href="/signin"
@@ -97,21 +101,27 @@ export default async function RootLayout({ children }) {
                 >
                   Sign In
                 </Link>
+
               )}
             </nav>
+
           </header>
 
-          {/* ── Main Content ──────────────────────── */}
+
           <main className="flex-1 p-8 max-w-6xl w-full mx-auto">
             {children}
           </main>
 
-          {/* ── Footer ────────────────────────────── */}
+
           <footer className="px-8 py-6 border-t border-neutral-800 text-center text-xs text-neutral-500">
             © {new Date().getFullYear()} Addis Eats
           </footer>
+
         </Providers>
+
       </body>
+
     </html>
+
   );
 }

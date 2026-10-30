@@ -16,10 +16,8 @@ export default async function CheckoutPage({ searchParams }) {
   const car = db.cars.find((c) => c.id === carId && c.status === "approved");
   if (!car) notFound();
 
-  // Owner cannot book their own car
   if (car.ownerId === session.userId) redirect(`/cars/${carId}`);
 
-  // Get already-booked ranges so the form can check availability
   const bookedRanges = db.bookings
     .filter((b) => b.carId === carId && ["confirmed", "in_progress"].includes(b.status))
     .map((b) => ({ start: b.startDate, end: b.endDate }));

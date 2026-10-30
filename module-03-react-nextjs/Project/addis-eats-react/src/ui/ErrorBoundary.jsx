@@ -17,10 +17,8 @@ export default class ErrorBoundary extends Component {
 
   render() {
     if (this.state.error) {
-      // If a custom fallback was passed, use it
       if (this.props.fallback) return this.props.fallback;
 
-      // Otherwise, render the polished default
       return (
         <section className="error-boundary-fallback">
           <div className="error-boundary-card">
@@ -36,11 +34,15 @@ export default class ErrorBoundary extends Component {
                 <line x1="12" y1="8" x2="12" y2="12" />
                 <line x1="12" y1="16" x2="12.01" y2="16" />
               </svg>
+
             </div>
+
 
             <h2 className="serif">
               Something went <em>wrong</em>
+
             </h2>
+
             <div className="rule" />
 
             <p className="error-boundary-message">

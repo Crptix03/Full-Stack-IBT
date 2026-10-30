@@ -1,12 +1,10 @@
-// --- Step 1: state object ---
 const state = {
-  rates: {},       // { USD: 0.0177, KES: 2.29, ... }
-  watchlist: [],    // array of currency codes, e.g. ['USD', 'KES']
+  rates: {},
+  watchlist: [],
   loading: false,
   error: null
 };
 
-// DOM references
 const statusEl = document.getElementById('status');
 const convertForm = document.getElementById('convert-form');
 const amountInput = document.getElementById('amount-input');
@@ -20,11 +18,9 @@ const watchlistEl = document.getElementById('watchlist');
 
 const STORAGE_KEY = 'currency-watchlist';
 
-// --- Step 2: render() against state.rates (fake or real) ---
 function render() {
   const codes = Object.keys(state.rates);
 
-  // Fill from/to/watch dropdowns from state.rates
   [fromSelect, toSelect, watchCurrencySelect].forEach((select) => {
     const previousValue = select.value;
     select.innerHTML = '';
@@ -55,7 +51,6 @@ function renderStatus() {
   }
 }
 
-// --- Step 3: loadRates() replaces fake data with live fetch ---
 async function loadRates() {
   state.loading = true;
   state.error = null;
@@ -86,7 +81,6 @@ async function loadRates() {
   }
 }
 
-// --- Step 4: wire the convert form ---
 convertForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
@@ -107,20 +101,18 @@ convertForm.addEventListener('submit', (e) => {
     return;
   }
 
-  // Rates are relative to USD base: convert amount -> USD -> target
   const amountInUSD = amount / fromRate;
   const converted = amountInUSD * toRate;
 
   resultEl.textContent = `${amount} ${from} = ${converted.toFixed(2)} ${to}`;
 });
 
-// --- Step 5: watchlist (add button + delegated remove) ---
 addWatchBtn.addEventListener('click', () => {
   const code = watchCurrencySelect.value;
   if (!code) return;
 
   if (state.watchlist.includes(code)) {
-    return; // guard against duplicates
+    return;
   }
 
   state.watchlist.push(code);
@@ -152,7 +144,6 @@ function renderWatchlist() {
   });
 }
 
-// Delegated click listener to remove a row by its data-c
 watchlistEl.addEventListener('click', (e) => {
   const target = e.target.closest('[data-c]');
   if (!target) return;
@@ -163,7 +154,6 @@ watchlistEl.addEventListener('click', (e) => {
   save();
 });
 
-// --- Step 6: save() / load() with localStorage ---
 function save() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state.watchlist));
@@ -183,17 +173,13 @@ function load() {
   }
 }
 
-// --- Init ---
 function init() {
-  // Step 2: fake hard-coded rates so the dropdown fills before touching the network
   state.rates = { USD: 1, KES: 129.5, EUR: 0.92, GBP: 0.79 };
   render();
 
-  // Step 6: restore saved watchlist
   load();
   renderWatchlist();
 
-  // Step 3: replace fake data with live rates
   loadRates();
 }
 

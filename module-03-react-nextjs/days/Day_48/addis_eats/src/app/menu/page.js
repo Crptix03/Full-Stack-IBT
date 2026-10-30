@@ -24,18 +24,15 @@ export default async function MenuPage({ searchParams }) {
 
   const all = await getDishes();
 
-  // Base list: either favorites (if favs param is set) or the full menu.
   const favIds = favs ? favs.split(",").filter(Boolean) : null;
   let filtered = favIds
     ? all.filter((d) => favIds.includes(d.id))
     : all;
 
-  // Category filter (only applies when not showing favorites).
   if (!favIds && category !== "all") {
     filtered = filtered.filter((d) => d.category === category);
   }
 
-  // Search filter.
   if (q.trim()) {
     const term = q.toLowerCase();
     filtered = filtered.filter(
@@ -53,7 +50,6 @@ export default async function MenuPage({ searchParams }) {
   const isDefaultView =
     !q.trim() && category === "all" && safePage === 1 && !favIds;
 
-  // Build current params string for SearchBox (so it doesn't need useSearchParams)
   const currentParams = [
     q ? `q=${encodeURIComponent(q)}` : "",
     category && category !== "all" && !favIds ? `category=${category}` : "",
@@ -62,7 +58,6 @@ export default async function MenuPage({ searchParams }) {
     .filter(Boolean)
     .join("&");
 
-  // Empty state message differs for favorites.
   const emptyMessage = favIds
     ? "You haven't favorited any dishes yet. Tap the heart on a dish to save it here."
     : "No dishes match your search.";
@@ -73,10 +68,12 @@ export default async function MenuPage({ searchParams }) {
         {favIds ? "Your Favorites" : "Our Menu"}
       </h1>
 
+
       <SearchBox initialValue={q} currentParams={currentParams} />
 
       {dishes.length === 0 ? (
         <p className="text-neutral-400 py-12 text-center">{emptyMessage}</p>
+
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {dishes.map((dish, index) => (
@@ -87,6 +84,7 @@ export default async function MenuPage({ searchParams }) {
             />
           ))}
         </div>
+
       )}
 
       <Pagination
@@ -104,5 +102,6 @@ export default async function MenuPage({ searchParams }) {
         }
       />
     </div>
+
   );
 }

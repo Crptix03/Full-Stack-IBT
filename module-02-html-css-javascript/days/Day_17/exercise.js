@@ -6,9 +6,8 @@ function makeCounter () {
     return () => ++count;
 }
 const next = makeCounter();
-next(); //1
-next(); //2
-// this will always return always private variable count and will not be able to access it from outside the function.//
+next();
+next();
 const discountBy = (rate) => {
     return  price * rate;
     console.log(`Discount: ${rate}`);

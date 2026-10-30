@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
-// Routes and the minimum role required to access them.
 const PROTECTED = [
   { prefix: "/admin",    role: "admin" },
   { prefix: "/owner",    role: "owner" },
@@ -21,7 +20,6 @@ export async function proxy(request) {
   const userId = cookieStore.get("session")?.value;
   const role   = cookieStore.get("role")?.value;
 
-  // Not signed in — redirect to sign in
   if (!userId) {
     const url = request.nextUrl.clone();
     url.pathname = "/signin";
@@ -29,14 +27,12 @@ export async function proxy(request) {
     return NextResponse.redirect(url);
   }
 
-  // Wrong role — redirect to the unauthorized page
   if (rule.role === "admin" && role !== "admin") {
     return NextResponse.redirect(new URL("/unauthorized", request.url));
   }
   if (rule.role === "owner" && role !== "owner" && role !== "admin") {
     return NextResponse.redirect(new URL("/unauthorized", request.url));
   }
-  // renter: any signed-in user can access renter routes
 
   return NextResponse.next();
 }

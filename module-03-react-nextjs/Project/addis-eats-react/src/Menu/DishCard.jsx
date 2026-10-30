@@ -10,13 +10,10 @@ function DishCard({ dish, onAdd, onOpen }) {
   const toggleFavorite = useFavoritesStore((s) => s.toggleFavorite);
   const favorited = favorites.includes(dish.id);
 
-  // ✅ Subscribe to ratings — re-renders when any rating changes
   const ratings = useReviewStore((s) => s.ratings);
 
-  // ✅ Toast feedback
   const addToast = useToastStore((s) => s.addToast);
 
-  // 🎬 Demo-only crash — visit /menu?crash=1 to trigger the error boundary.
   if (
     import.meta.env.DEV &&
     dish.id &&
@@ -34,7 +31,6 @@ function DishCard({ dish, onAdd, onOpen }) {
       )
     : 0;
 
-  // ── Average rating for this dish ────────────────────────
   const dishRatings = ratings.filter((r) => r.dishId === dish.id);
   const averageRating =
     dishRatings.length > 0
@@ -45,7 +41,6 @@ function DishCard({ dish, onAdd, onOpen }) {
     e.stopPropagation();
     toggleFavorite(dish.id);
 
-    // ✅ Toast feedback — check the OLD state before toggling
     if (favorited) {
       addToast({ message: "Removed from Favorites", type: "info" });
     } else {
@@ -79,26 +74,29 @@ function DishCard({ dish, onAdd, onOpen }) {
           <span className="dish-discount-badge">
             {discountPercent}% OFF
           </span>
+
         )}
 
         {dish.tag && (
           <span className={`dish-tag dish-tag-${dish.tagClass || "default"}`}>
             {dish.tag}
           </span>
+
         )}
 
-        {/* ✅ Average rating badge — bottom-left, only when ratings exist */}
         {averageRating !== null && (
           <div className="dish-card-rating">
             <StarRating value={averageRating} size={12} />
             <span>{averageRating.toFixed(1)}</span>
+
             <span className="dish-card-rating-count">
               ({dishRatings.length})
             </span>
+
           </div>
+
         )}
 
-        {/* ❤️ Favorite button (bottom-right of image) */}
         <button
           className={`dish-fav-btn ${favorited ? "active" : ""}`}
           onClick={handleFavoriteClick}
@@ -114,29 +112,43 @@ function DishCard({ dish, onAdd, onOpen }) {
           >
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
           </svg>
+
         </button>
+
       </div>
+
 
       <div className="dish-card-body">
         <h3 className="serif">{dish.name}</h3>
+
         <p>{dish.description}</p>
+
 
         <div className="dish-card-footer">
           <div className="dish-card-prices">
             {hasDiscount && (
               <span className="dish-price-original serif">
                 {dish.originalPrice} <sup>Birr</sup>
+
               </span>
+
             )}
             <span className="dish-price serif">
               {dish.price} <sup>Birr</sup>
+
             </span>
+
           </div>
 
+
           <Button onClick={handleAddClick}>+ Add to Order</Button>
+
         </div>
+
       </div>
+
     </div>
+
   );
 }
 

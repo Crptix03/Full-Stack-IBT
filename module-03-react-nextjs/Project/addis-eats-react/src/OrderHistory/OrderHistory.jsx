@@ -26,12 +26,16 @@ function StatusTimeline({ currentStatus }) {
         return (
           <div className={`timeline-step ${state}`} key={step.key}>
             <div className="timeline-icon">{step.icon}</div>
+
             <span className="timeline-label">{step.label}</span>
+
             {i < STEPS.length - 1 && <div className="timeline-line" />}
           </div>
+
         );
       })}
     </div>
+
   );
 }
 
@@ -42,21 +46,17 @@ export default function OrderHistory() {
   const ratings = useReviewStore((s) => s.ratings);
   const navigate = useNavigate();
 
-  // Local state for the currently open rating modal
   const [ratingDish, setRatingDish] = useState(null);
 
-  // Only show the signed-in user's orders
   const myOrders = (orders || []).filter(
     (o) => o.customerUsername === currentUser?.username
   );
 
-  // Helper — find the current user's rating for a dish
   const getUserRating = (dishId) =>
     ratings.find(
       (r) => r.dishId === dishId && r.username === currentUser?.username
     ) || null;
 
-  // ── Reorder handler ─────────────────────────────────────
   const handleReorder = (order) => {
     order.items.forEach((item) => {
       for (let i = 0; i < item.qty; i++) {
@@ -71,7 +71,6 @@ export default function OrderHistory() {
     navigate("/cart");
   };
 
-  // --- Empty states ---
   if (!currentUser) {
     return (
       <EmptyState
@@ -101,13 +100,15 @@ export default function OrderHistory() {
       <div className="title-band">
         <h1 className="serif">
           Order <em>Tracking</em>
+
         </h1>
+
         <div className="rule" />
       </div>
 
+
       <div className="order-history-list">
         {myOrders.map((order) => {
-          // Cancelled orders can't be rated — the food was never made
           const canRate = order.status !== "cancelled";
 
           return (
@@ -115,14 +116,19 @@ export default function OrderHistory() {
               <div className="order-card-header">
                 <div>
                   <span className="order-id serif">#{order.id.slice(-6)}</span>
+
                   <span className="order-date">
                     {new Date(order.placedAt).toLocaleString()}
                   </span>
+
                 </div>
+
                 <span className={`order-status-pill status-${order.status}`}>
                   {order.status.replace(/-/g, " ")}
                 </span>
+
               </div>
+
 
               <StatusTimeline currentStatus={order.status} />
 
@@ -149,7 +155,7 @@ export default function OrderHistory() {
                             {item.qty}× {item.name}
                           </span>
 
-                          {/* Rating UI — only for non-cancelled orders */}
+
                           {canRate && (
                             <>
                               {userRating ? (
@@ -162,7 +168,9 @@ export default function OrderHistory() {
                                   >
                                     Edit
                                   </button>
+
                                 </div>
+
                               ) : (
                                 <button
                                   type="button"
@@ -171,40 +179,55 @@ export default function OrderHistory() {
                                 >
                                   ★ Rate this dish
                                 </button>
+
                               )}
                             </>
+
                           )}
                         </div>
+
                       </div>
+
                       <span>
                         {item.price * item.qty} <sup>Birr</sup>
+
                       </span>
+
                     </div>
+
                   );
                 })}
               </div>
+
 
               {order.delivery && (
                 <div className="order-delivery-info">
                   <span>
                     {order.delivery.type === "delivery" ? "🚚 Delivery" : "🏬 Pickup"}
                   </span>
+
                   <span>
                     {order.delivery.name} · {order.delivery.phone}
                   </span>
+
                   {order.delivery.address && <span>{order.delivery.address}</span>}
+
                   {order.delivery.notes && (
                     <span className="order-notes-inline">
                       📝 {order.delivery.notes}
                     </span>
+
                   )}
                 </div>
+
               )}
 
               <div className="order-footer">
                 <span className="order-total serif">
                   Total: {order.total} <sup>Birr</sup>
+
                 </span>
+
 
                 <button
                   type="button"
@@ -213,19 +236,24 @@ export default function OrderHistory() {
                 >
                   ↺ Reorder
                 </button>
+
               </div>
+
             </div>
+
           );
         })}
       </div>
+
 
       <div className="offers-footer">
         <Link to="/menu" className="btn-outline">
           Order Again
         </Link>
+
       </div>
 
-      {/* Rating modal — renders only when a dish is being rated */}
+
       {ratingDish && (
         <RatingModal
           dish={ratingDish}
@@ -234,5 +262,6 @@ export default function OrderHistory() {
         />
       )}
     </section>
+
   );
 }

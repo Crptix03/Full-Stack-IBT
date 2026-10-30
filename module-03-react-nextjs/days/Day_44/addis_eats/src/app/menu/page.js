@@ -5,7 +5,6 @@ import { getDishes } from "@/lib/dishes";
 
 export const revalidate = 3600;
 
-// ── Day 44: Static Metadata ────────────────────────────
 export const metadata = {
   title: "Menu",
   description:
@@ -39,6 +38,7 @@ export default async function MenuPage({ searchParams }) {
         Our Menu
       </h1>
 
+
       <SearchBox initialValue={q} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -47,11 +47,13 @@ export default async function MenuPage({ searchParams }) {
         ))}
       </div>
 
+
       <Pagination
         current={safePage}
         total={totalPages}
         query={q ? `q=${encodeURIComponent(q)}&` : ""}
       />
     </div>
+
   );
 }

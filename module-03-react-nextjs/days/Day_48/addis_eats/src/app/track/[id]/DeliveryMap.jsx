@@ -12,7 +12,6 @@ import {
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-// Fix Leaflet's default marker icons (bundler-safe paths).
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -21,7 +20,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
 
-// Custom amber pin for the courier.
 const courierIcon = new L.DivIcon({
   className: "",
   html: `<div style="
@@ -35,7 +33,6 @@ const courierIcon = new L.DivIcon({
   iconAnchor: [11, 11],
 });
 
-// Fit the map view to all markers.
 function FitBounds({ points }) {
   const map = useMap();
 
@@ -58,8 +55,6 @@ export default function DeliveryMap({
   const center = restaurant || [9.0054, 38.7636];
   const fitPoints = [restaurant, delivery, courier].filter(Boolean);
 
-  // The route line: restaurant → customer.
-  // Only rendered when both ends exist.
   const routeLine =
     restaurant && delivery ? [restaurant, delivery] : null;
 
@@ -76,10 +71,6 @@ export default function DeliveryMap({
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
 
-      {/* Route line — two polylines stacked:
-          a dark outline behind, an amber stripe on top.
-          The dark outline makes it readable against the busy
-          street colours of the OSM tile layer. */}
       {routeLine && (
         <>
           <Polyline
@@ -101,42 +92,51 @@ export default function DeliveryMap({
             }}
           />
         </>
+
       )}
 
-      {/* Restaurant marker */}
       {restaurant && (
         <Marker position={restaurant}>
           <Popup>Addis Eats — Restaurant</Popup>
+
         </Marker>
+
       )}
 
-      {/* Delivery address marker */}
       {delivery && (
         <Marker position={delivery}>
           <Popup>
             <div style={{ minWidth: 160 }}>
               <strong>Delivery address</strong>
+
               <br />
               {address || "Customer address"}
             </div>
+
           </Popup>
+
         </Marker>
+
       )}
 
-      {/* Courier marker — moves as the order status changes */}
       {courier && (
         <Marker position={courier} icon={courierIcon}>
           <Popup>
             <div style={{ minWidth: 140 }}>
               <strong>Courier</strong>
+
               <br />
               Status: {status}
             </div>
+
           </Popup>
+
         </Marker>
+
       )}
 
       <FitBounds points={fitPoints} />
     </MapContainer>
+
   );
 }

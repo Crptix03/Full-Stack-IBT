@@ -1,4 +1,3 @@
-// src/admin/ReviewManager.jsx
 import { useState, useMemo } from "react";
 import { useReviewStore } from "../stores/useReviewStore";
 import { useMenuStore } from "../stores/useMenuStore";
@@ -8,9 +7,8 @@ export default function ReviewManager() {
   const ratings = useReviewStore((s) => s.ratings);
   const dishes = useMenuStore((s) => s.dishes);
   const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState("rating"); // "rating" | "count" | "name"
+  const [sortBy, setSortBy] = useState("rating");
 
-  // ── Per-dish stats ─────────────────────────────────────
   const dishStats = useMemo(() => {
     const map = {};
 
@@ -28,7 +26,6 @@ export default function ReviewManager() {
       if (map[r.dishId]) {
         map[r.dishId].ratings.push(r);
       } else {
-        // Rating for a dish that no longer exists (deleted from menu)
         map[r.dishId] = {
           id: r.dishId,
           name: "(removed dish)",
@@ -48,10 +45,9 @@ export default function ReviewManager() {
             : 0;
         return { ...d, count, average: avg };
       })
-      .filter((d) => d.count > 0); // only dishes with ratings
+      .filter((d) => d.count > 0);
   }, [dishes, ratings]);
 
-  // ── Sorted + filtered dish list ────────────────────────
   const sortedDishes = useMemo(() => {
     let list = [...dishStats];
     if (sortBy === "rating") list.sort((a, b) => b.average - a.average);
@@ -60,7 +56,6 @@ export default function ReviewManager() {
     return list;
   }, [dishStats, sortBy]);
 
-  // ── Filtered ratings feed ──────────────────────────────
   const filteredRatings = useMemo(() => {
     const q = search.trim().toLowerCase();
     if (!q) return ratings;
@@ -76,7 +71,6 @@ export default function ReviewManager() {
     });
   }, [ratings, dishes, search]);
 
-  // Sort feed newest first
   const sortedFeed = useMemo(
     () =>
       [...filteredRatings].sort(
@@ -85,7 +79,6 @@ export default function ReviewManager() {
     [filteredRatings]
   );
 
-  // ── Overall stats ──────────────────────────────────────
   const totalRatings = ratings.length;
   const overallAverage =
     totalRatings > 0
@@ -97,21 +90,29 @@ export default function ReviewManager() {
       <header className="admin-page-head">
         <div>
           <h1 className="serif">Reviews & Ratings</h1>
+
           <p>
             {totalRatings} {totalRatings === 1 ? "rating" : "ratings"} across{" "}
             {dishStats.length} {dishStats.length === 1 ? "dish" : "dishes"}
           </p>
+
         </div>
+
         {totalRatings > 0 && (
           <div className="review-overall">
             <span className="review-overall-label">Overall</span>
+
             <div className="review-overall-score">
               <StarRating value={overallAverage} size={16} />
               <strong>{overallAverage.toFixed(1)}</strong>
+
             </div>
+
           </div>
+
         )}
       </header>
+
 
       {totalRatings === 0 ? (
         <p className="empty-text">

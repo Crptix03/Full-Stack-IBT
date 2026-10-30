@@ -18,7 +18,6 @@ export async function generateMetadata({ params }) {
 export default async function TrackPage({ params }) {
   const { id } = await params;
 
-  // ── Layer 2: session + ownership (matches /orders/[id]) ──
   const session = await getSession();
   if (!session) {
     redirect(`/signin?next=/track/${id}`);
@@ -31,10 +30,6 @@ export default async function TrackPage({ params }) {
   const isStaff = session.role === "staff";
   if (!isOwner && !isStaff) notFound();
 
-  // ── Render ──────────────────────────────────────────
-  // The server passes a serialisable snapshot of the order to the
-  // client. The client opens an SSE stream and keeps the status live.
-  // No Date objects cross the boundary — everything is a string.
 
   const serialisableOrder = {
     id: order.id,
@@ -57,18 +52,24 @@ export default async function TrackPage({ params }) {
         >
           ← Back to Orders
         </Link>
+
       </div>
+
 
       <div className="mb-8">
         <h1 className="font-serif text-3xl text-amber-400 mb-2">
           Track Order #{id.slice(-6)}
         </h1>
+
         <p className="text-neutral-400 text-sm">
           Live updates appear here without a refresh.
         </p>
+
       </div>
+
 
       <LiveStatus order={serialisableOrder} />
     </div>
+
   );
 }

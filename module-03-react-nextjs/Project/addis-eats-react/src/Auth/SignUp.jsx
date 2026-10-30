@@ -25,7 +25,6 @@ export default function SignUp() {
       return;
     }
 
-    //  Full name validation (no numbers, no special symbols)
     const trimmedName = fullName.trim();
     if (!trimmedName) {
       setError("Please enter your full name.");
@@ -68,13 +67,17 @@ export default function SignUp() {
       <div className="title-band">
         <h1 className="serif">
           Create <em>Account</em>
+
         </h1>
+
         <div className="rule" />
       </div>
+
 
       <form className="auth-form" onSubmit={handleSubmit} noValidate>
         <div className="field">
           <label>Username</label>
+
           <input
             type="text"
             value={username}
@@ -83,8 +86,10 @@ export default function SignUp() {
           />
         </div>
 
+
         <div className="field">
           <label>Full Name</label>
+
           <input
             type="text"
             value={fullName}
@@ -94,8 +99,10 @@ export default function SignUp() {
           />
         </div>
 
+
         <div className="field">
           <label>Phone Number</label>
+
           <input
             type="tel"
             value={phone}
@@ -105,8 +112,10 @@ export default function SignUp() {
           />
         </div>
 
+
         <div className="field">
           <label>Password</label>
+
           <PasswordInput
             id="signup-password"
             value={password}
@@ -115,8 +124,10 @@ export default function SignUp() {
           />
         </div>
 
+
         <div className="field">
           <label>Confirm Password</label>
+
           <PasswordInput
             id="signup-confirm"
             value={confirmPassword}
@@ -126,16 +137,23 @@ export default function SignUp() {
           />
         </div>
 
+
         {error && <span className="field-error">{error}</span>}
+
 
         <button type="submit" className="cart-place-order">
           Create Account
         </button>
 
+
         <p className="auth-switch">
           Already have an account? <Link to="/signin">Sign in</Link>
+
         </p>
+
       </form>
+
     </section>
+
   );
 }

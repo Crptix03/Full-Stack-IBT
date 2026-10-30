@@ -19,6 +19,7 @@ export default async function PublicNav() {
           Sheggar Wheels
         </Link>
 
+
         <nav className="flex items-center gap-6 text-sm">
           <Link
             href="/cars"
@@ -27,8 +28,8 @@ export default async function PublicNav() {
             Browse Cars
           </Link>
 
+
           {user ? (
-            /* Avatar dropdown — replaces the old "Name | Sign Out" */
             <UserMenu user={user} />
           ) : (
             <Link
@@ -37,9 +38,13 @@ export default async function PublicNav() {
             >
               Sign In
             </Link>
+
           )}
         </nav>
+
       </div>
+
     </header>
+
   );
 }

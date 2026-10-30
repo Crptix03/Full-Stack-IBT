@@ -1,5 +1,3 @@
-// Formatters built once at module level.
-// Locale + time zone always named explicitly.
 
 export const etb = new Intl.NumberFormat("en-ET", {
   style: "currency",

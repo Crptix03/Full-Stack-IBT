@@ -1,4 +1,3 @@
-// Day_42/addis_eats/src/app/menu/DishCard.jsx
 import Link from "next/link";
 import { toSlug } from "./slug";
 
@@ -13,13 +12,19 @@ export default function DishCard({ dish }) {
             className="w-full h-full object-cover"
           />
         </div>
+
         <div className="p-4">
           <h3 className="font-serif font-medium text-lg text-neutral-100 mb-1">
             {dish.name}
           </h3>
+
           <p className="text-neutral-400 text-sm">{dish.price} Birr</p>
+
         </div>
+
       </Link>
+
     </div>
+
   );
 }
