@@ -1,12 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { etb } from "@/lib/format";
+import { toCarSlug } from "@/lib/slug";
 import { Settings, Users, Fuel, MapPin } from "lucide-react";
 
 export default function CarCard({ car, priority = false }) {
+  const slug = toCarSlug(car.make, car.model, car.year);
   return (
     <Link
-      href={`/cars/${car.id}`}
+      href={`/cars/${slug}`}
       className="group block bg-white border border-neutral-200 rounded-2xl overflow-hidden hover:shadow-lg hover:border-indigo-200 transition-all"
     >
       {/* Photo */}

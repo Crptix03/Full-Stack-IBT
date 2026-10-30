@@ -76,10 +76,6 @@ A full roles array in the cookie or a JWT would be cleaner for more complex role
 
 The renter dashboard, owner bookings page, and admin pages show all records without pagination. For the seed data (6 bookings, 4 users) this is fine. At scale, these pages would need server-side pagination.
 
-### `unoptimized` on the car detail hero image
-
-The car detail page (`/cars/[id]/page.js`) uses `unoptimized` on the `<Image>` component. This bypasses next/image's AVIF conversion for the hero photo. This was a fix applied to avoid a `400 Bad Request` error from the image optimizer. A production version would ensure all image paths are valid and remove the `unoptimized` flag.
-
 ---
 
 ## 3. The Production Migration Plan
@@ -168,6 +164,10 @@ Replace the single `role` cookie with a JWT that encodes the full `roles` array,
 | Dispute filing UI | ✅ Implemented | — |
 | Roles in session | Highest-privilege role stored | JWT with full roles array |
 | Image optimization | AVIF + WebP via next/image | Already production-ready |
+| OG images | ✅ Per-car route handler at `/cars/[slug]/opengraph-image` | Update photo fetch to use Vercel Blob URL instead of localhost |
 | Pagination | None on dashboards | Server-side cursor pagination |
 | Unauthorized page | ✅ Implemented at `/unauthorized` | — |
 | Profile page | ✅ Implemented at `/profile` | — |
+| Car URL slugs | ✅ `/cars/mazda-cx-5-2022` | — |
+| Loading skeletons | ✅ `loading.js` on every route | — |
+| Error boundaries | ✅ `error.js` + `not-found.js` on key routes | — |

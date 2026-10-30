@@ -16,8 +16,8 @@ These files run only on the server. They can read from `db.*`, call `getSession(
 | :--- | :--- |
 | `src/app/(public)/page.js` | Home page — reads featured cars from `db.cars` |
 | `src/app/(public)/cars/page.js` | Car listing — filter, sort, paginate on the server |
-| `src/app/(public)/cars/[id]/page.js` | Car detail — reads car, owner, reviews, booked dates |
-| `src/app/(public)/cars/[id]/map/page.js` | Map page shell — reads car lat/lng |
+| `src/app/(public)/cars/[slug]/page.js` | Car detail — reads car by slug, owner, reviews, booked dates |
+| `src/app/(public)/cars/[slug]/map/page.js` | Map page shell — reads car lat/lng |
 | `src/app/(public)/profile/page.js` | Profile — reads user, booking stats, car count |
 | `src/app/(public)/signin/page.js` (shell) | Wraps the sign-in form — layout only |
 | `src/app/unauthorized/page.js` | Static error page — no data, no session |
@@ -71,6 +71,7 @@ These files run in the browser. They are always leaves — they are never the pa
 | `src/components/UserMenu.jsx` | Avatar dropdown — `useState` for open/close, `useEffect` for outside-click | `signOut` |
 | `src/components/PhotoUpload.jsx` | Drag-and-drop file picker — `useState` for preview, POSTs to `/api/upload` | — |
 | `src/components/DisputeForm.jsx` | Dispute form — `useState` for open/close + description text | `openDisputeAction` |
+| `src/components/ExportCsvButton.jsx` | CSV download — uses `Blob` + `URL.createObjectURL` (browser API) | — |
 
 ---
 

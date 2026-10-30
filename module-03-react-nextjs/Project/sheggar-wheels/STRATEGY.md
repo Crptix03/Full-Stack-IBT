@@ -17,8 +17,9 @@ Every route in Sheggar Wheels is either a Server Component (rendered on the serv
 | :--- | :--- | :--- | :--- |
 | `/` | Static SC | Server | Featured cars come from `db.cars` at request time. No session needed. HTML includes car images — LCP is fast. |
 | `/cars` | Dynamic SC | Server | Filter/sort/pagination runs on the server using URL search params. No JS needed for the filter form (`<form method="GET">`). |
-| `/cars/[id]` | Dynamic SC | Server | Car data, owner info, reviews, and booked ranges all read from `db.*`. Sidebar CTA is a plain `<Link>`. |
-| `/cars/[id]/map` | SC + Client island | Server + Client | Page shell is a Server Component. The Leaflet map is loaded client-side via `dynamic(..., { ssr: false })` because Leaflet requires the DOM. |
+| `/cars/[slug]` | Static SC | Server | Car data, owner info, reviews, and booked ranges all read from `db.*`. Sidebar CTA is a plain `<Link>`. Pre-rendered at build time via `generateStaticParams`. |
+| `/cars/[slug]/map` | SC + Client island | Server + Client | Page shell is a Server Component. The Leaflet map is loaded client-side via `dynamic(..., { ssr: false })` because Leaflet requires the DOM. |
+| `/cars/[slug]/opengraph-image` | Route Handler | Server | GET handler using `ImageResponse` + `sharp`. Converts the car photo to PNG (Satori can't decode WebP/AVIF) and renders the OG card. Works at a clean URL in both dev and prod. |
 | `/signin` | Client | Client | Uses `useActionState` to wire the `signIn` Server Action and show pending state. The actual auth runs server-side. |
 | `/signup` | Client | Client | Same pattern as `/signin` — uses `useActionState` + `signUp` Server Action. |
 | `/profile` | Dynamic SC | Server | Reads user, booking stats, and car count from `db.*` using `getSession()`. No interactivity needed. |
@@ -64,4 +65,4 @@ The `/cars` filter form uses `<form method="GET">` — a plain HTML form that su
 
 ## LCP Considerations
 
-Because the public pages (`/`, `/cars`, `/cars/[id]`) are Server Components, the LCP image tag exists in the initial HTML response. The browser discovers and fetches it immediately, without waiting for hydration or any `useEffect`. This is why all three pages score 95+ on Lighthouse mobile.
+Because the public pages (`/`, `/cars`, `/cars/[slug]`) are Server Components, the LCP image tag exists in the initial HTML response. The browser discovers and fetches it immediately, without waiting for hydration or any `useEffect`. This is why all three pages score **100** on Lighthouse mobile.

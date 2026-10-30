@@ -144,7 +144,7 @@ The rule: **reads are Server Component inline reads; writes are Server Actions**
 | Operation | Where the read/write happens | Code location |
 | :--- | :--- | :--- |
 | List approved cars | Inline read in SC | `(public)/cars/page.js` → `db.cars.filter(...)` |
-| Get single car | Inline read in SC | `(public)/cars/[id]/page.js` → `db.cars.find(...)` |
+| Get single car | Inline read in SC | `(public)/cars/[slug]/page.js` → `findCarBySlug(db.cars, slug)` |
 | Get renter's bookings | Inline read in SC | `(renter)/dashboard/page.js` → `db.bookings.filter(b => b.renterId === session.userId)` |
 | Get owner's bookings | Inline read in SC | `(owner)/owner/bookings/page.js` → `db.bookings.filter(b => b.ownerId === session.userId)` |
 | Get admin stats | Inline read in SC | `(admin)/admin/page.js` → aggregates over `db.*` |
@@ -162,7 +162,7 @@ The rule: **reads are Server Component inline reads; writes are Server Actions**
 | Delete car | Server Action | `actions.js → deleteCarAction → db.cars.splice(idx, 1)` |
 | Approve / Reject car | Server Action | `actions.js → approveCarAction / rejectCarAction → db.cars[idx].status = ...` |
 | Suspend / Activate user | Server Action | `actions.js → suspendUserAction / activateUserAction → db.users[idx].status = ...` |
-| Open dispute | Server Action | `actions.js (not yet exposed in UI) → disputes.js → db.disputes.push(dispute)` |
+| Open dispute | Server Action | `actions.js → openDisputeAction → disputes.js → db.disputes.push(dispute)` |
 | Resolve dispute | Server Action | `actions.js → resolveDisputeAction → disputes.js → db.disputes[idx].status = "resolved"` |
 
 ---

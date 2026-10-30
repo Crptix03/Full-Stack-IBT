@@ -8,16 +8,24 @@ A full-stack car rental marketplace built with Next.js 16, React 19, and Tailwin
 
 ## Features
 
-- Browse and filter cars by neighbourhood, transmission, seats, price, and keyword
-- Car detail pages with photo, specs, owner info, booked date ranges, and reviews
-- Interactive map view per car (Leaflet, loaded client-side only)
+- Browse, filter, sort, and paginate cars by neighbourhood, transmission, seats, price, and keyword
+- Car detail pages with slug URLs (`/cars/mazda-cx-5-2022`), photo, specs, reviews, booked dates, map
+- Per-car OpenGraph images generated server-side at `/cars/[slug]/opengraph-image`
+- Interactive map view per car (Leaflet, client-side only)
 - Sign in / sign up with httpOnly session cookies (server-side)
 - Server-side route protection via `proxy.js`
-- Renter dashboard, booking list, booking detail with cancel + review
-- Owner dashboard: manage listings, confirm/decline/start/complete bookings, reply to reviews, view earnings
-- Admin dashboard: approve/reject listings, manage users, view all bookings and disputes, monthly reports
+- Avatar dropdown nav with role-aware links and sign out
+- Profile page with stats and quick links
+- Renter: dashboard, booking list, booking detail, cancel, review, file dispute, CSV export
+- Owner: dashboard, manage cars with photo upload, confirm/decline/start/complete bookings, reply to reviews, earnings with progress bars and CSV export, disputes
+- Admin: approve/reject listings, manage users, all bookings, resolve disputes, monthly reports with CSV export
+- Photo upload to `public/cars/` (local) via `/api/upload` route handler
+- Loading skeletons on every route (Next.js `loading.js` convention)
+- `not-found.js` and `error.js` on every route that can fail
+- `/unauthorized` page for wrong-role access attempts
+- Sitemap, robots.txt, and root OpenGraph image generated at build time
 - AVIF + WebP images via `next/image` with a 1-year cache TTL
-- 95–98 Lighthouse mobile performance scores
+- 100 Lighthouse mobile performance score on all public pages
 
 ---
 
@@ -33,7 +41,10 @@ A full-stack car rental marketplace built with Next.js 16, React 19, and Tailwin
 # 1. Install dependencies
 npm install
 
-# 2. Run the development server
+# 2. Copy environment variables
+cp .env.example .env.local
+
+# 3. Run the development server
 npm run dev
 ```
 
@@ -66,46 +77,112 @@ Use `dawit` or `hanna` to test the owner dashboard. Use `yohannes` to test the r
 ```
 src/
   app/
-    (public)/               Public routes — no auth required
-      page.js               Home page (Server Component)
+    (public)/                     Public routes — no auth required
+      page.js                     Home page (Server Component)
+      profile/
+        page.js                   Profile page — stats, quick links
+        loading.js
       cars/
-        page.js             Car listing with filters (Server Component)
+        page.js                   Car listing — filter, sort, paginate (SC)
+        loading.js
+        [slug]/                   Car detail — slug e.g. mazda-cx-5-2022
+          page.js                 Car detail (SC + generateStaticParams)
+          loading.js
+          not-found.js
+          error.js
+          opengraph-image/
+            route.jsx             Per-car OG image route handler (sharp + ImageResponse)
+          map/
+            page.js               Map page (SC + Leaflet client island)
+            MapComponent.jsx
+      signin/page.js
+      signup/page.js
+    (renter)/                     Protected — any signed-in user
+      layout.js
+      dashboard/
+        page.js
+        loading.js
+      bookings/
+        page.js
+        loading.js
         [id]/
-          page.js           Car detail (Server Component)
-          map/page.js       Map view (SC + Leaflet client island)
-    (renter)/               Protected — any signed-in user
-      dashboard/page.js
-      bookings/page.js
-      bookings/[id]/page.js
+          page.js
+          loading.js
+          not-found.js
+          error.js
       checkout/page.js
-    (owner)/                Protected — owner or admin role
-      owner/page.js
-      owner/cars/...
-      owner/bookings/page.js
-      owner/reviews/page.js
-      owner/earnings/page.js
-      owner/disputes/page.js
-    (admin)/                Protected — admin role only
-      admin/page.js
-      admin/listings/page.js
-      admin/users/page.js
-      admin/bookings/page.js
-      admin/disputes/page.js
-      admin/reports/page.js
-    actions.js              All Server Actions
-    layout.js               Root layout
-  components/               Shared components (Server + Client)
+    (owner)/                      Protected — owner or admin role
+      layout.js
+      owner/
+        page.js                   Owner dashboard
+        loading.js
+        bookings/page.js, loading.js
+        cars/
+          page.js, loading.js
+          new/page.js
+          [id]/edit/page.js, error.js, not-found.js
+        reviews/page.js, loading.js
+        earnings/page.js, loading.js
+        disputes/page.js, loading.js
+    (admin)/                      Protected — admin role only
+      layout.js
+      admin/
+        page.js                   Admin overview
+        loading.js
+        listings/page.js, loading.js
+        users/page.js, loading.js
+        bookings/page.js, loading.js
+        disputes/page.js, loading.js
+        reports/page.js, loading.js
+    api/
+      upload/route.js             Photo upload — saves to public/cars/ locally
+    actions.js                    All Server Actions
+    layout.js                     Root layout (metadata, fonts)
+    opengraph-image.jsx           Site-wide OG image (pure CSS, no photo)
+    sitemap.js                    Generated sitemap.xml
+    robots.js                     Generated robots.txt
+    not-found.js                  Root 404 page
+    error.js                      Root error boundary
+    unauthorized/page.js          Wrong-role access page
+
+  components/
+    AdminCarActions.jsx           Approve/reject buttons (client)
+    AdminDisputeActions.jsx       Resolve dispute form (client)
+    AdminUserActions.jsx          Suspend/activate buttons (client)
+    BookingActions.jsx            Cancel + review form (client)
+    BookingStatusPill.jsx         Status badge (server)
+    CarCard.jsx                   Car card with slug link (server)
+    CarMapClient.jsx              Leaflet wrapper via dynamic() (client)
+    CheckoutForm.jsx              Date picker + payment (client)
+    DeleteCarButton.jsx           Confirm + delete (client)
+    DisputeForm.jsx               File a dispute form (client)
+    EditCarForm.jsx               Edit car form (client)
+    ExportCsvButton.jsx           CSV download button (client)
+    OwnerBookingActions.jsx       Confirm/decline/start/complete (client)
+    OwnerReplyForm.jsx            Reply to review (client)
+    PhotoUpload.jsx               Drag-and-drop photo upload (client)
+    PublicFooter.jsx              Footer (server)
+    PublicNav.jsx                 Nav with UserMenu (server)
+    Skeleton.jsx                  Skeleton building blocks
+    UserMenu.jsx                  Avatar dropdown (client)
+
   lib/
-    db.js                   globalThis.__db in-memory database
-    session.js              httpOnly cookie session
-    auth.js                 Role helpers + account creation
-    bookings.js             Booking lifecycle (server-side)
-    disputes.js             Dispute lifecycle (server-side)
-    reviews.js              Review helpers (server-side)
-    users.js                User lookup helpers
-    seed.js                 Seed data
-    earnings.js             Earnings aggregation
-  proxy.js                  Route protection (runs before every request)
+    auth.js                       Role helpers + createRenterAccount
+    bookings.js                   Booking lifecycle — server-side
+    csv.js                        CSV export helpers
+    db.js                         globalThis.__db in-memory database
+    disputes.js                   Dispute lifecycle — server-side
+    earnings.js                   Earnings aggregation
+    format.js                     ETB currency formatter
+    format-date.js                Date helpers
+    id.js                         ID generator
+    reviews.js                    Review helpers — server-side
+    seed.js                       Seed data (users, cars, bookings, reviews)
+    session.js                    httpOnly cookie session
+    slug.js                       toCarSlug + findCarBySlug
+    users.js                      User lookup helpers
+
+  proxy.js                        Route protection (runs before every request)
 ```
 
 ---
@@ -134,8 +211,24 @@ src/
 | Maps | Leaflet + react-leaflet (client-side only) |
 | Icons | lucide-react |
 | Images | next/image (AVIF + WebP, 1-year cache) |
+| OG Images | `next/og` ImageResponse + sharp (server-side) |
 | Auth | httpOnly cookies, proxy-based route protection |
 | Data | globalThis in-memory store (demo) |
+| Image processing | sharp (WebP/AVIF → PNG for OG image rendering) |
+
+---
+
+## Car URLs
+
+Car detail pages use human-readable slugs generated from make + model + year:
+
+| Car | URL |
+| :--- | :--- |
+| Mazda CX-5 (2022) | `/cars/mazda-cx-5-2022` |
+| Toyota Corolla (2022) | `/cars/toyota-corolla-2022` |
+| Toyota Land Cruiser (2020) | `/cars/toyota-land-cruiser-2020` |
+
+OG image for each car is available at `/cars/[slug]/opengraph-image` — works in both dev and prod.
 
 ---
 

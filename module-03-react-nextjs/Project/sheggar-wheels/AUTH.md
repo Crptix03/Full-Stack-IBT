@@ -45,7 +45,7 @@ export async function getSession() {
 | `owner` | Users who list cars | Everything a renter can + `/owner/*` |
 | `admin` | Platform staff only | Everything + `/admin/*` |
 
-A user can have multiple roles (e.g. `["renter", "owner"]`). The `role` cookie stores only the primary role (the first in the array).
+A user can have multiple roles (e.g. `["renter", "owner"]`). The `role` cookie stores the **highest-privilege role** using the priority `admin > owner > renter`. A user with `["renter", "owner"]` gets `role: "owner"` in their cookie, giving them access to both renter and owner routes.
 
 ---
 
@@ -55,7 +55,8 @@ A user can have multiple roles (e.g. `["renter", "owner"]`). The `role` cookie s
 | :--- | :--- | :--- |
 | `/` | Nothing | Public. Indexable. |
 | `/cars` | Nothing | Public. Cacheable. |
-| `/cars/[id]` | Nothing | Public. `notFound()` if not approved. |
+| `/cars/[slug]` | Nothing | Public. `notFound()` if not approved or slug not found. |
+| `/cars/[slug]/opengraph-image` | Nothing | Public route handler — returns a PNG image. |
 | `/signin` | Nothing | Public — exists to grant sessions. |
 | `/signup` | Nothing | Public — creates renter accounts. |
 | `/unauthorized` | Nothing | Public — anyone can land here. |

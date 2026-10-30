@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 
 // Leaflet requires the DOM — load with no SSR.
 const MapComponent = dynamic(
-  () => import("@/app/(public)/cars/[id]/map/MapComponent"),
+  () => import("@/app/(public)/cars/[slug]/map/MapComponent"),
   { ssr: false, loading: () => <div className="w-full h-96 bg-neutral-100 rounded-2xl animate-pulse" /> }
 );
 

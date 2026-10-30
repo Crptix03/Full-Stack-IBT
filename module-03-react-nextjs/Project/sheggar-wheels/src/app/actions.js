@@ -19,6 +19,7 @@ import { replyToReview } from "@/lib/reviews";
 import { resolveDispute } from "@/lib/disputes";
 import { db } from "@/lib/db";
 import { newId } from "@/lib/id";
+import { toCarSlug } from "@/lib/slug";
 
 // ── Auth ─────────────────────────────────────────────
 
@@ -249,7 +250,7 @@ export async function updateCarAction(prevState, formData) {
   };
 
   revalidatePath("/owner/cars");
-  revalidatePath(`/cars/${carId}`);
+  revalidatePath(`/cars/${toCarSlug(db.cars[idx].make, db.cars[idx].model, db.cars[idx].year)}`);
   redirect("/owner/cars");
 }
 
