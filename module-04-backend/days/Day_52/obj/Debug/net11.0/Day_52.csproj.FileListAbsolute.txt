@@ -1,0 +1,17 @@
+C:\Users\horen\Documents\IBT\sq2-horenus-dessalegn\module-04-backend\days\Day_52\bin\Debug\net11.0\Day_52.exe
+C:\Users\horen\Documents\IBT\sq2-horenus-dessalegn\module-04-backend\days\Day_52\bin\Debug\net11.0\Day_52.deps.json
+C:\Users\horen\Documents\IBT\sq2-horenus-dessalegn\module-04-backend\days\Day_52\bin\Debug\net11.0\Day_52.runtimeconfig.json
+C:\Users\horen\Documents\IBT\sq2-horenus-dessalegn\module-04-backend\days\Day_52\bin\Debug\net11.0\Day_52.runtimeconfig.dev.json
+C:\Users\horen\Documents\IBT\sq2-horenus-dessalegn\module-04-backend\days\Day_52\bin\Debug\net11.0\Day_52.dll
+C:\Users\horen\Documents\IBT\sq2-horenus-dessalegn\module-04-backend\days\Day_52\bin\Debug\net11.0\Day_52.pdb
+C:\Users\horen\Documents\IBT\sq2-horenus-dessalegn\module-04-backend\days\Day_52\obj\Debug\net11.0\Day_52.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\horen\Documents\IBT\sq2-horenus-dessalegn\module-04-backend\days\Day_52\obj\Debug\net11.0\Day_52.AssemblyInfoInputs.cache
+C:\Users\horen\Documents\IBT\sq2-horenus-dessalegn\module-04-backend\days\Day_52\obj\Debug\net11.0\Day_52.AssemblyInfo.cs
+C:\Users\horen\Documents\IBT\sq2-horenus-dessalegn\module-04-backend\days\Day_52\obj\Debug\net11.0\Day_52.csproj.CoreCompileInputs.cache
+C:\Users\horen\Documents\IBT\sq2-horenus-dessalegn\module-04-backend\days\Day_52\obj\Debug\net11.0\Day_52.sourcelink.json
+C:\Users\horen\Documents\IBT\sq2-horenus-dessalegn\module-04-backend\days\Day_52\obj\Debug\net11.0\Day_52.dll
+C:\Users\horen\Documents\IBT\sq2-horenus-dessalegn\module-04-backend\days\Day_52\obj\Debug\net11.0\refint\Day_52.dll
+C:\Users\horen\Documents\IBT\sq2-horenus-dessalegn\module-04-backend\days\Day_52\obj\Debug\net11.0\Day_52.pdb
+C:\Users\horen\Documents\IBT\sq2-horenus-dessalegn\module-04-backend\days\Day_52\obj\Debug\net11.0\Day_52.genruntimeconfig.cache
+C:\Users\horen\Documents\IBT\sq2-horenus-dessalegn\module-04-backend\days\Day_52\obj\Debug\net11.0\ref\Day_52.dll
+C:\Users\horen\Documents\IBT\sq2-horenus-dessalegn\module-04-backend\days\Day_52\obj\Debug\net11.0\Day_52.csproj.Up2Date
