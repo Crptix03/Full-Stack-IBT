@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Common",
+    "\\Controllers",
+    "\\DTOs",
+    "\\Services",
+    "\\Services\\OrderServices",
+    "\\Services\\RestaurantServices",
+    "\\Validation"
+  ],
+  "SelectedNode": "\\Common\\Result.cs",
+  "PreviewInSolutionExplorer": false
+}
