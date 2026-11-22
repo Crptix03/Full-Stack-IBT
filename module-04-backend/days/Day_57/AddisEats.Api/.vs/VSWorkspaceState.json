@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Controllers",
+    "\\DTOs",
+    "\\Mappers",
+    "\\Models",
+    "\\Services",
+    "\\Services\\OrderServices",
+    "\\Services\\RestaurantServices"
+  ],
+  "PreviewInSolutionExplorer": false
+}

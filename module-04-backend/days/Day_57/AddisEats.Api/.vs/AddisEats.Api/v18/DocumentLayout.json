@@ -1,0 +1,338 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Services\\OrderServices\\OrderServices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Services\\OrderServices\\OrderServices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Controllers\\OrderController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\OrderController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Services\\OrderServices\\IOrderService.cs||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Services\\OrderServices\\IOrderService.cs||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\DTOs\\CreateOrderDTO.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DTOs\\CreateOrderDTO.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Controllers\\RestaurantController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\RestaurantController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Mappers\\RestaurantMapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Mappers\\RestaurantMapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Models\\Order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\Order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Services\\RestaurantServices\\RestaurantService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Services\\RestaurantServices\\RestaurantService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Data\\SeedData.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Data\\SeedData.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\DTOs\\PaginatedResultDTO.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DTOs\\PaginatedResultDTO.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Services\\RestaurantServices\\IRestaurantService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Services\\RestaurantServices\\IRestaurantService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\DTOs\\RestaurantQuery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DTOs\\RestaurantQuery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\DTOs\\RestaurantDTO.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DTOs\\RestaurantDTO.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Models\\Restaurant.cs||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\Restaurant.cs||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Controllers\\MenuItemController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\MenuItemController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Models\\MenuItem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\MenuItem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "OrderController.cs",
+              "DocumentMoniker": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Controllers\\OrderController.cs",
+              "RelativeDocumentMoniker": "Controllers\\OrderController.cs",
+              "ToolTip": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Controllers\\OrderController.cs",
+              "RelativeToolTip": "Controllers\\OrderController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-22T09:21:18.121Z",
+              "OwnerCaption": "%3"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "OrderServices.cs",
+              "DocumentMoniker": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Services\\OrderServices\\OrderServices.cs",
+              "RelativeDocumentMoniker": "Services\\OrderServices\\OrderServices.cs",
+              "ToolTip": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Services\\OrderServices\\OrderServices.cs",
+              "RelativeToolTip": "Services\\OrderServices\\OrderServices.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-22T08:59:15.439Z",
+              "OwnerCaption": "%3"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IOrderService.cs",
+              "DocumentMoniker": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Services\\OrderServices\\IOrderService.cs",
+              "RelativeDocumentMoniker": "Services\\OrderServices\\IOrderService.cs",
+              "ToolTip": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Services\\OrderServices\\IOrderService.cs",
+              "RelativeToolTip": "Services\\OrderServices\\IOrderService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-22T08:59:04.021Z",
+              "OwnerCaption": "%3"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CreateOrderDTO.cs",
+              "DocumentMoniker": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\DTOs\\CreateOrderDTO.cs",
+              "RelativeDocumentMoniker": "DTOs\\CreateOrderDTO.cs",
+              "ToolTip": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\DTOs\\CreateOrderDTO.cs",
+              "RelativeToolTip": "DTOs\\CreateOrderDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-22T08:53:21.7Z",
+              "OwnerCaption": "%3"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Order.cs",
+              "DocumentMoniker": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Models\\Order.cs",
+              "RelativeDocumentMoniker": "Models\\Order.cs",
+              "ToolTip": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Models\\Order.cs",
+              "RelativeToolTip": "Models\\Order.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-22T08:48:10.395Z",
+              "OwnerCaption": "%3"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "RestaurantService.cs",
+              "DocumentMoniker": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Services\\RestaurantServices\\RestaurantService.cs",
+              "RelativeDocumentMoniker": "Services\\RestaurantServices\\RestaurantService.cs",
+              "ToolTip": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Services\\RestaurantServices\\RestaurantService.cs",
+              "RelativeToolTip": "Services\\RestaurantServices\\RestaurantService.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAACEAAABbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-19T16:24:18.513Z",
+              "OwnerCaption": "%3"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-12T15:21:47.647Z",
+              "EditorCaption": "",
+              "OwnerCaption": "%3"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "RestaurantController.cs",
+              "DocumentMoniker": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Controllers\\RestaurantController.cs",
+              "RelativeDocumentMoniker": "Controllers\\RestaurantController.cs",
+              "ToolTip": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Controllers\\RestaurantController.cs",
+              "RelativeToolTip": "Controllers\\RestaurantController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-19T16:23:18.548Z",
+              "OwnerCaption": "%3"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "PaginatedResultDTO.cs",
+              "DocumentMoniker": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\DTOs\\PaginatedResultDTO.cs",
+              "RelativeDocumentMoniker": "DTOs\\PaginatedResultDTO.cs",
+              "ToolTip": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\DTOs\\PaginatedResultDTO.cs",
+              "RelativeToolTip": "DTOs\\PaginatedResultDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-22T07:51:35.045Z",
+              "OwnerCaption": "%3"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "IRestaurantService.cs",
+              "DocumentMoniker": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Services\\RestaurantServices\\IRestaurantService.cs",
+              "RelativeDocumentMoniker": "Services\\RestaurantServices\\IRestaurantService.cs",
+              "ToolTip": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Services\\RestaurantServices\\IRestaurantService.cs",
+              "RelativeToolTip": "Services\\RestaurantServices\\IRestaurantService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-19T16:24:03.921Z",
+              "OwnerCaption": "%3"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "SeedData.cs",
+              "DocumentMoniker": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Data\\SeedData.cs",
+              "RelativeDocumentMoniker": "Data\\SeedData.cs",
+              "ToolTip": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Data\\SeedData.cs",
+              "RelativeToolTip": "Data\\SeedData.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABRAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-19T16:42:21.128Z",
+              "OwnerCaption": "%3"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "RestaurantMapper.cs",
+              "DocumentMoniker": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Mappers\\RestaurantMapper.cs",
+              "RelativeDocumentMoniker": "Mappers\\RestaurantMapper.cs",
+              "ToolTip": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Mappers\\RestaurantMapper.cs",
+              "RelativeToolTip": "Mappers\\RestaurantMapper.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-19T16:31:56.549Z",
+              "OwnerCaption": "%3"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "RestaurantQuery.cs",
+              "DocumentMoniker": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\DTOs\\RestaurantQuery.cs",
+              "RelativeDocumentMoniker": "DTOs\\RestaurantQuery.cs",
+              "ToolTip": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\DTOs\\RestaurantQuery.cs",
+              "RelativeToolTip": "DTOs\\RestaurantQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-21T13:22:47.63Z",
+              "OwnerCaption": "%3"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "RestaurantDTO.cs",
+              "DocumentMoniker": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\DTOs\\RestaurantDTO.cs",
+              "RelativeDocumentMoniker": "DTOs\\RestaurantDTO.cs",
+              "ToolTip": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\DTOs\\RestaurantDTO.cs",
+              "RelativeToolTip": "DTOs\\RestaurantDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-19T16:28:33.991Z",
+              "OwnerCaption": "%3"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Restaurant.cs",
+              "DocumentMoniker": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Models\\Restaurant.cs",
+              "RelativeDocumentMoniker": "Models\\Restaurant.cs",
+              "ToolTip": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Models\\Restaurant.cs",
+              "RelativeToolTip": "Models\\Restaurant.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-19T16:20:40.434Z",
+              "OwnerCaption": "%3"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "MenuItemController.cs",
+              "DocumentMoniker": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Controllers\\MenuItemController.cs",
+              "RelativeDocumentMoniker": "Controllers\\MenuItemController.cs",
+              "ToolTip": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Controllers\\MenuItemController.cs",
+              "RelativeToolTip": "Controllers\\MenuItemController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-21T11:22:11.653Z",
+              "OwnerCaption": "%3"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "MenuItem.cs",
+              "DocumentMoniker": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Models\\MenuItem.cs",
+              "RelativeDocumentMoniker": "Models\\MenuItem.cs",
+              "ToolTip": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_57\\AddisEats.Api\\Models\\MenuItem.cs",
+              "RelativeToolTip": "Models\\MenuItem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-19T16:20:59.134Z",
+              "OwnerCaption": "%3"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 1327,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 1695,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{a80febb4-e7e0-4147-b476-21aaf2453969}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
