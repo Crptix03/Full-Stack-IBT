@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Controllers",
+    "\\DTOs",
+    "\\Mappers",
+    "\\Models",
+    "\\Services",
+    "\\Services\\OrderServices",
+    "\\Services\\RestaurantServices"
+  ],
+  "SelectedNode": "\\AddisEats.Api.csproj",
+  "PreviewInSolutionExplorer": false
+}
