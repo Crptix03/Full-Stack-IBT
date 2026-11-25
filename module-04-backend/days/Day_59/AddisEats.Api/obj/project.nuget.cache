@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "yvALM/jIe20=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\horen\\Documents\\IBT\\sq2-horenus-dessalegn\\module-04-backend\\days\\Day_59\\AddisEats.Api\\AddisEats.Api.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\horen\\.nuget\\packages\\microsoft.aspnetcore.openapi\\11.0.0\\microsoft.aspnetcore.openapi.11.0.0.nupkg.sha512",
+    "C:\\Users\\horen\\.nuget\\packages\\microsoft.extensions.apidescription.server\\11.0.0\\microsoft.extensions.apidescription.server.11.0.0.nupkg.sha512",
+    "C:\\Users\\horen\\.nuget\\packages\\microsoft.openapi\\3.11.0\\microsoft.openapi.3.11.0.nupkg.sha512",
+    "C:\\Users\\horen\\.nuget\\packages\\swashbuckle.aspnetcore\\11.0.1\\swashbuckle.aspnetcore.11.0.1.nupkg.sha512",
+    "C:\\Users\\horen\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\11.0.1\\swashbuckle.aspnetcore.swagger.11.0.1.nupkg.sha512",
+    "C:\\Users\\horen\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\11.0.1\\swashbuckle.aspnetcore.swaggergen.11.0.1.nupkg.sha512",
+    "C:\\Users\\horen\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\11.0.1\\swashbuckle.aspnetcore.swaggerui.11.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
